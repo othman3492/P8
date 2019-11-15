@@ -1,0 +1,1 @@
+class RealEstate(name: String)
