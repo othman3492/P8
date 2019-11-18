@@ -7,11 +7,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/main_map"
             android:icon="@drawable/baseline_map_24"
             android:title="@string/map" />
         <item
-            android:id="@+id/main_settings"
             android:icon="@drawable/baseline_settings_applications_24"
             android:title="@string/settings" />
     </group>

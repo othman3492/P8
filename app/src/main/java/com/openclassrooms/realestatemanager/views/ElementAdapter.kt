@@ -1,12 +1,12 @@
 package com.openclassrooms.realestatemanager.views
 
-import RealEstate
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstate
 import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 

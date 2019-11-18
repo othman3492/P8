@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    tools:context=".controllers.activities.MainActivity"
     tools:openDrawer="start">
 
     <androidx.appcompat.widget.Toolbar
@@ -17,13 +18,15 @@
         android:background="?attr/colorPrimary"
         app:titleTextColor="@color/white" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycler_view"
+    <fragment
+        android:id="@+id/main_fragment"
+        class="com.openclassrooms.realestatemanager.controllers.fragments.MainFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout="@layout/fragment_main_list"
+        tools:layout="@layout/fragment_main_list" />
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/main_navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -31,5 +34,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/main_navigation_header"
         app:menu="@menu/main_menu_drawer" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

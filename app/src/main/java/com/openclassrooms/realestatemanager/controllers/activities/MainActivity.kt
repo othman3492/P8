@@ -1,21 +1,24 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
-import RealEstate
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.controllers.fragments.MainFragment
+import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.views.ElementAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity() {
 
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: ElementAdapter
-    private lateinit var elementList: ArrayList<RealEstate>
+    private val fragmentManager = supportFragmentManager
+    private val mainFragment = MainFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        fillList()
+
+        updateUIWhenCreating()
         configureDrawerLayout()
-        configureRecyclerView()
 
 
     }
@@ -43,32 +46,14 @@ class MainActivity : AppCompatActivity() {
         val toggle = ActionBarDrawerToggle(this, main_drawer_layout,
                 main_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 
-        toggle.drawerArrowDrawable.color.and(R.color.white)
         main_drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
     }
 
-    private fun configureRecyclerView() {
+    private fun updateUIWhenCreating() {
 
-        adapter = ElementAdapter(elementList)
-        main_recycler_view.adapter = adapter
-
-        linearLayoutManager = LinearLayoutManager(this)
-        main_recycler_view.layoutManager = linearLayoutManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.attach(mainFragment).commit()
     }
 
-
-    private fun fillList() {
-
-        val realEstate = RealEstate("Name")
-
-        elementList = ArrayList<RealEstate>()
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-
-    }
 }

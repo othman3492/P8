@@ -1,9 +1,10 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,7 +21,11 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars){
-        return (int) Math.round(dollars * 0.812);
+        return (int) Math.round(dollars / 1.1055);
+    }
+
+    public static int convertEuroToDollar(int euros) {
+        return (int) Math.round(euros * 1.1055);
     }
 
     /**
@@ -29,8 +34,24 @@ public class Utils {
      * @return
      */
     public static String getTodayDate(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return dateFormat.format(new Date());
+    }
+
+    public static String convertDate(String dateToConvert) {
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+
+        try {
+            date = inputFormat.parse(dateToConvert);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return outputFormat.format(date);
     }
 
     /**
