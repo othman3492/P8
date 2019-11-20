@@ -27,10 +27,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fragment_map, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (map_view != null) {
+            map_view.onCreate(null)
+            map_view.onResume()
+            map_view.getMapAsync(this)
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {
