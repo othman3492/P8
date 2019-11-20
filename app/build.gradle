@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
+def GOOGLE_APIKEY = '"' + GOOGLE_MAPS_API_KEY + '"' ?: "Define key"
+def STRING = 'String'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -12,6 +15,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes.each {
+        it.buildConfigField STRING, 'google_apikey', GOOGLE_APIKEY
+    }
+
     buildTypes {
         release {
             minifyEnabled false
