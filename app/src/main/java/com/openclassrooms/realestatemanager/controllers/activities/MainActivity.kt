@@ -1,38 +1,37 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.fragments.MainFragment
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.views.ElementAdapter
+import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment
+import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_toolbar.*
 
-class MainActivity : FragmentActivity() {
+
+class MainActivity : AppCompatActivity() {
 
     private val fragmentManager = supportFragmentManager
-    private val mainFragment = MainFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
+        setSupportActionBar(main_toolbar)
         updateUIWhenCreating()
-        configureDrawerLayout()
+        configureBottomNavigationView()
 
 
     }
 
+
+    //----------------------------
+    //USER INTERFACE
+    //----------------------------
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
@@ -41,19 +40,29 @@ class MainActivity : FragmentActivity() {
     }
 
 
-    private fun configureDrawerLayout() {
-
-        val toggle = ActionBarDrawerToggle(this, main_drawer_layout,
-                main_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-
-        main_drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-    }
-
     private fun updateUIWhenCreating() {
 
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.attach(mainFragment).commit()
+        displayFragment(ListFragment.newInstance())
+    }
+
+
+    private fun configureBottomNavigationView() {
+
+        bottom_nav_view.setOnNavigationItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.bottom_list_view -> displayFragment(ListFragment.newInstance())
+                R.id.bottom_map_view -> displayFragment(MapFragment.newInstance())
+            }
+
+            return@setOnNavigationItemSelectedListener true
+        }
+    }
+
+
+    private fun displayFragment(fragment: Fragment) {
+
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
 }

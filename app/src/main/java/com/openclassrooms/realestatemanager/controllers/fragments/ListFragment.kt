@@ -11,20 +11,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.views.ElementAdapter
-import kotlinx.android.synthetic.main.fragment_main_list.*
+import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class MainFragment : Fragment() {
+class ListFragment : Fragment() {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: ElementAdapter
     private lateinit var elementList: ArrayList<RealEstate>
 
+    companion object {
+        fun newInstance(): ListFragment {
+            return ListFragment()
+        }
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_main_list, container, false)
+        return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
