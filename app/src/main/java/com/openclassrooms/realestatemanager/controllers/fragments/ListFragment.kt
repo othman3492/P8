@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.views.ElementAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -40,9 +42,11 @@ class ListFragment : Fragment() {
         configureRecyclerView()
     }
 
+
+    // Configure RecyclerView and assign the click handler to the Adapter
     private fun configureRecyclerView() {
 
-        adapter = ElementAdapter(elementList)
+        adapter = ElementAdapter(elementList) { realEstate: RealEstate -> setElementOnClick(realEstate) }
         main_recycler_view.adapter = adapter
         linearLayoutManager = LinearLayoutManager(activity)
         main_recycler_view.layoutManager = linearLayoutManager
@@ -62,6 +66,12 @@ class ListFragment : Fragment() {
         elementList.add(realEstate)
         elementList.add(realEstate)
 
+    }
+
+
+    private fun setElementOnClick(realEstate: RealEstate) {
+
+        startActivity(Intent(context, DetailsActivity::class.java))
     }
 
 

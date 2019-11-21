@@ -10,7 +10,9 @@ import com.openclassrooms.realestatemanager.models.RealEstate
 import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 
-class ElementAdapter(private val elements: ArrayList<RealEstate>) : RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
+// Create Adapter with a click listener (parameter RealEstate, return nothing)
+class ElementAdapter(private val elements: ArrayList<RealEstate>, private val clickListener: (RealEstate) -> Unit) :
+        RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
 
 
     override fun getItemCount() = elements.size
@@ -21,10 +23,10 @@ class ElementAdapter(private val elements: ArrayList<RealEstate>) : RecyclerView
         return ElementViewHolder(v)
     }
 
-
+    // Populate ViewHolder with data depending on the position in the list, and configure the click
     override fun onBindViewHolder(holder: ElementViewHolder, position: Int) {
 
-        holder.populateViewHolder(elements[position])
+        holder.bind(elements[position], clickListener)
     }
 
 
@@ -48,11 +50,14 @@ class ElementAdapter(private val elements: ArrayList<RealEstate>) : RecyclerView
         }
 
 
-        fun populateViewHolder(realEstate: RealEstate) {
+        // Assign data to the views and handle click events through a function parameter
+        fun bind(realEstate: RealEstate, clickListener: (RealEstate) -> Unit) {
 
             view.element_type.text = "Type"
             view.element_location.text = "Location"
             view.element_price.text = "10 000 000 $"
+
+            view.setOnClickListener { clickListener(realEstate) }
         }
     }
 

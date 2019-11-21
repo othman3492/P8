@@ -12,6 +12,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="list_view">LIST VIEW</string>
     <string name="map_view">MAP VIEW</string>
+    <string name="description">Description</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="postal_code">Postal code</string>
+    <string name="price">Price</string>
+    <string name="surface">Surface</string>
+    <string name="add_property">ADD PROPERTY</string>
+    <string name="nb_of_rooms">Nb of rooms</string>
+    <string name="nb_of_bedrooms">Nb of bedrooms</string>
+    <string name="nb_of_bathrooms">Nb of bathrooms</string>
+
+    <string name="google_maps_key">AIzaSyD8I7QIAOEPhk4IKr7t9dwiEyUNC7MqPjk</string>
 
 
 </resources>
