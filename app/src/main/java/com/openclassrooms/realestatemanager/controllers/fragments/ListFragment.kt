@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
+import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.views.ElementAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -56,7 +57,9 @@ class ListFragment : Fragment() {
 
     private fun fillList() {
 
-        val realEstate = RealEstate("Name", 2000000)
+        val realEstate = RealEstate(1, 1, "", Address("", "", "", 1),
+                0.0, 0.0, 1, 1, 1, 1, 1,
+                true, "", "", 1)
 
         elementList = ArrayList()
         elementList.add(realEstate)
