@@ -16,11 +16,16 @@ import java.util.*
                 parentColumns = arrayOf("userId"),
                 childColumns = arrayOf("userId"),
                 onDelete = CASCADE
+        ), ForeignKey(
+                entity = Type::class,
+                parentColumns = arrayOf("type"),
+                childColumns = arrayOf("typeId"),
+                onDelete = CASCADE
         )])
 data class RealEstate(
 
         @PrimaryKey(autoGenerate = true) val propertyId: Int = 0,
-        val type: Int, //Enum<>,
+        val type: Type,
         val description: String?,
         @Embedded val address: Address?,
         val latitude: Double?,
@@ -37,9 +42,22 @@ data class RealEstate(
         //val images: List<Uri>?
 )
 
+
 data class Address(
         val street: String?,
         val state: String?,
         val city: String?,
         val postalCode: Int?
 )
+
+
+data class Type(
+        @PrimaryKey(autoGenerate = true) val typeId: Int,
+        val typeName: String
+)
+
+
+
+
+
+
