@@ -8,6 +8,8 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_toolbar.*
@@ -21,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val database = Room.databaseBuilder(applicationContext, RoomDatabase::class.java,
+                "database").build()
 
         setSupportActionBar(main_toolbar)
         updateUIWhenCreating()

@@ -57,9 +57,7 @@ class ListFragment : Fragment() {
 
     private fun fillList() {
 
-        val realEstate = RealEstate(1, 1, "", Address("", "", "", 1),
-                0.0, 0.0, 1, 1, 1, 1, 1,
-                true, "", "", 1)
+        val realEstate = RealEstate()
 
         elementList = ArrayList()
         elementList.add(realEstate)

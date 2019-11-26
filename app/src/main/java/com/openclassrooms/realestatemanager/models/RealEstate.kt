@@ -1,59 +1,51 @@
 package com.openclassrooms.realestatemanager.models
 
-import android.graphics.Bitmap
-import android.net.Uri
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import java.util.*
 
 
-@Entity(
-        tableName = "properties",
-        indices = [Index("creationDate")],
+@Entity(tableName = "properties",
 
         foreignKeys = [ForeignKey(
                 entity = User::class,
-                parentColumns = arrayOf("userId"),
+                parentColumns = arrayOf("id"),
                 childColumns = arrayOf("userId"),
-                onDelete = CASCADE
-        ), ForeignKey(
-                entity = Type::class,
-                parentColumns = arrayOf("type"),
-                childColumns = arrayOf("typeId"),
                 onDelete = CASCADE
         )])
 data class RealEstate(
 
         @PrimaryKey(autoGenerate = true) val propertyId: Int = 0,
-        val type: Type,
-        val description: String?,
-        @Embedded val address: Address?,
-        val latitude: Double?,
-        val longitude: Double?,
-        val surface: Int?,
-        val price: Int?,
-        val nbRooms: Int?,
-        val nbBedrooms: Int?,
-        val nbBathrooms: Int?,
-        val status: Boolean?,
-        val creationDate: String?,
-        val saleDate: String?,
-        val userId: Int
-        //val images: List<Uri>?
+        //@ColumnInfo(name = "typeId") var type: Int? = null,
+        var description: String? = null,
+        @Embedded val address: Address? = null,
+        var latitude: Double? = null,
+        var longitude: Double? = null,
+        var surface: String? = null,
+        var price: String? = null,
+        var nbRooms: String? = null,
+        var nbBedrooms: String? = null,
+        var nbBathrooms: String? = null,
+        var status: Boolean? = null,
+        var creationDate: String? = null,
+        var saleDate: String? = null,
+        @ColumnInfo(name = "userId") var userId: Int? = null
+        //var images: List<Uri>? = null
 )
 
 
 data class Address(
-        val street: String?,
-        val state: String?,
-        val city: String?,
-        val postalCode: Int?
+
+        var street: String? = null,
+        var city: String? = null,
+        var postalCode: String? = null
 )
 
 
+@Entity
 data class Type(
+
         @PrimaryKey(autoGenerate = true) val typeId: Int,
-        val typeName: String
+        var typeName: String
 )
 
 

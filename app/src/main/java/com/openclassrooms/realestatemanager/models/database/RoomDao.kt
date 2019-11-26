@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.models.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.models.User
@@ -9,19 +10,19 @@ import com.openclassrooms.realestatemanager.models.User
 interface PropertyDao {
 
     @Query("SELECT * FROM properties")
-    suspend fun getAllProperties(): List<RealEstate>
+    fun getAllProperties(): LiveData<List<RealEstate>>
 
     @Query("SELECT * FROM properties WHERE propertyId = :id")
-    suspend fun getPropertyById(id: Int): RealEstate
+    fun getPropertyById(id: Int): LiveData<RealEstate>
 
     @Insert
-    suspend fun createProperty(realEstate: RealEstate)
+    fun createProperty(realEstate: RealEstate)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateProperty(realEstate: RealEstate)
+    fun updateProperty(realEstate: RealEstate)
 
     @Delete
-    suspend fun deleteProperty(realEstate: RealEstate)
+    fun deleteProperty(realEstate: RealEstate)
 }
 
 
@@ -29,14 +30,14 @@ interface PropertyDao {
 interface UserDao {
 
     @Query("SELECT * FROM users")
-    suspend fun getAllUsers(): List<User>
+    fun getAllUsers(): LiveData<List<User>>
 
-    @Query("SELECT * FROM users WHERE userId = :id")
-    suspend fun getUserById(id: Int): User
+    @Query("SELECT * FROM users WHERE id = :id")
+    fun getUserById(id: Int): LiveData<User>
 
-    @Insert
-    suspend fun createUser(user: User)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun createUser(user: User)
 
     @Delete
-    suspend fun deleteUser(user: User)
+    fun deleteUser(user: User)
 }
