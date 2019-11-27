@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
-import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.views.ElementAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -21,7 +21,9 @@ class ListFragment : Fragment() {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: ElementAdapter
-    private lateinit var elementList: ArrayList<RealEstate>
+    private lateinit var elementList: List<RealEstate>
+
+    private lateinit var db: AppDatabase
 
     companion object {
         fun newInstance(): ListFragment {
@@ -39,7 +41,6 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fillList()
         configureRecyclerView()
     }
 
@@ -54,20 +55,6 @@ class ListFragment : Fragment() {
         main_recycler_view.addItemDecoration(DividerItemDecoration(main_recycler_view.context, DividerItemDecoration.VERTICAL))
     }
 
-
-    private fun fillList() {
-
-        val realEstate = RealEstate()
-
-        elementList = ArrayList()
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-        elementList.add(realEstate)
-
-    }
 
 
     private fun setElementOnClick(realEstate: RealEstate) {

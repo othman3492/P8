@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -11,11 +12,12 @@ import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 
 // Create Adapter with a click listener (parameter RealEstate, return nothing)
-class ElementAdapter(private val elements: ArrayList<RealEstate>, private val clickListener: (RealEstate) -> Unit) :
+class ElementAdapter(private val elements: List<RealEstate>, private val clickListener: (RealEstate) -> Unit) :
         RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
 
 
     override fun getItemCount() = elements.size
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElementViewHolder {
 
@@ -54,8 +56,8 @@ class ElementAdapter(private val elements: ArrayList<RealEstate>, private val cl
         fun bind(realEstate: RealEstate, clickListener: (RealEstate) -> Unit) {
 
             view.element_type.text = "Type"
-            view.element_location.text = "Location"
-            view.element_price.text = "10 000 000 $"
+            view.element_location.text = realEstate.address?.city
+            view.element_price.text = realEstate.price
 
             view.setOnClickListener { clickListener(realEstate) }
         }
