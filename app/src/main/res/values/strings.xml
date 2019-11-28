@@ -25,6 +25,8 @@
 
     <string name="google_maps_key">AIzaSyD8I7QIAOEPhk4IKr7t9dwiEyUNC7MqPjk</string>
     <string name="add_new_property">ADD NEW PROPERTY</string>
+    <string name="sold">SOLD</string>
+    <string name="agent">Agent</string>
 
 
 </resources>

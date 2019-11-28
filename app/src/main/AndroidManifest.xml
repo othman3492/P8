@@ -18,12 +18,12 @@
         android:theme="@style/AppTheme"
         android:name="androidx.multidex.MultiDexApplication"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".controllers.activities.AddActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".controllers.activities.AddActivity" />
         <activity android:name=".controllers.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

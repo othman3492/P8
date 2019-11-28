@@ -5,12 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.models.Type
-import com.openclassrooms.realestatemanager.models.User
 
 
 @Database(
-        entities = [RealEstate::class, User::class, Type::class],
+        entities = [RealEstate::class],
         version = 1,
         exportSchema = false
 )
@@ -19,7 +17,6 @@ abstract class AppDatabase : RoomDatabase() {
     // Return Dao
     abstract fun realEstateDao(): RealEstateDao
 
-    abstract fun userDao(): UserDao
 
     companion object {
 

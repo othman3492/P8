@@ -13,6 +13,10 @@ class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
         return this.realEstateDao.getAllRealEstates()
     }
 
+    fun getRealEstatesByUser(userId: Int): LiveData<List<RealEstate>> {
+        return this.realEstateDao.getRealEstatesByUser(userId)
+    }
+
     fun getRealEstateById(id: Int): LiveData<RealEstate> {
         return this.realEstateDao.getRealEstateById(id)
     }

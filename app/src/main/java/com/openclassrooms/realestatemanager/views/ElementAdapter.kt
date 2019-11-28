@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,11 @@ import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 
 // Create Adapter with a click listener (parameter RealEstate, return nothing)
-class ElementAdapter(private val elements: List<RealEstate>, private val clickListener: (RealEstate) -> Unit) :
+class ElementAdapter(context: Context, private val clickListener: (RealEstate) -> Unit) :
         RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
+
+
+    private var elements: List<RealEstate> = ArrayList()
 
 
     override fun getItemCount() = elements.size
@@ -32,11 +36,25 @@ class ElementAdapter(private val elements: List<RealEstate>, private val clickLi
     }
 
 
+    fun updateData(list: List<RealEstate>) {
+
+        this.elements = list
+        this.notifyDataSetChanged()
+    }
+
+
+
+
+
+
+
     class ElementViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
 
         private var view: View = v
         private var realEstate: RealEstate? = null
+        private var types = arrayOf("House", "Appartment", "Building")
+
 
         init {
             v.setOnClickListener(this)
@@ -55,7 +73,7 @@ class ElementAdapter(private val elements: List<RealEstate>, private val clickLi
         // Assign data to the views and handle click events through a function parameter
         fun bind(realEstate: RealEstate, clickListener: (RealEstate) -> Unit) {
 
-            view.element_type.text = "Type"
+            view.element_type.text = types[requireNotNull(realEstate.type)]
             view.element_location.text = realEstate.address?.city
             view.element_price.text = realEstate.price
 

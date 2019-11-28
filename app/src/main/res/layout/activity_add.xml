@@ -17,11 +17,11 @@
             android:id="@+id/add_property"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="@string/add_new_property"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:layout_margin="20dp"
             app:layout_constraintBottom_toTopOf="@id/description_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,80 +137,124 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:id="@+id/rooms_layout"
+        <Spinner
+            android:id="@+id/type_spinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/postal_code_field"
-            app:layout_constraintStart_toStartOf="@+id/postal_code_field"
-            app:layout_constraintTop_toBottomOf="@id/surface_field">
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/surface_field"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="@id/surface_field"
+            app:layout_constraintTop_toBottomOf="@id/surface_field" />
 
-            <Spinner
-                android:id="@+id/type_spinner"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/agent_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/agent"
+            app:layout_constraintEnd_toEndOf="@id/price_field"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintStart_toStartOf="@id/price_field"
+            app:layout_constraintTop_toBottomOf="@id/price_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/agent_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/rooms_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/nb_of_rooms"
+            app:layout_constraintEnd_toEndOf="@id/surface_field"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="@id/surface_field"
+            app:layout_constraintTop_toBottomOf="@id/type_spinner">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/rooms_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/switch_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/rooms_field"
+            app:layout_constraintEnd_toEndOf="@id/price_field"
+            app:layout_constraintStart_toStartOf="@id/price_field"
+            app:layout_constraintTop_toTopOf="@id/rooms_field">
+
+            <TextView
+                android:id="@+id/switch_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="20dp"
-                app:layout_constraintStart_toStartOf="@id/price_field" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/rooms_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/nb_of_rooms"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="4"
+                android:layout_marginStart="30dp"
+                android:text="@string/sold"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/rooms_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/bedrooms_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
+            <Switch
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/nb_of_bedrooms"
-                app:layout_constraintEnd_toEndOf="@+id/rooms_field"
-                app:layout_constraintStart_toStartOf="@+id/rooms_field"
-                app:layout_constraintTop_toBottomOf="@id/rooms_field">
+                android:layout_marginEnd="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/bedrooms_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/bathrooms_text_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bedrooms_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/nb_of_bedrooms"
+            app:layout_constraintEnd_toEndOf="@+id/rooms_field"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="@+id/rooms_field"
+            app:layout_constraintTop_toBottomOf="@id/rooms_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bedrooms_text_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/nb_of_bathrooms"
-                app:layout_constraintEnd_toStartOf="@+id/city_field"
-                app:layout_constraintStart_toStartOf="@+id/postal_code_field"
-                app:layout_constraintTop_toBottomOf="@id/bedrooms_field">
+                android:layout_height="wrap_content" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/bathrooms_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bathrooms_text_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/nb_of_bathrooms"
+            app:layout_constraintEnd_toEndOf="@id/bedrooms_field"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="@+id/bedrooms_field"
+            app:layout_constraintTop_toBottomOf="@id/bedrooms_field">
 
-        </LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bathrooms_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/add_button"
@@ -221,7 +265,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rooms_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/bathrooms_text_field" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,20 +4,13 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
 
-@Entity(tableName = "properties",
-
-        foreignKeys = [ForeignKey(
-                entity = User::class,
-                parentColumns = arrayOf("id"),
-                childColumns = arrayOf("userId"),
-                onDelete = CASCADE
-        )])
+@Entity(tableName = "properties")
 data class RealEstate(
 
         @PrimaryKey(autoGenerate = true) val propertyId: Int = 0,
-        //@ColumnInfo(name = "typeId") var type: Int? = null,
+        var type: Int? = null,
         var description: String? = null,
-        @Embedded val address: Address? = null,
+        @Embedded var address: Address? = null,
         var latitude: Double? = null,
         var longitude: Double? = null,
         var surface: String? = null,
@@ -38,14 +31,6 @@ data class Address(
         var street: String? = null,
         var city: String? = null,
         var postalCode: String? = null
-)
-
-
-@Entity
-data class Type(
-
-        @PrimaryKey(autoGenerate = true) val typeId: Int,
-        var typeName: String
 )
 
 
