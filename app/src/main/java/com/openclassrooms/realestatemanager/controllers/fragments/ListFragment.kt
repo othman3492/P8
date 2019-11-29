@@ -56,7 +56,7 @@ class ListFragment : Fragment() {
     private fun configureRecyclerView() {
 
 
-        adapter = ElementAdapter(requireContext()) { realEstate: RealEstate -> setElementOnClick(realEstate) }
+        adapter = ElementAdapter(requireContext()) { realEstate: RealEstate -> startDetailsActivityOnClick(realEstate) }
         main_recycler_view.adapter = adapter
         main_recycler_view.layoutManager = LinearLayoutManager(activity)
         main_recycler_view.addItemDecoration(DividerItemDecoration(
@@ -64,10 +64,12 @@ class ListFragment : Fragment() {
     }
 
 
+    // Pass data to intent and start DetailsActivity when clicked
+    private fun startDetailsActivityOnClick(realEstate: RealEstate) {
 
-    private fun setElementOnClick(realEstate: RealEstate) {
-
-        startActivity(Intent(context, DetailsActivity::class.java))
+        val intent = Intent(activity, DetailsActivity::class.java)
+        intent.putExtra("REAL ESTATE", realEstate)
+        startActivity(intent)
     }
 
 

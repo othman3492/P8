@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
@@ -19,6 +21,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.viewmodels.Injection
+import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.fragment_map.*
 
@@ -28,6 +33,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
+
+    private lateinit var realEstateViewModel: RealEstateViewModel
+    private lateinit var realEstateList: List<RealEstate>
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -57,9 +65,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     override fun onMapReady(map: GoogleMap) {
 
         googleMap = map
+        realEstateList = ArrayList()
 
         getLocationPermission()
         getDeviceLocation(map)
+        configureViewModel()
+        getData()
+        setMarkersOnMap(map, realEstateList)
 
     }
 
@@ -89,6 +101,37 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
 
     }
+
+
+    // Configure ViewModel to retrieve data
+    private fun configureViewModel() {
+
+        val viewModelFactory = Injection.provideViewModelFactory(requireContext())
+        realEstateViewModel = ViewModelProviders.of(this,
+                viewModelFactory).get(RealEstateViewModel::class.java)
+    }
+
+
+    // Create markers on map for each retrieved Real Estate
+    private fun setMarkersOnMap(map: GoogleMap, list: List<RealEstate>) {
+
+        for (realEstate in list) {
+
+            map.addMarker(MarkerOptions()
+                    .position(LatLng(requireNotNull(realEstate.longitude),
+                            requireNotNull(realEstate.latitude))))
+        }
+    }
+
+
+    // Retrieve data and pass it to list
+    private fun getData() {
+
+        realEstateViewModel.getAllRealEstates().observe(this,
+                Observer<List<RealEstate>> { realEstateList })
+    }
+
+
 
 
     override fun onMarkerClick(p0: Marker?) = false

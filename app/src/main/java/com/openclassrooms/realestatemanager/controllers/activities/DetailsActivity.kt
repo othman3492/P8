@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstate
+import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 
 class DetailsActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_details)
 
         setSupportActionBar(main_toolbar)
+        getDataAndUpdateUI()
 
     }
 
@@ -32,5 +35,22 @@ class DetailsActivity : AppCompatActivity() {
             R.id.menu_add -> startActivity(Intent(this, AddActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
+    }
+
+
+    private fun getDataAndUpdateUI() {
+
+        // Retrieve real estate from intent
+        val realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
+
+        // Load data into views
+        description_text.text = realEstate.description
+        surface_value.text = realEstate.surface + " m²"
+        rooms_value.text = realEstate.nbRooms
+        bedrooms_value.text = realEstate.nbBedrooms
+        bathrooms_value.text = realEstate.nbBathrooms
+        location_value.text = realEstate.address.toString()
+
+
     }
 }
