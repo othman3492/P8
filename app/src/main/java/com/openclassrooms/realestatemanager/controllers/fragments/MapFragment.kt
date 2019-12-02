@@ -65,7 +65,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     override fun onMapReady(map: GoogleMap) {
 
         googleMap = map
-        realEstateList = ArrayList()
 
         getLocationPermission()
         getDeviceLocation(map)
@@ -92,7 +91,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         map.isMyLocationEnabled = true
 
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location ->
-
 
             lastLocation = location
             val currentLatLng = LatLng(location.latitude, location.longitude)

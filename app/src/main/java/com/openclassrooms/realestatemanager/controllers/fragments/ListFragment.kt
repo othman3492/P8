@@ -56,7 +56,7 @@ class ListFragment : Fragment() {
     private fun configureRecyclerView() {
 
 
-        adapter = ElementAdapter(requireContext()) { realEstate: RealEstate -> startDetailsActivityOnClick(realEstate) }
+        adapter = ElementAdapter { realEstate: RealEstate -> startDetailsActivityOnClick(realEstate) }
         main_recycler_view.adapter = adapter
         main_recycler_view.layoutManager = LinearLayoutManager(activity)
         main_recycler_view.addItemDecoration(DividerItemDecoration(

@@ -24,9 +24,13 @@
     <string name="nb_of_bathrooms">Nb of bathrooms</string>
 
     <string name="google_maps_key">AIzaSyD8I7QIAOEPhk4IKr7t9dwiEyUNC7MqPjk</string>
+
     <string name="add_new_property">ADD NEW PROPERTY</string>
     <string name="sold">SOLD</string>
     <string name="agent">Agent</string>
+
+    <string name="price_in_dollars">%s $</string>
+    <string name="surface_in_sq">%s m²</string>
 
 
 </resources>

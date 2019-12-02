@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 
 // Create Adapter with a click listener (parameter RealEstate, return nothing)
-class ElementAdapter(context: Context, private val clickListener: (RealEstate) -> Unit) :
+class ElementAdapter(private val clickListener: (RealEstate) -> Unit) :
         RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
 
 
@@ -52,7 +52,6 @@ class ElementAdapter(context: Context, private val clickListener: (RealEstate) -
 
 
         private var view: View = v
-        private var realEstate: RealEstate? = null
         private var types = arrayOf("House", "Appartment", "Building")
 
 
@@ -75,7 +74,7 @@ class ElementAdapter(context: Context, private val clickListener: (RealEstate) -
 
             view.element_type.text = types[requireNotNull(realEstate.type)]
             view.element_location.text = realEstate.address?.city
-            view.element_price.text = realEstate.price
+            view.element_price.text = String.format(R.string.price_in_dollars.toString(), realEstate.price)
 
             view.setOnClickListener { clickListener(realEstate) }
         }

@@ -45,10 +45,10 @@ class DetailsActivity : AppCompatActivity() {
 
         // Load data into views
         description_text.text = realEstate.description
-        surface_value.text = realEstate.surface + " m²"
-        rooms_value.text = realEstate.nbRooms
-        bedrooms_value.text = realEstate.nbBedrooms
-        bathrooms_value.text = realEstate.nbBathrooms
+        surface_value.text = String.format(R.string.surface_in_sq.toString(), realEstate.surface)
+        rooms_value.text = realEstate.nbRooms.toString()
+        bedrooms_value.text = realEstate.nbBedrooms.toString()
+        bathrooms_value.text = realEstate.nbBathrooms.toString()
         location_value.text = realEstate.address.toString()
 
 

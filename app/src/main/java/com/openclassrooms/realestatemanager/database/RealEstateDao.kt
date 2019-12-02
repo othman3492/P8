@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.database
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -11,19 +12,19 @@ interface RealEstateDao {
     @Query("SELECT * FROM properties")
     fun getAllRealEstates(): LiveData<List<RealEstate>>
 
-    @Query("SELECT * FROM properties WHERE userId = :userId")
-    fun getRealEstatesByUser(userId: Int): LiveData<List<RealEstate>>
-
     @Query("SELECT * FROM properties WHERE propertyId = :id")
     fun getRealEstateById(id: Int): LiveData<RealEstate>
 
     @Insert
-    fun createRealEstate(realEstate: RealEstate)
+    fun createRealEstate(realEstate: RealEstate): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun updateRealEstate(realEstate: RealEstate)
+    @Update
+    fun updateRealEstate(realEstate: RealEstate): Int
 
-    @Delete
-    fun deleteRealEstate(realEstate: RealEstate)
+    @Query("DELETE FROM properties WHERE propertyId = :id")
+    fun deleteRealEstate(id: Long): Int
+
+    @Query("SELECT * FROM properties")
+    fun getRealEstatesWithCursor(): Cursor
 }
 

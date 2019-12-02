@@ -17,7 +17,7 @@
             android:id="@+id/add_property"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="40dp"
             android:text="@string/add_new_property"
             android:textColor="@color/black"
             android:textSize="25sp"
@@ -256,11 +256,29 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recycler_view_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@id/add_button"
+            app:layout_constraintEnd_toEndOf="@id/agent_field"
+            app:layout_constraintStart_toStartOf="@id/agent_field"
+            app:layout_constraintTop_toTopOf="@id/bedrooms_field">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
             android:id="@+id/add_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="25dp"
+            android:layout_margin="40dp"
             android:text="@string/add_new_property"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"

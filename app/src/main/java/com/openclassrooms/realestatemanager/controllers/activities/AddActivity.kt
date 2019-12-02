@@ -65,11 +65,11 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         realEstate.address?.street = address_text_input.text.toString()
         realEstate.address?.postalCode = postal_code_text_input.text.toString()
         realEstate.address?.city = city_text_input.text.toString()
-        realEstate.surface = surface_text_input.text.toString()
-        realEstate.price = price_text_input.text.toString() + " $"
-        realEstate.nbRooms = rooms_text_input.text.toString()
-        realEstate.nbBedrooms = bedrooms_text_input.text.toString()
-        realEstate.nbBathrooms = bathrooms_text_input.text.toString()
+        realEstate.surface = surface_text_input.text.toString().toInt()
+        realEstate.price = price_text_input.text.toString().toInt()
+        realEstate.nbRooms = rooms_text_input.text.toString().toInt()
+        realEstate.nbBedrooms = bedrooms_text_input.text.toString().toInt()
+        realEstate.nbBathrooms = bathrooms_text_input.text.toString().toInt()
         realEstate.status = false
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
 

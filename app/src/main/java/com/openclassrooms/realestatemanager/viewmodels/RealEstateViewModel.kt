@@ -16,10 +16,6 @@ class RealEstateViewModel(private val realEstateDataSource: RealEstateDataReposi
         return realEstateDataSource.getAllRealEstates()
     }
 
-    fun getRealEstatesByUser(userId: Int): LiveData<List<RealEstate>> {
-        return realEstateDataSource.getRealEstatesByUser(userId)
-    }
-
     fun getRealEstateById(id: Int): LiveData<RealEstate> {
         return realEstateDataSource.getRealEstateById(id)
     }
@@ -32,7 +28,7 @@ class RealEstateViewModel(private val realEstateDataSource: RealEstateDataReposi
         executor.execute { realEstateDataSource.updateRealEstate(realEstate) }
     }
 
-    fun deleteRealEstate(realEstate: RealEstate) {
+    fun deleteRealEstate(realEstate: Long) {
         executor.execute { realEstateDataSource.deleteRealEstate(realEstate) }
     }
 

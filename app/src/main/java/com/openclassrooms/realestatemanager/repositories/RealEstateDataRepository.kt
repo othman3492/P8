@@ -13,27 +13,23 @@ class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
         return this.realEstateDao.getAllRealEstates()
     }
 
-    fun getRealEstatesByUser(userId: Int): LiveData<List<RealEstate>> {
-        return this.realEstateDao.getRealEstatesByUser(userId)
-    }
-
     fun getRealEstateById(id: Int): LiveData<RealEstate> {
         return this.realEstateDao.getRealEstateById(id)
     }
 
     // CREATE
     fun createRealEstate(realEstate: RealEstate) {
-        return this.realEstateDao.createRealEstate(realEstate)
+        realEstateDao.createRealEstate(realEstate)
     }
 
     // UPDATE
     fun updateRealEstate(realEstate: RealEstate) {
-        return this.realEstateDao.updateRealEstate(realEstate)
+        realEstateDao.updateRealEstate(realEstate)
     }
 
     // DELETE
-    fun deleteRealEstate(realEstate: RealEstate) {
-        return this.realEstateDao.deleteRealEstate(realEstate)
+    fun deleteRealEstate(id: Long) {
+        realEstateDao.deleteRealEstate(id)
     }
 
 

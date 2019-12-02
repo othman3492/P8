@@ -20,11 +20,11 @@ class DaoTest {
         // Data set for test
         private val REAL_ESTATE_1 = RealEstate(1, 1,
                 null, null, null, null, null,
-                "5", "2", "1", "1", null,
+                5, 2, 1, 1, null,
                 null)
         private val REAL_ESTATE_2 = RealEstate(2, 2,
                 null, null, null, null, null,
-                "3", "1", "1", "1", null,
+                3, 1, 1, 1, null,
                 null)
     }
 
@@ -87,6 +87,6 @@ class DaoTest {
 
         // Get property and delete it
         val realEstateToDelete = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
-        database!!.realEstateDao().deleteRealEstate(realEstateToDelete)
+        database!!.realEstateDao().deleteRealEstate(realEstateToDelete.propertyId)
     }
 }
