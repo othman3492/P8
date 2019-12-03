@@ -1,25 +1,22 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
 import android.content.Intent
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
-import androidx.room.RoomDatabase
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.database.RealEstateDao
-import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
-import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.activity_add_edit.*
 
 class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -29,7 +26,7 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModelFactory: ViewModelFactory
 
     // SPINNERS
-    private var types = arrayOf("House", "Appartment", "Building")
+    private var types: Array<String>? = null
     private var typeSpinnerTextView: TextView? = null
 
 
@@ -37,11 +34,11 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add)
+        setContentView(R.layout.activity_add_edit)
 
         configureViewModel()
         configureAddButton()
-        configureSpinners()
+        configureSpinner()
     }
 
 
@@ -55,22 +52,21 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // Create RealEstate object from user data input
     private fun createObjectInDatabase() {
 
-
         // Create RealEstate object
         val realEstate = RealEstate()
         realEstate.address = Address()
 
         realEstate.description = description_text_input.text.toString()
         realEstate.type = type_spinner.selectedItemPosition
-        realEstate.address?.street = address_text_input.text.toString()
+        realEstate.address?.street = street_text_input.text.toString()
         realEstate.address?.postalCode = postal_code_text_input.text.toString()
         realEstate.address?.city = city_text_input.text.toString()
-        realEstate.surface = surface_text_input.text.toString().toInt()
-        realEstate.price = price_text_input.text.toString().toInt()
-        realEstate.nbRooms = rooms_text_input.text.toString().toInt()
-        realEstate.nbBedrooms = bedrooms_text_input.text.toString().toInt()
-        realEstate.nbBathrooms = bathrooms_text_input.text.toString().toInt()
-        realEstate.status = false
+        realEstate.surface = surface_text_input.text.toString()
+        realEstate.price = price_text_input.text.toString()
+        realEstate.nbRooms = rooms_text_input.text.toString()
+        realEstate.nbBedrooms = bedrooms_text_input.text.toString()
+        realEstate.nbBathrooms = bathrooms_text_input.text.toString()
+        realEstate.status = status_switch.isChecked
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
 
         // Save object
@@ -91,18 +87,20 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
 
-    // SPINNERS CONFIGURATION
-    private fun configureSpinners() {
+    // SPINNER CONFIGURATION
+    private fun configureSpinner() {
+
+        types = this.resources.getStringArray(R.array.types_array)
 
         type_spinner.onItemSelectedListener
-        val typeArrayAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, types)
+        val typeArrayAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, types as Array<out String>)
         type_spinner.adapter = typeArrayAdapter
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        typeSpinnerTextView!!.text = types[position]
+        typeSpinnerTextView!!.text = types!![position]
     }
 
 

@@ -8,11 +8,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment
-import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment
-import com.openclassrooms.realestatemanager.viewmodels.Injection
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 

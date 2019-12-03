@@ -22,6 +22,7 @@
     <string name="nb_of_rooms">Nb of rooms</string>
     <string name="nb_of_bedrooms">Nb of bedrooms</string>
     <string name="nb_of_bathrooms">Nb of bathrooms</string>
+    <string name="lines_address">%s\n%s %s</string>
 
     <string name="google_maps_key">AIzaSyD8I7QIAOEPhk4IKr7t9dwiEyUNC7MqPjk</string>
 
@@ -31,6 +32,18 @@
 
     <string name="price_in_dollars">%s $</string>
     <string name="surface_in_sq">%s m²</string>
+    <string name="number_of_rooms">Number of rooms</string>
+    <string name="number_of_bathrooms">Number of bathrooms</string>
+    <string name="number_of_bedrooms">Number of bedrooms</string>
+    <string name="location">Location</string>
+    <string name="edit_property">EDIT PROPERTY</string>
+    <string name="street">Street</string>
+
+    <string-array name="types_array">
+        <item>House</item>
+        <item>Apartment</item>
+        <item>Building</item>
+    </string-array>
 
 
 </resources>

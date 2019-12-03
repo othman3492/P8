@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.views
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 
 // Create Adapter with a click listener (parameter RealEstate, return nothing)
-class ElementAdapter(private val clickListener: (RealEstate) -> Unit) :
+class ElementAdapter(val context: Context, private val clickListener: (RealEstate) -> Unit) :
         RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
 
 
@@ -26,7 +27,7 @@ class ElementAdapter(private val clickListener: (RealEstate) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElementViewHolder {
 
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.list_element_layout, parent, false)
-        return ElementViewHolder(v)
+        return ElementViewHolder(v, parent.context)
     }
 
     // Populate ViewHolder with data depending on the position in the list, and configure the click
@@ -43,15 +44,11 @@ class ElementAdapter(private val clickListener: (RealEstate) -> Unit) :
     }
 
 
-
-
-
-
-
-    class ElementViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    class ElementViewHolder(v: View, context: Context) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
 
         private var view: View = v
+        private var context = context
         private var types = arrayOf("House", "Appartment", "Building")
 
 
@@ -63,18 +60,14 @@ class ElementAdapter(private val clickListener: (RealEstate) -> Unit) :
             Log.d("TAG", "Click")
         }
 
-        companion object {
-
-            private val POSITION = "POSITION"
-        }
-
 
         // Assign data to the views and handle click events through a function parameter
         fun bind(realEstate: RealEstate, clickListener: (RealEstate) -> Unit) {
 
             view.element_type.text = types[requireNotNull(realEstate.type)]
             view.element_location.text = realEstate.address?.city
-            view.element_price.text = String.format(R.string.price_in_dollars.toString(), realEstate.price)
+            view.element_price.text = String.format(context.resources.getString(R.string.price_in_dollars),
+                    realEstate.price)
 
             view.setOnClickListener { clickListener(realEstate) }
         }

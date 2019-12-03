@@ -27,6 +27,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/edit_property"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:text="@string/edit_property"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/description_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description_field"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -45,18 +60,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/address_field"
+            android:id="@+id/street_field"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="@string/address"
+            android:hint="@string/street"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_field">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/address_text_input"
+                android:id="@+id/street_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -72,7 +87,7 @@
             app:layout_constraintEnd_toStartOf="@id/city_field"
             app:layout_constraintHorizontal_weight="4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_field">
+            app:layout_constraintTop_toBottomOf="@id/street_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/postal_code_text_input"
@@ -91,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="6"
             app:layout_constraintStart_toEndOf="@id/postal_code_field"
-            app:layout_constraintTop_toBottomOf="@id/address_field">
+            app:layout_constraintTop_toBottomOf="@id/street_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/city_text_input"
@@ -208,6 +223,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Switch
+                android:id="@+id/status_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
@@ -281,6 +297,18 @@
             android:layout_margin="40dp"
             android:text="@string/add_new_property"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathrooms_text_field" />
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:text="@string/edit_property"
+            android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bathrooms_text_field" />
