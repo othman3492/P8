@@ -18,7 +18,7 @@ import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_edit.*
 
-class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     // VIEWMODEL
@@ -37,8 +37,43 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(R.layout.activity_add_edit)
 
         configureViewModel()
-        configureAddButton()
+        configureUI()
+        configureButton()
         configureSpinner()
+    }
+
+
+    // Show/hide views depending on Add/Edit layout
+    private fun configureUI() {
+
+        if (intent.getSerializableExtra("REAL ESTATE") != null) {
+
+            val realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
+
+            // Set views' visibility
+            add_property.visibility = View.GONE
+            add_button.visibility = View.GONE
+            edit_property.visibility = View.VISIBLE
+            edit_button.visibility = View.VISIBLE
+
+            // Fill input texts
+            description_text_input.setText(realEstate.description)
+            street_text_input.setText(realEstate.address?.street)
+            postal_code_text_input.setText(realEstate.address?.postalCode)
+            city_text_input.setText(realEstate.address?.city)
+            surface_text_input.setText(realEstate.surface)
+            price_text_input.setText(realEstate.price)
+            agent_text_input.setText(realEstate.agent)
+            rooms_text_input.setText(realEstate.nbRooms)
+            bedrooms_text_input.setText(realEstate.nbBedrooms)
+            bathrooms_text_input.setText(realEstate.nbBathrooms)
+
+            // Update other views
+            if (realEstate.status == true) {
+                status_switch.isChecked
+            }
+        }
+
     }
 
 
@@ -52,8 +87,36 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // Create RealEstate object from user data input
     private fun createObjectInDatabase() {
 
-        // Create RealEstate object
         val realEstate = RealEstate()
+        getDataFromInput(realEstate)
+
+        // Save object
+        realEstateViewModel.createRealEstate(realEstate)
+
+        // Return to MainActivity
+        startActivity(Intent(this, MainActivity::class.java))
+
+    }
+
+    // Create RealEstate object from user data input
+    private fun updateObjectInDatabase() {
+
+        val realEstate = RealEstate()
+        getDataFromInput(realEstate)
+
+        // Update object
+        realEstateViewModel.updateRealEstate(realEstate)
+
+        // Return to DetailsActivity
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra("REAL ESTATE", realEstate)
+        startActivity(intent)
+
+    }
+
+
+    private fun getDataFromInput(realEstate: RealEstate) {
+
         realEstate.address = Address()
 
         realEstate.description = description_text_input.text.toString()
@@ -68,22 +131,15 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         realEstate.nbBathrooms = bathrooms_text_input.text.toString()
         realEstate.status = status_switch.isChecked
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
-
-        // Save object
-        realEstateViewModel.createRealEstate(realEstate)
-
-        // Return to MainActivity
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-
-
+        realEstate.agent = agent_text_input.text.toString()
     }
 
 
     // Configure add button
-    private fun configureAddButton() {
+    private fun configureButton() {
 
         add_button.setOnClickListener { createObjectInDatabase() }
+        edit_button.setOnClickListener { updateObjectInDatabase() }
     }
 
 

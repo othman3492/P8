@@ -41,11 +41,11 @@ class DetailsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         // Create intent to start EditActivity
-        val editIntent = Intent(this, EditActivity::class.java)
-        editIntent.putExtra("EDIT REAL ESTATE", realEstate)
+        val editIntent = Intent(this, AddEditActivity::class.java)
+        editIntent.putExtra("REAL ESTATE", realEstate)
 
         when (item.itemId) {
-            R.id.menu_add -> startActivity(Intent(this, AddActivity::class.java))
+            R.id.menu_add -> startActivity(Intent(this, AddEditActivity::class.java))
         }
         when (item.itemId) {
             R.id.menu_modify -> startActivity(editIntent)

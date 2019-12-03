@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.menu_add -> startActivity(Intent(this, AddActivity::class.java))
+            R.id.menu_add -> startActivity(Intent(this, AddEditActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
