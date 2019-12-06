@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".controllers.activities.EditActivity"></activity>
+        <activity android:name=".controllers.activities.LoanActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

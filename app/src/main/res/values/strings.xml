@@ -38,12 +38,27 @@
     <string name="location">Location</string>
     <string name="edit_property">EDIT PROPERTY</string>
     <string name="street">Street</string>
+    <string name="add_photo">ADD PHOTO</string>
 
     <string-array name="types_array">
         <item>House</item>
         <item>Apartment</item>
         <item>Building</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loan">Loan</string>
+    <string name="loan_calculator">LOAN CALCULATOR</string>
+    <string name="loan_amount">Loan amount</string>
+    <string name="interest_rate">Interest rate</string>
+    <string name="loan_period">Loan period (in years)</string>
+    <string name="your_monthly_payment">Monthly payment</string>
+    <string name="percentage_sign">%</string>
+    <string name="total_interests">Total interests</string>
+    <string name="your_total_payment">Total payment</string>
+    <string name="calculate_loan">CALCULATE LOAN</string>
+    <string name="capital_contribution">Capital contribution</string>
 
 
 </resources>

@@ -36,10 +36,10 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit)
 
+        configureSpinner()
         configureViewModel()
         configureUI()
         configureButton()
-        configureSpinner()
     }
 
 
@@ -70,8 +70,11 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
             // Update other views
             if (realEstate.status == true) {
-                status_switch.isChecked
+                status_switch.isChecked = true
             }
+
+            type_spinner.setSelection(realEstate.type!!)
+
         }
 
     }
