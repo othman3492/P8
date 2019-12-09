@@ -1,22 +1,27 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
+import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.controllers.fragments.PhotoFragment
 import com.openclassrooms.realestatemanager.models.Address
+import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_edit.*
+import java.io.IOException
+
 
 class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -32,14 +37,21 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit)
 
+        init()
+    }
+
+
+    private fun init() {
+
         configureSpinner()
         configureViewModel()
         configureUI()
-        configureButton()
+        configureButtons()
     }
 
 
@@ -118,6 +130,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     }
 
 
+    // Apply data to RealEstate object
     private fun getDataFromInput(realEstate: RealEstate) {
 
         realEstate.address = Address()
@@ -135,14 +148,30 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         realEstate.status = status_switch.isChecked
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
         realEstate.agent = agent_text_input.text.toString()
+        realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.latitude
+        realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.longitude
     }
 
 
-    // Configure add button
-    private fun configureButton() {
+    // Get latitude/longitude from address string
+    private fun getLocationFromAddress(context: Context, strAddress: String): LatLng? {
 
-        add_button.setOnClickListener { createObjectInDatabase() }
-        edit_button.setOnClickListener { updateObjectInDatabase() }
+        val coder = Geocoder(context)
+        val address: List<android.location.Address>?
+        var latlng: LatLng? = null
+
+        try {
+            address = coder.getFromLocationName(strAddress, 3)
+            if (address == null) {
+                return null
+            }
+            val location = address[0]
+            latlng = LatLng(location.latitude, location.longitude)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+
+        return latlng
     }
 
 
@@ -160,6 +189,28 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         typeSpinnerTextView!!.text = types!![position]
+    }
+
+
+    // Configure add/edit and photo buttons
+    private fun configureButtons() {
+
+        manage_photos_button.setOnClickListener { displayDialogFragment() }
+        add_button.setOnClickListener { createObjectInDatabase() }
+        edit_button.setOnClickListener { updateObjectInDatabase() }
+    }
+
+
+    private fun displayDialogFragment() {
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val prev = supportFragmentManager.findFragmentByTag("dialog")
+        if (prev != null) {
+            fragmentTransaction.remove(prev)
+        }
+        fragmentTransaction.addToBackStack(null)
+        val dialogFragment = PhotoFragment()
+        dialogFragment.show(fragmentTransaction, "dialog")
     }
 
 

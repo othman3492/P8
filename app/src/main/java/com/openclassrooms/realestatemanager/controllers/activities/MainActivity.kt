@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     //USER INTERFACE
     //----------------------------
 
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -76,9 +77,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //----------------------------
-    //ELEMENTS
-    //----------------------------
 
 
 

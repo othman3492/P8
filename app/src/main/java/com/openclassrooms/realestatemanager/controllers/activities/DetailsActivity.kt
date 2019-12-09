@@ -24,12 +24,28 @@ class DetailsActivity : AppCompatActivity() {
         // Get real estate data from intent
         realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
 
-        setSupportActionBar(main_toolbar)
+        configureToolbar()
         getDataAndUpdateUI()
 
 
     }
 
+
+    // Set toolbar and display back to home button
+    private fun configureToolbar() {
+
+        setSupportActionBar(main_toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        main_toolbar.setNavigationOnClickListener { onBackPressed() }
+    }
+
+
+    // Configure back to home button
+    override fun onBackPressed() {
+
+        startActivity(Intent(this, MainActivity::class.java))
+        super.onBackPressed()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
@@ -46,8 +62,6 @@ class DetailsActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.menu_add -> startActivity(Intent(this, AddEditActivity::class.java))
-        }
-        when (item.itemId) {
             R.id.menu_modify -> startActivity(editIntent)
         }
         return super.onOptionsItemSelected(item)

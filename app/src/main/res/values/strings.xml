@@ -59,6 +59,10 @@
     <string name="your_total_payment">Total payment</string>
     <string name="calculate_loan">CALCULATE LOAN</string>
     <string name="capital_contribution">Capital contribution</string>
+    <string name="manage_photos">MANAGE PHOTOS</string>
+    <string name="property_photos">Property photos</string>
+    <string name="media">Media</string>
+    <string name="back">BACK</string>
 
 
 </resources>

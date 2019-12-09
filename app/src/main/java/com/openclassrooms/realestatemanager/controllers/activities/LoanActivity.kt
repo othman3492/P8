@@ -20,6 +20,7 @@ class LoanActivity : AppCompatActivity() {
     }
 
 
+    // Calculate loan from data input
     private fun calculateLoan() {
 
         var contribution = 0.0

@@ -14,5 +14,11 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
+    <!-- Switch -->
+    <style name="SwitchTheme" parent="AppTheme">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
+    </style>
+
 
 </resources>

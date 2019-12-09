@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.models
 
 import android.content.ContentValues
+import android.location.Geocoder
 import androidx.room.*
 import java.io.Serializable
 

@@ -35,7 +35,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var lastLocation: Location
 
     private lateinit var realEstateViewModel: RealEstateViewModel
-    private lateinit var realEstateList: List<RealEstate>
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -70,8 +69,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         getDeviceLocation(map)
         configureViewModel()
         getData()
-        setMarkersOnMap(map, realEstateList)
-
     }
 
 
@@ -110,6 +107,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     }
 
 
+    // Retrieve real estate data and pass it to list, then call SetMarkersOnMap
+    private fun getData() {
+
+        realEstateViewModel.getAllRealEstates().observe(this,
+                Observer<List<RealEstate>> { setMarkersOnMap(googleMap, it) })
+    }
+
+
     // Create markers on map for each retrieved Real Estate
     private fun setMarkersOnMap(map: GoogleMap, list: List<RealEstate>) {
 
@@ -120,16 +125,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                             requireNotNull(realEstate.latitude))))
         }
     }
-
-
-    // Retrieve data and pass it to list
-    private fun getData() {
-
-        realEstateViewModel.getAllRealEstates().observe(this,
-                Observer<List<RealEstate>> { realEstateList })
-    }
-
-
 
 
     override fun onMarkerClick(p0: Marker?) = false
