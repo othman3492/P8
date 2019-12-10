@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.main_toolbar.*
+import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -47,6 +50,8 @@ class DetailsActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+
+    // Implement menu layout
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.details_menu, menu)
@@ -54,6 +59,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
 
+    // Configure menu buttons
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         // Create intent to start EditActivity
@@ -73,14 +79,34 @@ class DetailsActivity : AppCompatActivity() {
         // Load data into views
         description_text.text = realEstate?.description
         surface_value.text = String.format(this.resources.getString(R.string.surface_in_sq), realEstate?.surface)
-        rooms_value.text = realEstate?.nbRooms
-        bedrooms_value.text = realEstate?.nbBedrooms
-        bathrooms_value.text = realEstate?.nbBathrooms
+        rooms_value.text = realEstate?.nbRooms.toString()
+        bedrooms_value.text = realEstate?.nbBedrooms.toString()
+        bathrooms_value.text = realEstate?.nbBathrooms.toString()
         location_value.text = String.format(this.resources.getString(R.string.lines_address),
                 realEstate?.address?.street,
                 realEstate?.address?.postalCode,
                 realEstate?.address?.city)
 
+        // Load static map
+        Picasso.get()
+                .load(loadMap(realEstate!!))
+                .placeholder(R.drawable.baseline_map_24)
+                .into(details_map)
 
+    }
+
+
+    // Display static map with place location
+    private fun loadMap(realEstate: RealEstate): String {
+
+        val location = "${realEstate.latitude},${realEstate.longitude}"
+
+        // Set center of the map
+        val mapURLInitial = "https://maps.googleapis.com/maps/api/staticmap?center=$location"
+        // Set properties and marker
+        val mapURLProperties = "&zoom=15&size=160x160&markers=size:tiny%7Ccolor:blue%7C$location"
+        val key = "&key=${BuildConfig.static_apikey}"
+
+        return mapURLInitial + mapURLProperties + key
     }
 }

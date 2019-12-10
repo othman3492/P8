@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.telecom.Call
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +17,14 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
@@ -28,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
-class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -65,10 +69,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         googleMap = map
 
-        getLocationPermission()
-        getDeviceLocation(map)
         configureViewModel()
         getData()
+        getLocationPermission()
+        getDeviceLocation(map)
+
+
     }
 
 
@@ -120,12 +126,26 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         for (realEstate in list) {
 
-            map.addMarker(MarkerOptions()
+            val marker = map.addMarker(MarkerOptions()
                     .position(LatLng(requireNotNull(realEstate.longitude),
                             requireNotNull(realEstate.latitude))))
+
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
+            map.setOnMarkerClickListener {
+
+                for (realEstate1 in list) {
+
+                    if (marker.position == it.position) {
+
+                        val intent = Intent(activity, DetailsActivity::class.java)
+                        intent.putExtra("REAL ESTATE", realEstate1)
+                        startActivity(intent)
+                    }
+                }
+
+                return@setOnMarkerClickListener true
+            }
         }
     }
-
-
-    override fun onMarkerClick(p0: Marker?) = false
 }

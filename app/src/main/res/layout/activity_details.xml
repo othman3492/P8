@@ -202,11 +202,11 @@
                 android:id="@+id/location_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_margin="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/baseline_my_location_24"
                 android:contentDescription="@string/location"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/surface"
+                app:layout_constraintStart_toStartOf="@id/details_map"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -234,8 +234,8 @@
 
             <ImageView
                 android:id="@+id/details_map"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:layout_margin="15dp"
                 android:background="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
