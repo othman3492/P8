@@ -63,6 +63,13 @@
     <string name="property_photos">Property photos</string>
     <string name="media">Media</string>
     <string name="back">BACK</string>
+    <string name="search_property">SEARCH PROPERTY</string>
+    <string name="keywords">Keywords (school, shops...)</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="min_number_of_photos">Min. number of photos</string>
+    <string name="creation_date">Creation date</string>
+    <string name="selling_date">Selling date</string>
 
 
 </resources>

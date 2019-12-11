@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_add -> startActivity(Intent(this, AddEditActivity::class.java))
             R.id.menu_loan -> startActivity(Intent(this, LoanActivity::class.java))
+            R.id.menu_search -> startActivity(Intent(this, SearchActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

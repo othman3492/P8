@@ -63,16 +63,16 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             val realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
 
             // Set views' visibility
-            add_property.visibility = View.GONE
+            search_property.visibility = View.GONE
             add_button.visibility = View.GONE
             edit_property.visibility = View.VISIBLE
             edit_button.visibility = View.VISIBLE
 
             // Fill input texts
-            description_text_input.setText(realEstate.description)
-            street_text_input.setText(realEstate.address?.street)
-            postal_code_text_input.setText(realEstate.address?.postalCode)
-            city_text_input.setText(realEstate.address?.city)
+            keywords_text_input.setText(realEstate.description)
+            street_search_text_input.setText(realEstate.address?.street)
+            postal_code_search_text_input.setText(realEstate.address?.postalCode)
+            city_search_text_input.setText(realEstate.address?.city)
             surface_text_input.setText(realEstate.surface.toString())
             price_text_input.setText(realEstate.price.toString())
             agent_text_input.setText(realEstate.agent.toString())
@@ -135,11 +135,11 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
         realEstate.address = Address()
 
-        realEstate.description = description_text_input.text.toString()
+        realEstate.description = keywords_text_input.text.toString()
         realEstate.type = type_spinner.selectedItemPosition
-        realEstate.address?.street = street_text_input.text.toString()
-        realEstate.address?.postalCode = postal_code_text_input.text.toString()
-        realEstate.address?.city = city_text_input.text.toString()
+        realEstate.address?.street = street_search_text_input.text.toString()
+        realEstate.address?.postalCode = postal_code_search_text_input.text.toString()
+        realEstate.address?.city = city_search_text_input.text.toString()
         realEstate.surface = surface_text_input.text.toString().toInt()
         realEstate.price = price_text_input.text.toString().toInt()
         realEstate.nbRooms = rooms_text_input.text.toString().toInt()
