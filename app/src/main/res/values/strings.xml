@@ -70,6 +70,8 @@
     <string name="min_number_of_photos">Min. number of photos</string>
     <string name="creation_date">Creation date</string>
     <string name="selling_date">Selling date</string>
+    <string name="min_date">Min. date</string>
+    <string name="max_date">Max. date</string>
 
 
 </resources>

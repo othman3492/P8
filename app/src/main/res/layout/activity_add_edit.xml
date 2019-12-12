@@ -100,6 +100,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/postal_code_search_text_input"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -139,6 +140,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/surface_text_input"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -159,6 +161,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/price_text_input"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -212,6 +215,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/rooms_text_input"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -280,6 +284,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bedrooms_text_input"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -300,12 +305,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bathrooms_text_input"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
 
         <Button
             android:id="@+id/add_button"

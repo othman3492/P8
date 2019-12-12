@@ -69,12 +69,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         googleMap = map
 
-        configureViewModel()
-        getData()
         getLocationPermission()
         getDeviceLocation(map)
-
-
+        configureViewModel()
+        getData()
     }
 
 
@@ -126,9 +124,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         for (realEstate in list) {
 
+            val location = LatLng(realEstate.latitude!!, realEstate.longitude!!)
+
             val marker = map.addMarker(MarkerOptions()
-                    .position(LatLng(requireNotNull(realEstate.longitude),
-                            requireNotNull(realEstate.latitude))))
+                    .position(location))
 
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
 

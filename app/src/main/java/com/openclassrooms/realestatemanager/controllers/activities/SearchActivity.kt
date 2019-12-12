@@ -34,16 +34,74 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        configureUI()
+
+
+    }
+
+
+    private fun configureUI() {
+
+        // Configure spinner
         configureSpinner()
-        configureDatePickers()
+
+        // Configure date pickers
+        configureDatePicker(min_creation_date_search_text_input)
+        configureDatePicker(max_creation_date_search_text_input)
+        configureDatePicker(min_selling_date_search_text_input)
+        configureDatePicker(min_selling_date_search_text_input)
+
+        // Show selling date pickers if sold switch is checked
+        status_search_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if (isChecked) {
+
+                search_selling_date_textview.visibility = View.VISIBLE
+                min_selling_date_search_field.visibility = View.VISIBLE
+                max_selling_date_search_field.visibility = View.VISIBLE
+
+            } else {
+
+                search_selling_date_textview.visibility = View.GONE
+                min_selling_date_search_field.visibility = View.GONE
+                max_selling_date_search_field.visibility = View.GONE
+            }
+        }
     }
 
 
-    private fun configureDatePickers() {
+    private fun configureDatePicker(editText: EditText) {
 
-        min_creation_date_search_text_input.setOnClickListener { Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show() }
+        calendar = Calendar.getInstance()
 
+        // Create an OnDateSetListener
+        val dateSetListener = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            updateDateInView()
+        }
+
+        // Open DatePickerDialog when clicked
+        editText.setOnClickListener {
+            DatePickerDialog(this@SearchActivity, dateSetListener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
     }
+
+
+    // Create pattern and display selected date
+    private fun updateDateInView() {
+
+        val myFormat = "dd/MM/yy"
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        min_creation_date_search_text_input!!.setText(sdf.format(calendar.time))
+    }
+
 
     // SPINNER CONFIGURATION
     private fun configureSpinner() {
