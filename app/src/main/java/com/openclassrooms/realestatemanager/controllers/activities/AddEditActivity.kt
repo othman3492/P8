@@ -34,6 +34,8 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private var types: Array<String>? = null
     private var typeSpinnerTextView: TextView? = null
 
+    private lateinit var realEstate: RealEstate
+
 
 
 
@@ -50,17 +52,19 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
         configureSpinner()
         configureViewModel()
-        configureUI()
         configureButtons()
+
+        if (intent.getSerializableExtra("REAL ESTATE") != null) {
+
+            realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
+
+            fillData()
+        }
     }
 
 
     // Show/hide views depending on Add/Edit layout
-    private fun configureUI() {
-
-        if (intent.getSerializableExtra("REAL ESTATE") != null) {
-
-            val realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
+    private fun fillData() {
 
             // Set views' visibility
             search_property.visibility = View.GONE
@@ -89,7 +93,6 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
         }
 
-    }
 
 
     private fun configureViewModel() {
@@ -102,11 +105,11 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     // Create RealEstate object from user data input
     private fun createObjectInDatabase() {
 
-        val realEstate = RealEstate()
-        getDataFromInput(realEstate)
+        val newRealEstate = RealEstate()
+        getDataFromInput(newRealEstate)
 
         // Save object
-        realEstateViewModel.createRealEstate(realEstate)
+        realEstateViewModel.createRealEstate(newRealEstate)
 
         // Return to MainActivity
         startActivity(Intent(this, MainActivity::class.java))
@@ -116,7 +119,6 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     // Create RealEstate object from user data input
     private fun updateObjectInDatabase() {
 
-        val realEstate = RealEstate()
         getDataFromInput(realEstate)
 
         // Update object

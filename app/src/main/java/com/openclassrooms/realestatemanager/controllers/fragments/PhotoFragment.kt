@@ -58,6 +58,7 @@ class PhotoFragment : DialogFragment() {
     // Launch camera
     private fun accessCamera() {
 
+
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, CAMERA_CODE)
         startActivityForResult(cameraIntent, CAMERA_CODE)
@@ -133,9 +134,11 @@ class PhotoFragment : DialogFragment() {
 
     // Handle picked image result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
 
             image_test.setImageURI(data?.data)
+
         } else if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CODE) {
 
             image_test.setImageBitmap(data!!.extras!!.get("data") as Bitmap)
