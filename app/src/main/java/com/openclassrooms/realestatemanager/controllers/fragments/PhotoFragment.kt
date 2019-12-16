@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class PhotoFragment(realEstate: RealEstate?) : DialogFragment() {
+class PhotoFragment() : DialogFragment() {
 
 
     private val IMAGE_PICK_CODE = 1
@@ -48,7 +48,7 @@ class PhotoFragment(realEstate: RealEstate?) : DialogFragment() {
     private lateinit var adapter: PhotoAdapter
     private lateinit var realEstateViewModel: RealEstateViewModel
 
-    private var realEstate = realEstate
+    private var realEstate: RealEstate? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,7 +60,13 @@ class PhotoFragment(realEstate: RealEstate?) : DialogFragment() {
 
         configureButtons()
         configureRecyclerView()
-        Toast.makeText(activity, "${realEstate!!.address}", Toast.LENGTH_SHORT).show()
+
+
+        if (realEstate != null) {
+
+            realEstate = this.arguments!!.getSerializable("PHOTO_REAL_ESTATE") as RealEstate
+            Toast.makeText(activity, "${realEstate!!.address}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

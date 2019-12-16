@@ -35,7 +35,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private var types: Array<String>? = null
     private var typeSpinnerTextView: TextView? = null
 
-    private lateinit var realEstate: RealEstate
+    private var realEstate: RealEstate? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,23 +71,23 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         edit_button.visibility = View.VISIBLE
 
         // Fill input texts
-        keywords_text_input.setText(realEstate.description)
-        street_search_text_input.setText(realEstate.address?.street)
-        postal_code_search_text_input.setText(realEstate.address?.postalCode)
-        city_search_text_input.setText(realEstate.address?.city)
-        surface_text_input.setText(realEstate.surface.toString())
-        price_text_input.setText(realEstate.price.toString())
-        agent_text_input.setText(realEstate.agent.toString())
-        rooms_text_input.setText(realEstate.nbRooms.toString())
-        bedrooms_text_input.setText(realEstate.nbBedrooms.toString())
-        bathrooms_text_input.setText(realEstate.nbBathrooms.toString())
+        keywords_text_input.setText(realEstate!!.description)
+        street_search_text_input.setText(realEstate!!.address?.street)
+        postal_code_search_text_input.setText(realEstate!!.address?.postalCode)
+        city_search_text_input.setText(realEstate!!.address?.city)
+        surface_text_input.setText(realEstate!!.surface.toString())
+        price_text_input.setText(realEstate!!.price.toString())
+        agent_text_input.setText(realEstate!!.agent.toString())
+        rooms_text_input.setText(realEstate!!.nbRooms.toString())
+        bedrooms_text_input.setText(realEstate!!.nbBedrooms.toString())
+        bathrooms_text_input.setText(realEstate!!.nbBathrooms.toString())
 
         // Update other views
-        if (realEstate.status == true) {
+        if (realEstate!!.status == true) {
             status_switch.isChecked = true
         }
 
-        type_spinner.setSelection(realEstate.type!!)
+        type_spinner.setSelection(realEstate!!.type!!)
 
     }
 
@@ -116,10 +116,10 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     // Create RealEstate object from user data input
     private fun updateObjectInDatabase() {
 
-        getDataFromInput(realEstate)
+        getDataFromInput(realEstate!!)
 
         // Update object
-        realEstateViewModel.updateRealEstate(realEstate)
+        realEstateViewModel.updateRealEstate(realEstate!!)
 
         // Return to DetailsActivity
         val intent = Intent(this, DetailsActivity::class.java)
@@ -204,19 +204,20 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
             if (isChecked) {
 
-                realEstate.saleDate = Utils.convertDate(Utils.getTodayDate().toString())
-                Toast.makeText(this, "Selling date is ${realEstate.saleDate}", Toast.LENGTH_SHORT).show()
+                realEstate!!.saleDate = Utils.convertDate(Utils.getTodayDate().toString())
+                Toast.makeText(this, "Selling date is ${realEstate!!.saleDate}", Toast.LENGTH_SHORT).show()
 
             } else {
 
-                realEstate.saleDate = null
+                realEstate!!.saleDate = null
                 Toast.makeText(this, "Selling date removed", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-
+    // Create dialog fragment and pass it arguments from created bundle if real estate is non-null
     private fun displayDialogFragment() {
+
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val prev = supportFragmentManager.findFragmentByTag("dialog")
@@ -224,7 +225,15 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             fragmentTransaction.remove(prev)
         }
         fragmentTransaction.addToBackStack(null)
-        val dialogFragment = PhotoFragment(realEstate)
+
+        val dialogFragment = PhotoFragment()
+
+        if (realEstate != null) {
+            val bundle = Bundle()
+            bundle.putSerializable("PHOTO_REAL_ESTATE", realEstate)
+            dialogFragment.arguments = bundle
+        }
+
         dialogFragment.show(fragmentTransaction, "dialog")
     }
 
