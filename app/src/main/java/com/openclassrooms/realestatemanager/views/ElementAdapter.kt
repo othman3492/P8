@@ -44,11 +44,10 @@ class ElementAdapter(val context: Context, private val clickListener: (RealEstat
     }
 
 
-    class ElementViewHolder(v: View, context: Context) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    class ElementViewHolder(v: View, private var context: Context) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
 
         private var view: View = v
-        private var context = context
         private var types = arrayOf("House", "Appartment", "Building")
 
 

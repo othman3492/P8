@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.model.LatLng
@@ -37,9 +38,6 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private lateinit var realEstate: RealEstate
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit)
@@ -66,33 +64,32 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     // Show/hide views depending on Add/Edit layout
     private fun fillData() {
 
-            // Set views' visibility
-            search_property.visibility = View.GONE
-            add_button.visibility = View.GONE
-            edit_property.visibility = View.VISIBLE
-            edit_button.visibility = View.VISIBLE
+        // Set views' visibility
+        search_property.visibility = View.GONE
+        add_button.visibility = View.GONE
+        edit_property.visibility = View.VISIBLE
+        edit_button.visibility = View.VISIBLE
 
-            // Fill input texts
-            keywords_text_input.setText(realEstate.description)
-            street_search_text_input.setText(realEstate.address?.street)
-            postal_code_search_text_input.setText(realEstate.address?.postalCode)
-            city_search_text_input.setText(realEstate.address?.city)
-            surface_text_input.setText(realEstate.surface.toString())
-            price_text_input.setText(realEstate.price.toString())
-            agent_text_input.setText(realEstate.agent.toString())
-            rooms_text_input.setText(realEstate.nbRooms.toString())
-            bedrooms_text_input.setText(realEstate.nbBedrooms.toString())
-            bathrooms_text_input.setText(realEstate.nbBathrooms.toString())
+        // Fill input texts
+        keywords_text_input.setText(realEstate.description)
+        street_search_text_input.setText(realEstate.address?.street)
+        postal_code_search_text_input.setText(realEstate.address?.postalCode)
+        city_search_text_input.setText(realEstate.address?.city)
+        surface_text_input.setText(realEstate.surface.toString())
+        price_text_input.setText(realEstate.price.toString())
+        agent_text_input.setText(realEstate.agent.toString())
+        rooms_text_input.setText(realEstate.nbRooms.toString())
+        bedrooms_text_input.setText(realEstate.nbBedrooms.toString())
+        bathrooms_text_input.setText(realEstate.nbBathrooms.toString())
 
-            // Update other views
-            if (realEstate.status == true) {
-                status_switch.isChecked = true
-            }
-
-            type_spinner.setSelection(realEstate.type!!)
-
+        // Update other views
+        if (realEstate.status == true) {
+            status_switch.isChecked = true
         }
 
+        type_spinner.setSelection(realEstate.type!!)
+
+    }
 
 
     private fun configureViewModel() {
@@ -152,6 +149,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         realEstate.agent = agent_text_input.text.toString()
         realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.latitude
         realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.longitude
+
     }
 
 
@@ -200,6 +198,21 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         manage_photos_button.setOnClickListener { displayDialogFragment() }
         add_button.setOnClickListener { createObjectInDatabase() }
         edit_button.setOnClickListener { updateObjectInDatabase() }
+
+        // Save selling date when switch is checked
+        status_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if (isChecked) {
+
+                realEstate.saleDate = Utils.convertDate(Utils.getTodayDate().toString())
+                Toast.makeText(this, "Selling date is ${realEstate.saleDate}", Toast.LENGTH_SHORT).show()
+
+            } else {
+
+                realEstate.saleDate = null
+                Toast.makeText(this, "Selling date removed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 
@@ -211,8 +224,14 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             fragmentTransaction.remove(prev)
         }
         fragmentTransaction.addToBackStack(null)
-        val dialogFragment = PhotoFragment()
+        val dialogFragment = PhotoFragment(realEstate)
         dialogFragment.show(fragmentTransaction, "dialog")
+    }
+
+
+    fun passObjectToFragment(realEstate: RealEstate): RealEstate {
+
+        return realEstate
     }
 
 

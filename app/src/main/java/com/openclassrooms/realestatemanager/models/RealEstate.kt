@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.models
 
 import android.content.ContentValues
 import android.location.Geocoder
+import android.net.Uri
 import androidx.room.*
 import java.io.Serializable
 
@@ -13,8 +14,8 @@ data class RealEstate(
         var type: Int? = null,
         var description: String? = null,
         @Embedded var address: Address? = null,
-        var latitude: Double? = 48.8566,
-        var longitude: Double? = 2.3522,
+        var latitude: Double? = null,
+        var longitude: Double? = null,
         var surface: Int? = null,
         var price: Int? = null,
         var nbRooms: Int? = null,
@@ -24,7 +25,7 @@ data class RealEstate(
         var creationDate: String? = null,
         var saleDate: String? = null,
         var agent: String? = null
-        //var images: List<Uri>? = null
+        //var imageList: List<Uri>? = null
 ) : Serializable {
 
 

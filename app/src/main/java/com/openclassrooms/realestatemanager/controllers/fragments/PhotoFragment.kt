@@ -1,9 +1,9 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentResolver
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,25 +12,43 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.getExternalFilesDirs
+import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
+import com.openclassrooms.realestatemanager.views.ElementAdapter
+import com.openclassrooms.realestatemanager.views.PhotoAdapter
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_photo.*
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class PhotoFragment : DialogFragment() {
+class PhotoFragment(realEstate: RealEstate?) : DialogFragment() {
+
 
     private val IMAGE_PICK_CODE = 1
     private val GALLERY_PERMISSION_CODE = 11
     private val CAMERA_PERMISSION_CODE = 21
     private val CAMERA_CODE = 31
+
+    private lateinit var photoPath: Uri
+    private lateinit var adapter: PhotoAdapter
+    private lateinit var realEstateViewModel: RealEstateViewModel
+
+    private var realEstate = realEstate
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,10 +59,18 @@ class PhotoFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureButtons()
+        configureRecyclerView()
+        Toast.makeText(activity, "${realEstate!!.address}", Toast.LENGTH_SHORT).show()
     }
 
+
+    // Configure RecyclerView and assign the click handler to the Adapter
     private fun configureRecyclerView() {
 
+        adapter = PhotoAdapter(requireContext())
+        photo_recycler_view.adapter = adapter
+        photo_recycler_view.layoutManager = LinearLayoutManager(activity)
+        photo_recycler_view.addItemDecoration(DividerItemDecoration(photo_recycler_view.context, DividerItemDecoration.VERTICAL))
     }
 
 
@@ -55,14 +81,37 @@ class PhotoFragment : DialogFragment() {
     }
 
 
-    // Launch camera
+    // Launch camera and create image path
+    @Throws(IOException::class)
     private fun accessCamera() {
 
-
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, CAMERA_CODE)
-        startActivityForResult(cameraIntent, CAMERA_CODE)
+        if (cameraIntent.resolveActivity(context!!.packageManager) != null) {
 
+            val photoFile = createImageFile()
+
+            if (photoFile != null) {
+                photoPath = FileProvider.getUriForFile(activity!!, "com.openclassrooms.realestatemanager.fileprovider", photoFile)
+
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoPath)
+                startActivityForResult(cameraIntent, CAMERA_CODE)
+            }
+        }
+    }
+
+
+    // Create image file
+    @SuppressLint("SimpleDateFormat")
+    @Throws(IOException::class)
+    private fun createImageFile(): File? {
+
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "estate_" + timeStamp + "_"
+        val storageDir: File = getExternalFilesDirs(activity!!, Environment.DIRECTORY_PICTURES)[0]
+
+        return File.createTempFile(
+                imageFileName, ".jpg", storageDir
+        )
     }
 
 
@@ -86,6 +135,7 @@ class PhotoFragment : DialogFragment() {
 
     }
 
+
     // Ask for permission to pick image from gallery
     private fun checkPermissionForGallery() {
 
@@ -105,6 +155,7 @@ class PhotoFragment : DialogFragment() {
         }
 
     }
+
 
     // Handle request permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -132,6 +183,7 @@ class PhotoFragment : DialogFragment() {
         }
     }
 
+
     // Handle picked image result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
@@ -141,7 +193,7 @@ class PhotoFragment : DialogFragment() {
 
         } else if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CODE) {
 
-            image_test.setImageBitmap(data!!.extras!!.get("data") as Bitmap)
+            image_test.setImageURI(photoPath)
         }
     }
 

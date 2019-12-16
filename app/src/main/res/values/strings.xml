@@ -72,6 +72,7 @@
     <string name="selling_date">Selling date</string>
     <string name="min_date">Min. date</string>
     <string name="max_date">Max. date</string>
+    <string name="delete">DELETE</string>
 
 
 </resources>

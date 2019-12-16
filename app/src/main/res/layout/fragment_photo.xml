@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/photos_textview" />
 
-    <ImageView
+    <com.facebook.drawee.view.DraweeView
         android:id="@+id/image_test"
         android:layout_width="50dp"
         android:layout_height="50dp"
