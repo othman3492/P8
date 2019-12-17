@@ -73,6 +73,7 @@
     <string name="min_date">Min. date</string>
     <string name="max_date">Max. date</string>
     <string name="delete">DELETE</string>
+    <string name="save_changes">SAVE CHANGES</string>
 
 
 </resources>

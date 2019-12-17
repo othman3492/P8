@@ -4,6 +4,7 @@ package com.openclassrooms.realestatemanager.controllers.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -24,6 +25,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.controllers.activities.AddEditActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.views.ElementAdapter
@@ -36,7 +38,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class PhotoFragment() : DialogFragment() {
+class PhotoFragment : DialogFragment() {
 
 
     private val IMAGE_PICK_CODE = 1
@@ -46,9 +48,8 @@ class PhotoFragment() : DialogFragment() {
 
     private lateinit var photoPath: Uri
     private lateinit var adapter: PhotoAdapter
-    private lateinit var realEstateViewModel: RealEstateViewModel
 
-    private var realEstate: RealEstate? = null
+    private var realEstate: RealEstate = RealEstate()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,22 +59,21 @@ class PhotoFragment() : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Get current Real Estate data if it exists
+        realEstate = this.arguments!!.getSerializable("PHOTO_REAL_ESTATE") as RealEstate
+        Toast.makeText(activity, "${realEstate!!.address}", Toast.LENGTH_SHORT).show() // TEST
+
+
         configureButtons()
         configureRecyclerView()
 
-
-        if (realEstate != null) {
-
-            realEstate = this.arguments!!.getSerializable("PHOTO_REAL_ESTATE") as RealEstate
-            Toast.makeText(activity, "${realEstate!!.address}", Toast.LENGTH_SHORT).show()
-        }
     }
 
 
     // Configure RecyclerView and assign the click handler to the Adapter
     private fun configureRecyclerView() {
 
-        adapter = PhotoAdapter(requireContext())
+        adapter = PhotoAdapter(requireContext(), realEstate!!)
         photo_recycler_view.adapter = adapter
         photo_recycler_view.layoutManager = LinearLayoutManager(activity)
         photo_recycler_view.addItemDecoration(DividerItemDecoration(photo_recycler_view.context, DividerItemDecoration.VERTICAL))
@@ -195,11 +195,13 @@ class PhotoFragment() : DialogFragment() {
 
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
 
-            image_test.setImageURI(data?.data)
+            realEstate.imageList.add(data?.data.toString())
+            adapter.notifyDataSetChanged()
 
         } else if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CODE) {
 
-            image_test.setImageURI(photoPath)
+            realEstate.imageList.add(photoPath.toString())
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -210,5 +212,14 @@ class PhotoFragment() : DialogFragment() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+
+    // Save modifications in real estate photo list and pass it to Activity via intent
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+
+        val updateIntent = Intent(activity, AddEditActivity::class.java)
+        updateIntent.putExtra("PHOTO_UPDATE_REAL_ESTATE", realEstate)
     }
 }

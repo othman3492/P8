@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_add_edit.*
 import java.io.IOException
 
 
-class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, DialogInterface.OnDismissListener {
 
 
     // VIEWMODEL
@@ -35,7 +36,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private var types: Array<String>? = null
     private var typeSpinnerTextView: TextView? = null
 
-    private var realEstate: RealEstate? = null
+    private var realEstate: RealEstate = RealEstate()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +53,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         configureViewModel()
         configureButtons()
 
+        // Get data from existing real estate and display it
         if (intent.getSerializableExtra("REAL ESTATE") != null) {
 
             realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
@@ -71,23 +73,23 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         edit_button.visibility = View.VISIBLE
 
         // Fill input texts
-        keywords_text_input.setText(realEstate!!.description)
-        street_search_text_input.setText(realEstate!!.address?.street)
-        postal_code_search_text_input.setText(realEstate!!.address?.postalCode)
-        city_search_text_input.setText(realEstate!!.address?.city)
-        surface_text_input.setText(realEstate!!.surface.toString())
-        price_text_input.setText(realEstate!!.price.toString())
-        agent_text_input.setText(realEstate!!.agent.toString())
-        rooms_text_input.setText(realEstate!!.nbRooms.toString())
-        bedrooms_text_input.setText(realEstate!!.nbBedrooms.toString())
-        bathrooms_text_input.setText(realEstate!!.nbBathrooms.toString())
+        keywords_text_input.setText(realEstate.description)
+        street_search_text_input.setText(realEstate.address?.street)
+        postal_code_search_text_input.setText(realEstate.address?.postalCode)
+        city_search_text_input.setText(realEstate.address?.city)
+        surface_text_input.setText(realEstate.surface.toString())
+        price_text_input.setText(realEstate.price.toString())
+        agent_text_input.setText(realEstate.agent.toString())
+        rooms_text_input.setText(realEstate.nbRooms.toString())
+        bedrooms_text_input.setText(realEstate.nbBedrooms.toString())
+        bathrooms_text_input.setText(realEstate.nbBathrooms.toString())
 
         // Update other views
-        if (realEstate!!.status == true) {
+        if (realEstate.status == true) {
             status_switch.isChecked = true
         }
 
-        type_spinner.setSelection(realEstate!!.type!!)
+        type_spinner.setSelection(realEstate.type!!)
 
     }
 
@@ -116,10 +118,10 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     // Create RealEstate object from user data input
     private fun updateObjectInDatabase() {
 
-        getDataFromInput(realEstate!!)
+        getDataFromInput(realEstate)
 
         // Update object
-        realEstateViewModel.updateRealEstate(realEstate!!)
+        realEstateViewModel.updateRealEstate(realEstate)
 
         // Return to DetailsActivity
         val intent = Intent(this, DetailsActivity::class.java)
@@ -149,6 +151,17 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         realEstate.agent = agent_text_input.text.toString()
         realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.latitude
         realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.longitude
+
+
+        // Save today date as sale date if switch is checked and no sale date is already saved
+        if (status_switch.isChecked && realEstate.saleDate == null) {
+
+            realEstate.saleDate = Utils.convertDate(Utils.getTodayDate().toString())
+
+        } else if (!status_switch.isChecked) {
+
+            realEstate.saleDate = null
+        }
 
     }
 
@@ -198,21 +211,6 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         manage_photos_button.setOnClickListener { displayDialogFragment() }
         add_button.setOnClickListener { createObjectInDatabase() }
         edit_button.setOnClickListener { updateObjectInDatabase() }
-
-        // Save selling date when switch is checked
-        status_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-
-            if (isChecked) {
-
-                realEstate!!.saleDate = Utils.convertDate(Utils.getTodayDate().toString())
-                Toast.makeText(this, "Selling date is ${realEstate!!.saleDate}", Toast.LENGTH_SHORT).show()
-
-            } else {
-
-                realEstate!!.saleDate = null
-                Toast.makeText(this, "Selling date removed", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     // Create dialog fragment and pass it arguments from created bundle if real estate is non-null
@@ -228,19 +226,20 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
 
         val dialogFragment = PhotoFragment()
 
-        if (realEstate != null) {
-            val bundle = Bundle()
-            bundle.putSerializable("PHOTO_REAL_ESTATE", realEstate)
-            dialogFragment.arguments = bundle
-        }
+        // Pass data from real estate to display photos
+        val bundle = Bundle()
+        bundle.putSerializable("PHOTO_REAL_ESTATE", realEstate)
+        dialogFragment.arguments = bundle
 
         dialogFragment.show(fragmentTransaction, "dialog")
     }
 
+    // Update real estate image list when dialog is dismissed
+    override fun onDismiss(dialog: DialogInterface?) {
 
-    fun passObjectToFragment(realEstate: RealEstate): RealEstate {
+        val photoUpdatedRealEstate = intent.getSerializableExtra("UPDATED_PHOTO_REAL_ESTATE") as RealEstate
 
-        return realEstate
+        realEstate.imageList = photoUpdatedRealEstate.imageList
     }
 
 

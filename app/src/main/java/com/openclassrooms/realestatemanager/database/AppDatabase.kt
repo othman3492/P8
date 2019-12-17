@@ -1,17 +1,16 @@
 package com.openclassrooms.realestatemanager.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.utils.Converters
 
 
 @Database(
         entities = [RealEstate::class],
         version = 1,
-        exportSchema = false
-)
+        exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     // Return Dao

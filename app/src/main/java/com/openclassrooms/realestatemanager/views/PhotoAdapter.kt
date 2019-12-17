@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
@@ -16,15 +17,11 @@ import kotlinx.android.synthetic.main.list_element_layout.view.*
 import kotlinx.android.synthetic.main.list_photo_layout.view.*
 
 
-// Create Adapter with a click listener (parameter RealEstate, return nothing)
-class PhotoAdapter(val context: Context) :
+class PhotoAdapter(val context: Context, val realEstate: RealEstate) :
         RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
 
 
-    private var photos: List<Uri> = ArrayList()
-
-
-    override fun getItemCount() = photos.size
+    override fun getItemCount() = realEstate.imageList.size
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -36,14 +33,15 @@ class PhotoAdapter(val context: Context) :
     // Populate ViewHolder with data depending on the position in the list, and configure the click
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
 
-        holder.bind(photos[position])
-    }
+        holder.bind(Uri.parse(realEstate.imageList[position]))
 
+        // Configure delete button
+        holder.itemView.photo_list_delete_button.setOnClickListener {
 
-    fun updateData(list: List<Uri>) {
+            realEstate.imageList.removeAt(position)
+            notifyItemRemoved(position)
 
-        this.photos = list
-        this.notifyDataSetChanged()
+        }
     }
 
 
@@ -53,15 +51,17 @@ class PhotoAdapter(val context: Context) :
         private var view: View = v
 
 
-        // Assign data to the views and handle click events through a function parameter
+        // Assign data to the views and configure delete button
         fun bind(photo: Uri) {
 
             Picasso.get().load(photo).into(view.photo_list_image)
-
         }
+
+
     }
-
-
 }
+
+
+
 
 
