@@ -33,4 +33,24 @@ class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
     }
 
 
+    // USER SEARCH QUERY
+    fun getRealEstateFromUserSearch(street: String?,
+                                    postalCode: String?,
+                                    city: String?,
+                                    agent: String?,
+                                    type: Int?,
+                                    minPrice: Int?, maxPrice: Int?,
+                                    minSurface: Int?, maxSurface: Int?,
+                                    minNbRooms: Int?, maxNbRooms: Int?,
+                                    minNbBedrooms: Int?, maxNbBedrooms: Int?,
+                                    minNbBathrooms: Int?, maxNbBathrooms: Int?,
+                                    status: Boolean
+    ): LiveData<List<RealEstate>> {
+
+        return this.realEstateDao.getRealEstateFromUserSearch(street, postalCode, city, agent, type,
+                minPrice, maxPrice, minSurface, maxSurface, minNbRooms, maxNbRooms,
+                minNbBedrooms, maxNbBedrooms, minNbBathrooms, maxNbBathrooms, status)
+    }
+
+
 }

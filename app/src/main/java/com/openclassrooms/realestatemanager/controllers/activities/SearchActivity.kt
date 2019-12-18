@@ -4,13 +4,18 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Build
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
+import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_search.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,6 +40,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(R.layout.activity_search)
 
         configureUI()
+        configureViewModel()
 
 
     }
@@ -44,6 +50,9 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // Configure spinner
         configureSpinner()
+
+        // Configure search button
+        configureButtons()
 
         // Configure date pickers
         configureDatePicker(min_creation_date_search_text_input)
@@ -67,6 +76,18 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 max_selling_date_search_field.visibility = View.GONE
             }
         }
+    }
+
+
+    private fun configureViewModel() {
+
+        viewModelFactory = Injection.provideViewModelFactory(this)
+        realEstateViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateViewModel::class.java)
+    }
+
+    private fun configureButtons() {
+
+        search_property_button.setOnClickListener { executeUserSearch() }
     }
 
 
@@ -117,6 +138,36 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         typeSpinnerTextView!!.text = types!![position]
+    }
+
+
+    private fun executeUserSearch() {
+
+        val keywords = keywords_text_input.toString().split(" ")
+        val street: String? = street_search_text_input.text.toString()
+        val postalCode: String? = postal_code_search_text_input.text.toString()
+        val city: String? = city_search_text_input.text.toString()
+        val agent: String? = agent_search_text_input.text.toString()
+        val type: Int = type_search_spinner.selectedItemPosition
+        val minPrice: Int? = min_price_search_text_input.text.toString().toInt()
+        val maxPrice: Int? = max_price_search_text_input.text.toString().toInt()
+        val minSurface: Int? = min_surface_search_text_input.text.toString().toInt()
+        val maxSurface: Int? = max_surface_search_text_input.text.toString().toInt()
+        val minRooms: Int? = min_rooms_search_text_input.text.toString().toInt()
+        val maxRooms: Int? = max_rooms_search_text_input.text.toString().toInt()
+        val minBedrooms: Int? = min_bedrooms_search_text_input.text.toString().toInt()
+        val maxBedrooms: Int? = max_bedrooms_search_text_input.text.toString().toInt()
+        val minBathrooms: Int? = min_bathrooms_search_text_input.text.toString().toInt()
+        val maxBathrooms: Int? = max_bathrooms_search_text_input.text.toString().toInt()
+        val minCreationDate = min_creation_date_search_text_input.text.toString()
+        val maxCreationDate = max_creation_date_search_text_input.text.toString()
+        val status = status_search_switch.isChecked
+
+
+        realEstateViewModel.getRealEstateFromUserSearch(street, postalCode, city,
+                agent, type, minPrice, maxPrice, minSurface, maxSurface, minRooms, maxRooms, minBedrooms, maxBedrooms, minBathrooms,
+                maxBathrooms, status).observe(this,
+                Observer<List<RealEstate>> { Toast.makeText(this, it[0].address!!.city, Toast.LENGTH_SHORT).show() })
     }
 }
 

@@ -237,7 +237,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     // Update real estate image list when dialog is dismissed
     override fun onDismiss(dialog: DialogInterface?) {
 
-        val photoUpdatedRealEstate = intent.getSerializableExtra("UPDATED_PHOTO_REAL_ESTATE") as RealEstate
+        val photoUpdatedRealEstate = intent.getSerializableExtra("PHOTO_UPDATE_REAL_ESTATE") as RealEstate
 
         realEstate.imageList = photoUpdatedRealEstate.imageList
     }

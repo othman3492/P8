@@ -219,7 +219,17 @@ class PhotoFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        val updateIntent = Intent(activity, AddEditActivity::class.java)
-        updateIntent.putExtra("PHOTO_UPDATE_REAL_ESTATE", realEstate)
+        val activity = activity
+        if (activity is DialogInterface.OnDismissListener) {
+
+            val updateIntent = Intent(activity, AddEditActivity::class.java)
+            updateIntent.putExtra("PHOTO_UPDATE_REAL_ESTATE", realEstate)
+
+            activity.onDismiss(dialog)
+        }
+
+
+
+
     }
 }

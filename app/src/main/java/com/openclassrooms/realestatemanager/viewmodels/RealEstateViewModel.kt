@@ -32,4 +32,23 @@ class RealEstateViewModel(private val realEstateDataSource: RealEstateDataReposi
         executor.execute { realEstateDataSource.deleteRealEstate(realEstate) }
     }
 
+
+    fun getRealEstateFromUserSearch(street: String?,
+                                    postalCode: String?,
+                                    city: String?,
+                                    agent: String?,
+                                    type: Int?,
+                                    minPrice: Int?, maxPrice: Int?,
+                                    minSurface: Int?, maxSurface: Int?,
+                                    minNbRooms: Int?, maxNbRooms: Int?,
+                                    minNbBedrooms: Int?, maxNbBedrooms: Int?,
+                                    minNbBathrooms: Int?, maxNbBathrooms: Int?,
+                                    status: Boolean
+    ): LiveData<List<RealEstate>> {
+
+        return realEstateDataSource.getRealEstateFromUserSearch(street, postalCode,
+                city, agent, type, minPrice, maxPrice, minSurface, maxSurface, minNbRooms,
+                maxNbRooms, minNbBedrooms, maxNbBedrooms, minNbBathrooms, maxNbBathrooms, status)
+
+    }
 }

@@ -26,7 +26,8 @@ data class RealEstate(
         var creationDate: String? = null,
         var saleDate: String? = null,
         var agent: String? = null,
-        var imageList: MutableList<String> = ArrayList()
+        var imageList: MutableList<String> = ArrayList(),
+        var nbImages: Int = imageList.size
 ) : Serializable {
 
 

@@ -14,7 +14,6 @@ object Injection {
         return RealEstateDataRepository(database!!.realEstateDao())
     }
 
-
     private fun provideExecutor(): Executor {
         return Executors.newSingleThreadExecutor()
     }
