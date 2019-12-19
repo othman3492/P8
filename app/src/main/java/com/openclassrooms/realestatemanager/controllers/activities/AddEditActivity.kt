@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.model.LatLng
@@ -22,10 +20,16 @@ import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_edit.*
+import kotlinx.android.synthetic.main.activity_add_edit.city_search_text_input
+import kotlinx.android.synthetic.main.activity_add_edit.keywords_text_input
+import kotlinx.android.synthetic.main.activity_add_edit.postal_code_search_text_input
+import kotlinx.android.synthetic.main.activity_add_edit.search_property
+import kotlinx.android.synthetic.main.activity_add_edit.street_search_text_input
+import kotlinx.android.synthetic.main.activity_search.*
 import java.io.IOException
 
 
-class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, DialogInterface.OnDismissListener {
+class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, PhotoFragment.OnDismissListener {
 
 
     // VIEWMODEL
@@ -141,28 +145,30 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         realEstate.address?.street = street_search_text_input.text.toString()
         realEstate.address?.postalCode = postal_code_search_text_input.text.toString()
         realEstate.address?.city = city_search_text_input.text.toString()
-        realEstate.surface = surface_text_input.text.toString().toInt()
-        realEstate.price = price_text_input.text.toString().toInt()
-        realEstate.nbRooms = rooms_text_input.text.toString().toInt()
-        realEstate.nbBedrooms = bedrooms_text_input.text.toString().toInt()
-        realEstate.nbBathrooms = bathrooms_text_input.text.toString().toInt()
-        realEstate.status = status_switch.isChecked
+        realEstate.surface = surface_text_input.text.toString().toIntOrNull()
+        realEstate.price = price_text_input.text.toString().toIntOrNull()
+        realEstate.nbRooms = rooms_text_input.text.toString().toIntOrNull()
+        realEstate.nbBedrooms = bedrooms_text_input.text.toString().toIntOrNull()
+        realEstate.nbBathrooms = bathrooms_text_input.text.toString().toIntOrNull()
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
         realEstate.agent = agent_text_input.text.toString()
         realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.latitude
         realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.longitude
+        realEstate.status = status_switch.isChecked
 
 
         // Save today date as sale date if switch is checked and no sale date is already saved
         if (status_switch.isChecked && realEstate.saleDate == null) {
 
             realEstate.saleDate = Utils.convertDate(Utils.getTodayDate().toString())
-
         } else if (!status_switch.isChecked) {
 
             realEstate.saleDate = null
         }
 
+        // Save image list
+        realEstate.imageList = this.realEstate.imageList
+        realEstate.nbImages = realEstate.imageList.size
     }
 
 
@@ -213,6 +219,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         edit_button.setOnClickListener { updateObjectInDatabase() }
     }
 
+
     // Create dialog fragment and pass it arguments from created bundle if real estate is non-null
     private fun displayDialogFragment() {
 
@@ -232,14 +239,14 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         dialogFragment.arguments = bundle
 
         dialogFragment.show(fragmentTransaction, "dialog")
+        dialogFragment.setOnDismissListener(this)
     }
 
+
     // Update real estate image list when dialog is dismissed
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun dismissed(realEstate: RealEstate) {
 
-        val photoUpdatedRealEstate = intent.getSerializableExtra("PHOTO_UPDATE_REAL_ESTATE") as RealEstate
-
-        realEstate.imageList = photoUpdatedRealEstate.imageList
+        this.realEstate.imageList = realEstate.imageList
     }
 
 

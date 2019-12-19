@@ -14,15 +14,18 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
+import com.openclassrooms.realestatemanager.controllers.activities.MainActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import com.openclassrooms.realestatemanager.views.ElementAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
 class ListFragment : Fragment() {
+
 
     private lateinit var adapter: ElementAdapter
 
@@ -38,6 +41,7 @@ class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
 
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
@@ -64,12 +68,20 @@ class ListFragment : Fragment() {
     }
 
 
-    // Pass data to intent and start DetailsActivity when clicked
+    // Display DetailsFragment when clicked after verifying that device is tablet
     private fun startDetailsActivityOnClick(realEstate: RealEstate) {
 
-        val intent = Intent(activity, DetailsActivity::class.java)
-        intent.putExtra("REAL ESTATE", realEstate)
-        startActivity(intent)
+        val isTablet = resources.getBoolean(R.bool.isTablet)
+        val fragment = DetailsFragment.newInstance(realEstate)
+
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.addToBackStack(null)
+
+        if (isTablet) {
+            transaction.replace(R.id.details_fragment_container, fragment).commit()
+        } else {
+            transaction.replace(R.id.fragment_container, fragment).commit()
+        }
     }
 
 

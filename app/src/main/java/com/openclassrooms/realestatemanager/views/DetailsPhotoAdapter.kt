@@ -13,48 +13,41 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.details_list_photo_layout.view.*
 import kotlinx.android.synthetic.main.list_element_layout.view.*
 import kotlinx.android.synthetic.main.list_photo_layout.view.*
 
 
-class PhotoAdapter(val context: Context, val realEstate: RealEstate) :
-        RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
+class DetailsPhotoAdapter(val context: Context, val realEstate: RealEstate) :
+        RecyclerView.Adapter<DetailsPhotoAdapter.DetailsPhotoViewHolder>() {
 
 
     override fun getItemCount() = realEstate.imageList.size
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsPhotoViewHolder {
 
-        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.list_photo_layout, parent, false)
-        return PhotoViewHolder(v, parent.context)
+        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.details_list_photo_layout, parent, false)
+        return DetailsPhotoViewHolder(v, parent.context)
     }
 
     // Populate ViewHolder with data depending on the position in the list
-    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DetailsPhotoViewHolder, position: Int) {
 
         holder.bind(Uri.parse(realEstate.imageList[position]))
-
-        // Configure delete button
-        holder.itemView.photo_list_delete_button.setOnClickListener {
-
-            realEstate.imageList.removeAt(position)
-            notifyItemRemoved(position)
-
-        }
     }
 
 
-    class PhotoViewHolder(v: View, private var context: Context) : RecyclerView.ViewHolder(v) {
+    class DetailsPhotoViewHolder(v: View, private var context: Context) : RecyclerView.ViewHolder(v) {
 
 
         private var view: View = v
 
 
-        // Assign data to the views and configure delete button
+        // Assign data to the views
         fun bind(photo: Uri) {
 
-            Picasso.get().load(photo).into(view.photo_list_image)
+            Picasso.get().load(photo).into(view.details_photo_image)
         }
 
 

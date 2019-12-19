@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.openclassrooms.realestatemanager.R
 import kotlinx.android.synthetic.main.activity_loan.*
 import java.math.RoundingMode
@@ -23,6 +25,7 @@ class LoanActivity : AppCompatActivity() {
     // Calculate loan from data input
     private fun calculateLoan() {
 
+
         var contribution = 0.0
 
         if (capital_contribution_text_input.text != null) {
@@ -35,7 +38,7 @@ class LoanActivity : AppCompatActivity() {
 
         val monthlyPayment = ((loan - contribution) * (interest / 100) / 12) / (1 - (1 + (interest / 100) / 12).pow(-(length * 12)))
         val totalPayment = monthlyPayment * length * 12
-        val interests = totalPayment - loan - contribution
+        val interests = totalPayment - loan
 
         total_payment_value.text = String.format("%.2f", totalPayment)
         monthly_payment_value.text = String.format("%.2f", monthlyPayment)

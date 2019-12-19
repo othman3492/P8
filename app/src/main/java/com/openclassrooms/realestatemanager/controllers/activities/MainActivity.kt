@@ -4,18 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment
+import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment
 import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment
+import com.openclassrooms.realestatemanager.models.RealEstate
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragmentManager = supportFragmentManager
+
+    var isTablet = false
+    private var realEstate = RealEstate()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(main_toolbar)
         updateUIWhenCreating()
         configureBottomNavigationView()
+
+
+        // Verify if device is a tablet
+        val detailsFragment = findViewById<View>(R.id.details_fragment_container)
+        isTablet = detailsFragment?.visibility == View.VISIBLE
 
     }
 
@@ -52,9 +62,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    // Enable back button if fragment isn't home
+    override fun onBackPressed() {
+
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
     private fun updateUIWhenCreating() {
 
         displayFragment(ListFragment.newInstance())
+        displaySecondFragment(DetailsFragment.newInstance(realEstate))
     }
 
 
@@ -74,7 +97,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayFragment(fragment: Fragment) {
 
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.addToBackStack(null)
+        transaction.replace(R.id.fragment_container, fragment).commit()
+
+    }
+
+
+    private fun displaySecondFragment(fragment: Fragment) {
+
+        if (isTablet) {
+
+            val secondTransaction = supportFragmentManager.beginTransaction()
+            secondTransaction.addToBackStack(null)
+            secondTransaction.replace(R.id.details_fragment_container, fragment).commit()
+        }
     }
 
 

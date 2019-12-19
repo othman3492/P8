@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.views
 
 import android.content.Context
 import android.content.res.Resources
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_element_layout.view.*
 
 
@@ -62,6 +64,14 @@ class ElementAdapter(val context: Context, private val clickListener: (RealEstat
 
         // Assign data to the views and handle click events through a function parameter
         fun bind(realEstate: RealEstate, clickListener: (RealEstate) -> Unit) {
+
+            if (realEstate.imageList.size > 0) {
+
+                Picasso.get().load(Uri.parse(realEstate.imageList[0])).into(view.element_image)
+            } else {
+
+                view.element_image.setBackgroundResource(R.drawable.baseline_black_house_24)
+            }
 
             view.element_type.text = types[requireNotNull(realEstate.type)]
             view.element_location.text = realEstate.address?.city

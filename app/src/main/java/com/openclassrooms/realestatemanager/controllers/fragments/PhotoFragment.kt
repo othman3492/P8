@@ -48,8 +48,16 @@ class PhotoFragment : DialogFragment() {
 
     private lateinit var photoPath: Uri
     private lateinit var adapter: PhotoAdapter
+    private lateinit var onDismissListener: OnDismissListener
 
     private var realEstate: RealEstate = RealEstate()
+
+
+    // Create a custom OnDismissListener
+    interface OnDismissListener {
+
+        fun dismissed(realEstate: RealEstate)
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,7 +69,6 @@ class PhotoFragment : DialogFragment() {
 
         // Get current Real Estate data if it exists
         realEstate = this.arguments!!.getSerializable("PHOTO_REAL_ESTATE") as RealEstate
-        Toast.makeText(activity, "${realEstate!!.address}", Toast.LENGTH_SHORT).show() // TEST
 
 
         configureButtons()
@@ -215,21 +222,16 @@ class PhotoFragment : DialogFragment() {
     }
 
 
-    // Save modifications in real estate photo list and pass it to Activity via intent
+    fun setOnDismissListener(onDismissListener: OnDismissListener) {
+
+        this.onDismissListener = onDismissListener
+    }
+
+
+    // Save modifications in real estate photo list and pass it to Activity when fragment is dismissed
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        val activity = activity
-        if (activity is DialogInterface.OnDismissListener) {
-
-            val updateIntent = Intent(activity, AddEditActivity::class.java)
-            updateIntent.putExtra("PHOTO_UPDATE_REAL_ESTATE", realEstate)
-
-            activity.onDismiss(dialog)
-        }
-
-
-
-
+        onDismissListener.dismissed(realEstate)
     }
 }

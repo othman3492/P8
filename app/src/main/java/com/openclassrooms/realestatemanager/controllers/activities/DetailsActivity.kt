@@ -5,19 +5,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.views.DetailsPhotoAdapter
+import com.openclassrooms.realestatemanager.views.ElementAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
 
 
-    // Retrieve real estate from MainActivity
-    var realEstate: RealEstate? = null
+    var realEstate: RealEstate? = RealEstate()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +35,8 @@ class DetailsActivity : AppCompatActivity() {
         realEstate = intent.getSerializableExtra("REAL ESTATE") as RealEstate
 
         configureToolbar()
-        getDataAndUpdateUI()
+
+        displayFragment()
 
 
     }
@@ -74,39 +82,15 @@ class DetailsActivity : AppCompatActivity() {
     }
 
 
-    private fun getDataAndUpdateUI() {
+    private fun displayFragment() {
 
-        // Load data into views
-        description_text.text = realEstate?.description
-        surface_value.text = String.format(this.resources.getString(R.string.surface_in_sq), realEstate?.surface)
-        rooms_value.text = realEstate?.nbRooms.toString()
-        bedrooms_value.text = realEstate?.nbBedrooms.toString()
-        bathrooms_value.text = realEstate?.nbBathrooms.toString()
-        location_value.text = String.format(this.resources.getString(R.string.lines_address),
-                realEstate?.address?.street,
-                realEstate?.address?.postalCode,
-                realEstate?.address?.city)
+        val fragment = DetailsFragment(realEstate!!)
 
-        // Load static map
-        Picasso.get()
-                .load(loadMap(realEstate!!))
-                .placeholder(R.drawable.baseline_map_24)
-                .into(details_map)
-
+        supportFragmentManager.beginTransaction().replace(R.id.details_fragment_container, fragment).commit()
     }
 
 
-    // Display static map with place location
-    private fun loadMap(realEstate: RealEstate): String {
 
-        val location = "${realEstate.latitude},${realEstate.longitude}"
 
-        // Set center of the map
-        val mapURLInitial = "https://maps.googleapis.com/maps/api/staticmap?center=$location"
-        // Set properties and marker
-        val mapURLProperties = "&zoom=15&size=160x160&markers=size:tiny%7Ccolor:blue%7C$location"
-        val key = "&key=${BuildConfig.static_apikey}"
 
-        return mapURLInitial + mapURLProperties + key
-    }
 }

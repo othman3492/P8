@@ -51,6 +51,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                               savedInstanceState: Bundle?): View? {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        getLocationPermission()
 
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
@@ -69,7 +70,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         googleMap = map
 
-        getLocationPermission()
         getDeviceLocation(map)
         configureViewModel()
         getData()
@@ -137,10 +137,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                     if (marker.position == it.position) {
 
-                        val intent = Intent(activity, DetailsActivity::class.java)
-                        intent.putExtra("REAL ESTATE", realEstate1)
-                        startActivity(intent)
+                        // Display DetailsFragment when clicked after verifying that device is tablet
+                        val isTablet = resources.getBoolean(R.bool.isTablet)
+                        val fragment = DetailsFragment.newInstance(realEstate1)
+
+                        val transaction = activity!!.supportFragmentManager.beginTransaction()
+                        transaction.addToBackStack(null)
+
+                        if (isTablet) {
+                            transaction.replace(R.id.details_fragment_container, fragment).commit()
+                        } else {
+                            transaction.replace(R.id.fragment_container, fragment).commit()
+                        }
+
                     }
+
                 }
 
                 return@setOnMarkerClickListener true
