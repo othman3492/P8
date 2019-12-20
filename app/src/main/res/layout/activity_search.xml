@@ -465,56 +465,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/min_creation_date_search_field" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:id="@+id/min_creation_date_search_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                android:hint="@string/min_date"
+                android:text="@string/min_date"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@id/max_creation_date_search_field"
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toStartOf="@id/min_bathrooms_search_field"
-                app:layout_constraintTop_toBottomOf="@id/min_bathrooms_search_field">
+                app:layout_constraintTop_toBottomOf="@id/min_bathrooms_search_field" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/min_creation_date_search_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:id="@+id/max_creation_date_search_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                android:hint="@string/max_date"
+                android:text="@string/max_date"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toStartOf="@id/max_price_search_field"
-                app:layout_constraintTop_toBottomOf="@id/min_bathrooms_search_field">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/max_creation_date_search_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/min_bathrooms_search_field" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/switch_search_layout"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/search_creation_date_textview"
+                app:layout_constraintStart_toStartOf="@id/min_creation_date_search_field"
                 app:layout_constraintTop_toBottomOf="@id/max_creation_date_search_field">
 
                 <TextView
@@ -522,9 +507,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/sold"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -533,6 +520,7 @@
                     android:id="@+id/status_search_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="30dp"
                     android:theme="@style/SwitchTheme"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -557,50 +545,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/min_selling_date_search_field" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:id="@+id/min_selling_date_search_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-                android:hint="@string/min_date"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/min_date"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@id/max_selling_date_search_field"
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toEndOf="@id/search_selling_date_textview"
-                app:layout_constraintTop_toBottomOf="@id/switch_search_layout">
+                app:layout_constraintStart_toStartOf="@id/min_creation_date_search_field"
+                app:layout_constraintTop_toBottomOf="@id/switch_search_layout" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/min_selling_date_search_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:id="@+id/max_selling_date_search_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                android:hint="@string/max_date"
+                android:text="@string/max_date"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toStartOf="@id/max_price_search_field"
-                app:layout_constraintTop_toBottomOf="@id/switch_search_layout">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/max_selling_date_search_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/switch_search_layout" />
 
             <Button
                 android:id="@+id/search_property_button"

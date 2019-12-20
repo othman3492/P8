@@ -33,9 +33,7 @@ class ListFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(): ListFragment {
-            return ListFragment()
-        }
+        fun newInstance() = ListFragment()
     }
 
 
@@ -72,7 +70,7 @@ class ListFragment : Fragment() {
     private fun startDetailsActivityOnClick(realEstate: RealEstate) {
 
         val isTablet = resources.getBoolean(R.bool.isTablet)
-        val fragment = DetailsFragment.newInstance(realEstate)
+        val fragment = DetailsFragment.newInstance(realEstate, Bundle())
 
         val transaction = activity!!.supportFragmentManager.beginTransaction()
         transaction.addToBackStack(null)

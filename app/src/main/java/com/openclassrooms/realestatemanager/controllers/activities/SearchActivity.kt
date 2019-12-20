@@ -55,10 +55,10 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         configureButtons()
 
         // Configure date pickers
-        configureDatePicker(min_creation_date_search_text_input)
-        configureDatePicker(max_creation_date_search_text_input)
-        configureDatePicker(min_selling_date_search_text_input)
-        configureDatePicker(min_selling_date_search_text_input)
+        configureDatePicker(min_creation_date_search_field)
+        configureDatePicker(max_creation_date_search_field)
+        configureDatePicker(min_selling_date_search_field)
+        configureDatePicker(max_selling_date_search_field)
 
         // Show selling date pickers if sold switch is checked
         status_search_switch.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -91,7 +91,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
 
-    private fun configureDatePicker(editText: EditText) {
+    private fun configureDatePicker(textView: TextView) {
 
         calendar = Calendar.getInstance()
 
@@ -101,11 +101,11 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            updateDateInView()
+            updateDateInView(textView)
         }
 
         // Open DatePickerDialog when clicked
-        editText.setOnClickListener {
+        textView.setOnClickListener {
             DatePickerDialog(this@SearchActivity, dateSetListener,
                     // set DatePickerDialog to point to today's date when it loads up
                     calendar.get(Calendar.YEAR),
@@ -116,11 +116,11 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     // Create pattern and display selected date
-    private fun updateDateInView() {
+    private fun updateDateInView(textView: TextView) {
 
         val myFormat = "dd/MM/yy"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        min_creation_date_search_text_input!!.setText(sdf.format(calendar.time))
+        textView.setText(sdf.format(calendar.time))
     }
 
 
@@ -159,8 +159,8 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val maxBedrooms: Int? = max_bedrooms_search_text_input.text.toString().toIntOrNull()
         val minBathrooms: Int? = min_bathrooms_search_text_input.text.toString().toIntOrNull()
         val maxBathrooms: Int? = max_bathrooms_search_text_input.text.toString().toIntOrNull()
-        val minCreationDate = min_creation_date_search_text_input.text.toString()
-        val maxCreationDate = max_creation_date_search_text_input.text.toString()
+        val minCreationDate = min_creation_date_search_field.text.toString()
+        val maxCreationDate = max_creation_date_search_field.text.toString()
         val status = status_search_switch.isChecked
 
 

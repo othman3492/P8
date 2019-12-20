@@ -26,8 +26,10 @@ class DetailsFragment(var realEstate: RealEstate) : Fragment() {
     private lateinit var adapter: DetailsPhotoAdapter
 
     companion object {
-        fun newInstance(realEstate: RealEstate): DetailsFragment {
-            return DetailsFragment(realEstate)
+        fun newInstance(realEstate: RealEstate, bundle: Bundle): DetailsFragment {
+            val fragment = DetailsFragment(realEstate)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

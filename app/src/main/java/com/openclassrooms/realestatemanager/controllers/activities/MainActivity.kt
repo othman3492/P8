@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateUIWhenCreating() {
 
         displayFragment(ListFragment.newInstance())
-        displaySecondFragment(DetailsFragment.newInstance(realEstate))
+        displaySecondFragment(DetailsFragment.newInstance(realEstate, Bundle()))
     }
 
 
