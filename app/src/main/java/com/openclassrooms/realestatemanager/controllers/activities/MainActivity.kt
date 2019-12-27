@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.controllers.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -21,14 +22,20 @@ class MainActivity : AppCompatActivity() {
 
     var isTablet = false
     private var realEstate = RealEstate()
+    private var fragmentId = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (savedInstanceState != null) {
+
+            fragmentId = savedInstanceState.getInt("FRAGMENT_ID")
+        }
+
         setSupportActionBar(main_toolbar)
-        updateUIWhenCreating()
+        updateUIWhenCreating(fragmentId)
         configureBottomNavigationView()
 
 
@@ -36,6 +43,12 @@ class MainActivity : AppCompatActivity() {
         val detailsFragment = findViewById<View>(R.id.details_fragment_container)
         isTablet = detailsFragment?.visibility == View.VISIBLE
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("FRAGMENT_ID", fragmentId)
     }
 
 
@@ -74,10 +87,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUIWhenCreating() {
+    private fun updateUIWhenCreating(fragmentId: Int) {
 
-        displayFragment(ListFragment.newInstance())
-        displaySecondFragment(DetailsFragment.newInstance(realEstate, Bundle()))
+        if (fragmentId == 0) {
+            displayFragment(ListFragment.newInstance())
+            displaySecondFragment(DetailsFragment.newInstance(realEstate, Bundle()))
+        } else if (fragmentId == 1) {
+            displayFragment(MapFragment.newInstance())
+            displaySecondFragment(DetailsFragment.newInstance(realEstate, Bundle()))
+        }
     }
 
 
@@ -96,6 +114,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun displayFragment(fragment: Fragment) {
+
+        if (fragment is ListFragment) {
+            fragmentId = 0
+        } else if (fragment is MapFragment) {
+            fragmentId = 1
+        }
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.addToBackStack(null)

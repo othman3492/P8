@@ -127,11 +127,8 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         // Update object
         realEstateViewModel.updateRealEstate(realEstate)
 
-        // Return to DetailsActivity
-        val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra("REAL ESTATE", realEstate)
-        startActivity(intent)
-
+        // Return to DetailsFragment
+        finish()
     }
 
 

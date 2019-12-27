@@ -143,7 +143,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun executeUserSearch() {
 
-        val keywords = keywords_text_input.toString().split(" ")
+        val keywords = keywords_text_input.text.toString().split(" ")
         val street: String? = street_search_text_input.text.toString()
         val postalCode: String? = postal_code_search_text_input.text.toString()
         val city: String? = city_search_text_input.text.toString()

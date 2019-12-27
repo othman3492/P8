@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
-import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,14 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
-import com.openclassrooms.realestatemanager.controllers.activities.MainActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import com.openclassrooms.realestatemanager.views.ElementAdapter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 

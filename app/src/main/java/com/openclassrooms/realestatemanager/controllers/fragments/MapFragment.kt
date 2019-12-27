@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.telecom.Call
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,19 +14,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.tasks.OnSuccessListener
 
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.activities.DetailsActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
@@ -135,7 +128,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 for (realEstate1 in list) {
 
-                    if (marker.position == it.position) {
+                    val location1 = LatLng(realEstate1.latitude!!, realEstate1.longitude!!)
+
+                    if (location1 == it.position) {
 
                         // Display DetailsFragment when clicked after verifying that device is tablet
                         val isTablet = resources.getBoolean(R.bool.isTablet)

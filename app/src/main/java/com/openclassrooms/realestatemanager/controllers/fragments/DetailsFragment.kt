@@ -5,25 +5,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.BuildConfig
 
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.activities.AddEditActivity
-import com.openclassrooms.realestatemanager.controllers.activities.MainActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.viewmodels.Injection
+import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.views.DetailsPhotoAdapter
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.fragment_details.*
-import kotlinx.android.synthetic.main.main_toolbar.*
 
 
 class DetailsFragment(var realEstate: RealEstate) : Fragment() {
 
 
     private lateinit var adapter: DetailsPhotoAdapter
+    private lateinit var realEstateViewModel: RealEstateViewModel
 
     companion object {
         fun newInstance(realEstate: RealEstate, bundle: Bundle): DetailsFragment {
@@ -44,8 +46,8 @@ class DetailsFragment(var realEstate: RealEstate) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getDataAndUpdateUI()
-
+        configureViewModel()
+        getRealEstate(realEstate)
     }
 
 
@@ -83,7 +85,7 @@ class DetailsFragment(var realEstate: RealEstate) : Fragment() {
     }
 
 
-    private fun getDataAndUpdateUI() {
+    private fun getDataAndUpdateUI(realEstate: RealEstate) {
 
         // Load photos
         configureRecyclerView()
@@ -120,6 +122,21 @@ class DetailsFragment(var realEstate: RealEstate) : Fragment() {
         val key = "&key=${BuildConfig.static_apikey}"
 
         return mapURLInitial + mapURLProperties + key
+    }
+
+
+    private fun configureViewModel() {
+
+        val viewModelFactory = Injection.provideViewModelFactory(requireContext())
+        realEstateViewModel = ViewModelProviders.of(this,
+                viewModelFactory).get(RealEstateViewModel::class.java)
+    }
+
+
+    private fun getRealEstate(realEstate: RealEstate) {
+
+        realEstateViewModel.getRealEstateById(realEstate.propertyId.toInt()).observe(this,
+                Observer<RealEstate> { getDataAndUpdateUI(it) })
     }
 }
 
