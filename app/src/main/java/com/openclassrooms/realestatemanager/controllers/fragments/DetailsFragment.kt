@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.controllers.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.telecom.Call
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,16 +22,20 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.*
 
 
-class DetailsFragment(var realEstate: RealEstate) : Fragment() {
+class DetailsFragment : Fragment() {
 
 
     private lateinit var adapter: DetailsPhotoAdapter
     private lateinit var realEstateViewModel: RealEstateViewModel
+    private lateinit var realEstate: RealEstate
 
     companion object {
-        fun newInstance(realEstate: RealEstate, bundle: Bundle): DetailsFragment {
-            val fragment = DetailsFragment(realEstate)
-            fragment.arguments = bundle
+        fun newInstance(realEstate: RealEstate): DetailsFragment {
+            val args = Bundle()
+            args.putSerializable("REAL_ESTATE", realEstate)
+
+            val fragment = DetailsFragment()
+            fragment.arguments = args
             return fragment
         }
     }
@@ -45,6 +50,8 @@ class DetailsFragment(var realEstate: RealEstate) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        realEstate = arguments!!.getSerializable("REAL_ESTATE") as RealEstate
 
         configureViewModel()
         getRealEstate(realEstate)

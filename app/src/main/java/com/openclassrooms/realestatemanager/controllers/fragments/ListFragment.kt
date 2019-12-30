@@ -64,7 +64,7 @@ class ListFragment : Fragment() {
     private fun startDetailsActivityOnClick(realEstate: RealEstate) {
 
         val isTablet = resources.getBoolean(R.bool.isTablet)
-        val fragment = DetailsFragment.newInstance(realEstate, Bundle())
+        val fragment = DetailsFragment.newInstance(realEstate)
 
         val transaction = activity!!.supportFragmentManager.beginTransaction()
         transaction.addToBackStack(null)

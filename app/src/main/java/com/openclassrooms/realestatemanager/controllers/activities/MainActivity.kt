@@ -91,10 +91,10 @@ class MainActivity : AppCompatActivity() {
 
         if (fragmentId == 0) {
             displayFragment(ListFragment.newInstance())
-            displaySecondFragment(DetailsFragment.newInstance(realEstate, Bundle()))
+            displaySecondFragment(DetailsFragment.newInstance(realEstate))
         } else if (fragmentId == 1) {
             displayFragment(MapFragment.newInstance())
-            displaySecondFragment(DetailsFragment.newInstance(realEstate, Bundle()))
+            displaySecondFragment(DetailsFragment.newInstance(realEstate))
         }
     }
 
@@ -115,10 +115,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayFragment(fragment: Fragment) {
 
-        if (fragment is ListFragment) {
-            fragmentId = 0
-        } else if (fragment is MapFragment) {
-            fragmentId = 1
+        when (fragment) {
+            is ListFragment -> {
+                fragmentId = 0
+            }
+            is MapFragment -> {
+                fragmentId = 1
+            }
+            is DetailsFragment -> {
+                fragmentId = 2
+            }
         }
 
         val transaction = supportFragmentManager.beginTransaction()

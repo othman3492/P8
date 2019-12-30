@@ -134,7 +134,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                         // Display DetailsFragment when clicked after verifying that device is tablet
                         val isTablet = resources.getBoolean(R.bool.isTablet)
-                        val fragment = DetailsFragment.newInstance(realEstate1, Bundle())
+                        val fragment = DetailsFragment.newInstance(realEstate1)
 
                         val transaction = activity!!.supportFragmentManager.beginTransaction()
                         transaction.addToBackStack(null)
