@@ -2,16 +2,18 @@ package com.openclassrooms.realestatemanager.controllers.activities
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
@@ -165,7 +167,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val maxSellingDate = max_selling_date_search_field.text.toString()
 
 
-        var query = "SELECT * FROM properties WHERE type = :$type "
+        var query = "SELECT * FROM properties WHERE type = $type "
 
 
         // Verify filled text inputs and add specific requests to full query
@@ -175,53 +177,51 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         if (street != "") {
-            query += "AND street = :$street "
+            query += "AND street = '$street' "
         }
 
         if (postalCode != "") {
-            query += "AND postalCode = :$postalCode "
+            query += "AND postalCode = '$postalCode' "
         }
 
         if (city != "") {
-            query += "AND city = :$city "
+            query += "AND city = '$city' "
         }
 
         if (agent != "") {
-            query += "AND agent = :$agent "
+            query += "AND agent = '$agent' "
         }
 
         if (minPrice != null && maxPrice != null && maxPrice > minPrice) {
-            query += "AND price BETWEEN :$minPrice AND :$maxPrice "
+            query += "AND price BETWEEN $minPrice AND $maxPrice "
         }
 
         if (minSurface != null && maxSurface != null && maxSurface > minSurface) {
-            query += "AND surface BETWEEN :$minSurface AND :$maxSurface "
+            query += "AND surface BETWEEN $minSurface AND $maxSurface "
         }
 
         if (minRooms != null && maxRooms != null && maxRooms > minRooms) {
-            query += "AND nbRooms BETWEEN :$minRooms AND :$maxRooms "
+            query += "AND nbRooms BETWEEN $minRooms AND $maxRooms "
         }
 
         if (minBedrooms != null && maxBedrooms != null && maxBedrooms > minBedrooms) {
-            query += "AND nbBedrooms BETWEEN :$minBedrooms AND :$maxBedrooms "
+            query += "AND nbBedrooms BETWEEN $minBedrooms AND $maxBedrooms "
         }
 
         if (minBathrooms != null && maxBathrooms != null && maxBathrooms > minBathrooms) {
-            query += "AND nbBathrooms BETWEEN :$minBathrooms AND :$maxBathrooms "
-        }
-
-        if (minPrice != null && maxPrice != null && maxPrice > minPrice) {
-            query += "AND price BETWEEN :$minPrice AND :$maxPrice "
+            query += "AND nbBathrooms BETWEEN $minBathrooms AND $maxBathrooms "
         }
 
 
-        val simpleSQLiteQuery = SimpleSQLiteQuery(query)
+        // Pass query to MainActivity to display results in both ListFragment and MapFragment
+        val resultsIntent = Intent(this, MainActivity::class.java)
+        resultsIntent.putExtra("QUERY", query)
+        startActivity(resultsIntent)
 
-
-        realEstateViewModel.getRealEstateFromUserSearch(simpleSQLiteQuery).observe(this,
-                Observer<List<RealEstate>> { Toast.makeText(this, it.size.toString(), Toast.LENGTH_SHORT).show() })
     }
 
 }
+
+
 
 

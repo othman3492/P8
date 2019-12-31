@@ -62,7 +62,6 @@
     <string name="manage_photos">MANAGE PHOTOS</string>
     <string name="property_photos">Property photos</string>
     <string name="media">Media</string>
-    <string name="back">BACK</string>
     <string name="search_property">SEARCH PROPERTY</string>
     <string name="keywords">Keywords (school, shops...)</string>
     <string name="min">Min</string>
@@ -74,6 +73,7 @@
     <string name="max_date">Max. date</string>
     <string name="delete">DELETE</string>
     <string name="save_changes">SAVE CHANGES</string>
+    <string name="back">BACK</string>
 
 
 </resources>

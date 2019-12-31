@@ -149,9 +149,10 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         realEstate.nbBathrooms = bathrooms_text_input.text.toString().toIntOrNull()
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
         realEstate.agent = agent_text_input.text.toString()
+        realEstate.status = status_switch.isChecked
+
         realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.latitude
         realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.longitude
-        realEstate.status = status_switch.isChecked
 
 
         // Save today date as sale date if switch is checked and no sale date is already saved
@@ -170,7 +171,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
 
     // Get latitude/longitude from address string
-    private fun getLocationFromAddress(context: Context, strAddress: String): LatLng? {
+    private fun getLocationFromAddress(context: Context, strAddress: String?): LatLng? {
 
         val coder = Geocoder(context)
         val address: List<android.location.Address>?

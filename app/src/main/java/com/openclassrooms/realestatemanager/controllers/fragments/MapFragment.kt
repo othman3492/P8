@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
@@ -154,3 +155,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 }
+
+
+

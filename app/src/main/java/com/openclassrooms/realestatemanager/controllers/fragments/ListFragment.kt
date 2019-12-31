@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
+import android.icu.lang.UCharacter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.Injection
@@ -27,7 +29,15 @@ class ListFragment : Fragment() {
 
 
     companion object {
-        fun newInstance() = ListFragment()
+        fun newInstance(query: String?): ListFragment {
+
+            val args = Bundle()
+            args.putString("QUERY", query)
+
+            val fragment = ListFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 
@@ -77,12 +87,6 @@ class ListFragment : Fragment() {
     }
 
 
-    private fun updateList(list: List<RealEstate>) {
-
-        this.adapter.updateData(list)
-    }
-
-
     private fun configureViewModel() {
 
         val viewModelFactory = Injection.provideViewModelFactory(requireContext())
@@ -93,8 +97,24 @@ class ListFragment : Fragment() {
 
     private fun getElements() {
 
-        realEstateViewModel.getAllRealEstates().observe(this,
-                Observer<List<RealEstate>> { updateList(it) })
+        val query = arguments!!.getString("QUERY")
+
+        if (query != null) {
+
+            realEstateViewModel.getRealEstateFromUserSearch(SimpleSQLiteQuery(query)).observe(this,
+                    Observer<List<RealEstate>> { updateList(it) })
+
+        } else {
+
+            realEstateViewModel.getAllRealEstates().observe(this,
+                    Observer<List<RealEstate>> { updateList(it) })
+        }
+    }
+
+
+    private fun updateList(list: List<RealEstate>) {
+
+        this.adapter.updateData(list)
     }
 
 

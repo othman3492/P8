@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.main_toolbar.*
 class MainActivity : AppCompatActivity() {
 
 
-    var isTablet = false
+    private var isTablet = false
     private var realEstate = RealEstate()
     private var fragmentId = 0
 
@@ -87,14 +87,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateUIWhenCreating(fragmentId: Int) {
 
-        if (fragmentId == 0) {
-            displayFragment(ListFragment.newInstance())
+        if (intent.getStringExtra("QUERY") != null) {
+
+            val query = intent.getStringExtra("QUERY")
+
+            displayFragment(ListFragment.newInstance(query))
             displaySecondFragment(DetailsFragment.newInstance(realEstate))
-        } else if (fragmentId == 1) {
-            displayFragment(MapFragment.newInstance())
-            displaySecondFragment(DetailsFragment.newInstance(realEstate))
+
+            // Modify bottom navigation menu to add back button
+            bottom_nav_view.visibility = View.GONE
+            back_nav_view.visibility = View.VISIBLE
+
+        } else {
+
+            if (fragmentId == 0) {
+                displayFragment(ListFragment.newInstance(null))
+                displaySecondFragment(DetailsFragment.newInstance(realEstate))
+            } else if (fragmentId == 1) {
+                displayFragment(MapFragment.newInstance())
+                displaySecondFragment(DetailsFragment.newInstance(realEstate))
+            }
         }
     }
 
@@ -104,8 +119,21 @@ class MainActivity : AppCompatActivity() {
         bottom_nav_view.setOnNavigationItemSelectedListener {
 
             when (it.itemId) {
-                R.id.bottom_list_view -> displayFragment(ListFragment.newInstance())
+                R.id.bottom_list_view -> displayFragment(ListFragment.newInstance(null))
                 R.id.bottom_map_view -> displayFragment(MapFragment.newInstance())
+            }
+
+            return@setOnNavigationItemSelectedListener true
+        }
+
+        back_nav_view.setOnNavigationItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.back_bottom -> {
+                    displayFragment(ListFragment.newInstance(null))
+                    back_nav_view.visibility = View.GONE
+                    bottom_nav_view.visibility = View.VISIBLE
+                }
             }
 
             return@setOnNavigationItemSelectedListener true
@@ -143,11 +171,6 @@ class MainActivity : AppCompatActivity() {
             secondTransaction.replace(R.id.details_fragment_container, fragment).commit()
         }
     }
-
-
-
-
-
 
 
 }

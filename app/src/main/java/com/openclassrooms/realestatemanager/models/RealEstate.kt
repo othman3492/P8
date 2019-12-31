@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.models
 import android.content.ContentValues
 import android.location.Geocoder
 import android.net.Uri
+import android.os.Parcelable
 import androidx.annotation.Nullable
 import androidx.room.*
 import java.io.Serializable
