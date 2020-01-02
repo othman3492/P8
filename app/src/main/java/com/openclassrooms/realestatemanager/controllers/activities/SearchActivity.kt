@@ -14,6 +14,7 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
 import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
@@ -32,6 +33,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // SPINNERS
     private var types: Array<String>? = null
     private var typeSpinnerTextView: TextView? = null
+    private var isSpinnerVisible = true
 
     var calendar: Calendar = Calendar.getInstance()
 
@@ -60,6 +62,20 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         configureDatePicker(max_creation_date_search_field)
         configureDatePicker(min_selling_date_search_field)
         configureDatePicker(max_selling_date_search_field)
+
+        // Configure checkedTextView and show/hide spinner
+        all_types_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if (isChecked) {
+
+                type_search_spinner.visibility = View.INVISIBLE
+                isSpinnerVisible = false
+            } else {
+
+                type_search_spinner.visibility = View.VISIBLE
+                isSpinnerVisible = true
+            }
+        }
 
         // Show selling date pickers if sold switch is checked
         status_search_switch.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -144,12 +160,18 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun executeUserSearch() {
 
-        val keywords = keywords_text_input.text.toString().split(" ")
+        // Verify if one or all types are selected
+        var type: Int? = null
+        if (isSpinnerVisible) {
+            type = type_search_spinner.selectedItemPosition
+        }
+
+        val keywords = keywords_text_input.text.toString()
         val street: String? = street_search_text_input.text.toString()
         val postalCode: String? = postal_code_search_text_input.text.toString()
         val city: String? = city_search_text_input.text.toString()
         val agent: String? = agent_search_text_input.text.toString()
-        val type: Int = type_search_spinner.selectedItemPosition
+        val nbPhotos: Int? = nb_photos_text_input.text.toString().toIntOrNull()
         val minPrice: Int? = min_price_search_text_input.text.toString().toIntOrNull()
         val maxPrice: Int? = max_price_search_text_input.text.toString().toIntOrNull()
         val minSurface: Int? = min_surface_search_text_input.text.toString().toIntOrNull()
@@ -167,13 +189,23 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val maxSellingDate = max_selling_date_search_field.text.toString()
 
 
-        var query = "SELECT * FROM properties WHERE type = $type "
+        var query = "SELECT * FROM properties WHERE "
 
 
         // Verify filled text inputs and add specific requests to full query
 
-        if (keywords.isNotEmpty()) {
-            query += ""
+        query += if (status) {
+            "status = 1 "
+        } else {
+            "status = 0 "
+        }
+
+        if (type != null) {
+            query += "AND type = $type "
+        }
+
+        if (keywords != "") {
+            query += "AND description LIKE '%$keywords%' "
         }
 
         if (street != "") {
@@ -192,25 +224,66 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             query += "AND agent = '$agent' "
         }
 
-        if (minPrice != null && maxPrice != null && maxPrice > minPrice) {
-            query += "AND price BETWEEN $minPrice AND $maxPrice "
+        if (nbPhotos != null) {
+            query += "AND nbImages >= $nbPhotos "
         }
 
-        if (minSurface != null && maxSurface != null && maxSurface > minSurface) {
-            query += "AND surface BETWEEN $minSurface AND $maxSurface "
+        if (minPrice != null) {
+            query += "AND price >= $minPrice "
         }
 
-        if (minRooms != null && maxRooms != null && maxRooms > minRooms) {
-            query += "AND nbRooms BETWEEN $minRooms AND $maxRooms "
+        if (maxPrice != null) {
+            query += "AND price <= $maxPrice "
         }
 
-        if (minBedrooms != null && maxBedrooms != null && maxBedrooms > minBedrooms) {
-            query += "AND nbBedrooms BETWEEN $minBedrooms AND $maxBedrooms "
+        if (minSurface != null) {
+            query += "AND surface >= $minSurface "
         }
 
-        if (minBathrooms != null && maxBathrooms != null && maxBathrooms > minBathrooms) {
-            query += "AND nbBathrooms BETWEEN $minBathrooms AND $maxBathrooms "
+        if (maxSurface != null) {
+            query += "AND surface <= $maxSurface "
         }
+
+        if (minRooms != null) {
+            query += "AND nbRooms >= $minRooms "
+        }
+
+        if (maxRooms != null) {
+            query += "AND nbRooms <= $maxRooms "
+        }
+
+        if (minBedrooms != null) {
+            query += "AND nbBedrooms >= $minBedrooms "
+        }
+
+        if (maxBedrooms != null) {
+            query += "AND nbBedrooms <= $maxBedrooms "
+        }
+
+        if (minBathrooms != null) {
+            query += "AND nbBathrooms >= $minBathrooms "
+        }
+
+        if (maxBathrooms != null) {
+            query += "AND nbBathrooms <= $maxBathrooms "
+        }
+
+        if (minCreationDate != "Min. date") {
+            query += "AND creationDate >= ${Utils.formatDateForQuery(minCreationDate)} "
+        }
+
+        if (maxCreationDate != "Max. date") {
+            query += "AND creationDate <= ${Utils.formatDateForQuery(maxCreationDate)} "
+        }
+
+        if (minSellingDate != "Min. date") {
+            query += "AND saleDate >= ${Utils.formatDateForQuery(minSellingDate)} "
+        }
+
+        if (maxSellingDate != "Max. date") {
+            query += "AND saleDate <= ${Utils.formatDateForQuery(maxSellingDate)} "
+        }
+
 
 
         // Pass query to MainActivity to display results in both ListFragment and MapFragment

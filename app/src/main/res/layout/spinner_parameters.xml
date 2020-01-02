@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:gravity="start"
     android:padding="5dip"
-    android:textSize="20sp"
+    android:textSize="17sp"
     android:textStyle="bold" />

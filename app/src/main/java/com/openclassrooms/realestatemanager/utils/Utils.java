@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -55,6 +56,22 @@ public class Utils {
 
         return outputFormat.format(date);
     }
+
+    public static String formatDateForQuery(String dateToConvert) {
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd");
+        Date date = null;
+
+        try {
+            date = inputFormat.parse(dateToConvert);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return outputFormat.format(date);
+    }
+
 
     /**
      * Vérification de la connexion réseau

@@ -45,13 +45,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                               savedInstanceState: Bundle?): View? {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        getLocationPermission()
+
 
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        getLocationPermission()
 
         if (map_view != null) {
             map_view.onCreate(null)

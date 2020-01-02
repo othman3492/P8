@@ -74,6 +74,7 @@
     <string name="delete">DELETE</string>
     <string name="save_changes">SAVE CHANGES</string>
     <string name="back">BACK</string>
+    <string name="all_types">All types</string>
 
 
 </resources>
