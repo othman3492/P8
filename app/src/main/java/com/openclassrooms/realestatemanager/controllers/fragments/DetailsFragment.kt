@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.controllers.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.telecom.Call
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.BuildConfig
-
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.activities.AddEditActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
@@ -117,7 +115,7 @@ class DetailsFragment : Fragment() {
     }
 
 
-    // Display static map with place location
+    // Display static map with real estate location
     private fun loadMap(realEstate: RealEstate): String {
 
         val location = "${realEstate.latitude},${realEstate.longitude}"
@@ -140,6 +138,7 @@ class DetailsFragment : Fragment() {
     }
 
 
+    // Get real estate by ID to refresh details after updating
     private fun getRealEstate(realEstate: RealEstate) {
 
         realEstateViewModel.getRealEstateById(realEstate.propertyId.toInt()).observe(this,

@@ -20,12 +20,6 @@ import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_edit.*
-import kotlinx.android.synthetic.main.activity_add_edit.city_search_text_input
-import kotlinx.android.synthetic.main.activity_add_edit.keywords_text_input
-import kotlinx.android.synthetic.main.activity_add_edit.postal_code_search_text_input
-import kotlinx.android.synthetic.main.activity_add_edit.search_property
-import kotlinx.android.synthetic.main.activity_add_edit.street_search_text_input
-import kotlinx.android.synthetic.main.activity_search.*
 import java.io.IOException
 
 
@@ -119,7 +113,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     }
 
-    // Create RealEstate object from user data input
+    // Update RealEstate object from user data input
     private fun updateObjectInDatabase() {
 
         getDataFromInput(realEstate)

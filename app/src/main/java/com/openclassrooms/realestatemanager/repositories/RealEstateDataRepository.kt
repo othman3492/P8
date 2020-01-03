@@ -28,12 +28,6 @@ class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
         realEstateDao.updateRealEstate(realEstate)
     }
 
-    // DELETE
-    fun deleteRealEstate(id: Long) {
-        realEstateDao.deleteRealEstate(id)
-    }
-
-
     // USER SEARCH QUERY
     fun getRealEstateFromUserSearch(query: SupportSQLiteQuery): LiveData<List<RealEstate>> {
 

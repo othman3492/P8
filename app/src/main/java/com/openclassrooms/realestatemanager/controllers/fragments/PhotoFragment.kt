@@ -3,17 +3,14 @@ package com.openclassrooms.realestatemanager.controllers.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,12 +22,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.activities.AddEditActivity
 import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import com.openclassrooms.realestatemanager.views.ElementAdapter
 import com.openclassrooms.realestatemanager.views.PhotoAdapter
-import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_photo.*
 import java.io.File
 import java.io.IOException
@@ -41,10 +34,10 @@ import java.util.*
 class PhotoFragment : DialogFragment() {
 
 
-    private val IMAGE_PICK_CODE = 1
-    private val GALLERY_PERMISSION_CODE = 11
-    private val CAMERA_PERMISSION_CODE = 21
-    private val CAMERA_CODE = 31
+    private val imagePickCode = 1
+    private val galleryPermissionCode = 11
+    private val cameraPermissionCode = 21
+    private val cameraCode = 31
 
     private lateinit var photoPath: Uri
     private lateinit var adapter: PhotoAdapter
@@ -53,7 +46,7 @@ class PhotoFragment : DialogFragment() {
     private var realEstate: RealEstate = RealEstate()
 
 
-    // Create a custom OnDismissListener
+    // Create a custom OnDismissListener to handle imageList
     interface OnDismissListener {
 
         fun dismissed(realEstate: RealEstate)
@@ -77,10 +70,9 @@ class PhotoFragment : DialogFragment() {
     }
 
 
-    // Configure RecyclerView and assign the click handler to the Adapter
     private fun configureRecyclerView() {
 
-        adapter = PhotoAdapter(requireContext(), realEstate!!)
+        adapter = PhotoAdapter(requireContext(), realEstate)
         photo_recycler_view.adapter = adapter
         photo_recycler_view.layoutManager = LinearLayoutManager(activity)
         photo_recycler_view.addItemDecoration(DividerItemDecoration(photo_recycler_view.context, DividerItemDecoration.VERTICAL))
@@ -107,7 +99,7 @@ class PhotoFragment : DialogFragment() {
                 photoPath = FileProvider.getUriForFile(activity!!, "com.openclassrooms.realestatemanager.fileprovider", photoFile)
 
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoPath)
-                startActivityForResult(cameraIntent, CAMERA_CODE)
+                startActivityForResult(cameraIntent, cameraCode)
             }
         }
     }
@@ -136,7 +128,7 @@ class PhotoFragment : DialogFragment() {
                 // Permission denied
                 val permissions = arrayOf(android.Manifest.permission.CAMERA)
                 // Request permission
-                requestPermissions(permissions, CAMERA_PERMISSION_CODE)
+                requestPermissions(permissions, cameraPermissionCode)
             } else {
                 // Permission granted
                 accessCamera()
@@ -157,7 +149,7 @@ class PhotoFragment : DialogFragment() {
                 // Permission denied
                 val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 // Request permission
-                requestPermissions(permissions, GALLERY_PERMISSION_CODE)
+                requestPermissions(permissions, galleryPermissionCode)
             } else {
                 // Permission granted
                 pickPhotoFromGallery()
@@ -170,11 +162,20 @@ class PhotoFragment : DialogFragment() {
     }
 
 
+    // Search gallery for photos
+    private fun pickPhotoFromGallery() {
+
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, imagePickCode)
+    }
+
+
     // Handle request permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
 
-            GALLERY_PERMISSION_CODE -> {
+            galleryPermissionCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted
                     pickPhotoFromGallery()
@@ -184,7 +185,7 @@ class PhotoFragment : DialogFragment() {
                 }
             }
 
-            CAMERA_PERMISSION_CODE -> {
+            cameraPermissionCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted
                     accessCamera()
@@ -200,12 +201,12 @@ class PhotoFragment : DialogFragment() {
     // Handle picked image result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == imagePickCode) {
 
             realEstate.imageList.add(data?.data.toString())
             adapter.notifyDataSetChanged()
 
-        } else if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CODE) {
+        } else if (resultCode == Activity.RESULT_OK && requestCode == cameraCode) {
 
             realEstate.imageList.add(photoPath.toString())
             adapter.notifyDataSetChanged()
@@ -213,15 +214,7 @@ class PhotoFragment : DialogFragment() {
     }
 
 
-    // Search gallery for photos
-    private fun pickPhotoFromGallery() {
-
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
-
-
+    // Implement custom onDismissListener
     fun setOnDismissListener(onDismissListener: OnDismissListener) {
 
         this.onDismissListener = onDismissListener

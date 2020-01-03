@@ -1,15 +1,10 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import com.openclassrooms.realestatemanager.R
 import kotlinx.android.synthetic.main.activity_loan.*
-import java.math.RoundingMode
 import kotlin.math.pow
-import java.math.BigDecimal as BigDecimal1
 
 class LoanActivity : AppCompatActivity() {
 

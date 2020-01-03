@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.models
 
 import android.content.ContentValues
-import android.location.Geocoder
-import android.net.Uri
-import android.os.Parcelable
-import androidx.annotation.Nullable
-import androidx.room.*
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
 

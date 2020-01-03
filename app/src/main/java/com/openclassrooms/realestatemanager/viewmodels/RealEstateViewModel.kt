@@ -29,11 +29,6 @@ class RealEstateViewModel(private val realEstateDataSource: RealEstateDataReposi
         executor.execute { realEstateDataSource.updateRealEstate(realEstate) }
     }
 
-    fun deleteRealEstate(realEstate: Long) {
-        executor.execute { realEstateDataSource.deleteRealEstate(realEstate) }
-    }
-
-
     fun getRealEstateFromUserSearch(query: SupportSQLiteQuery): LiveData<List<RealEstate>> {
         return realEstateDataSource.getRealEstateFromUserSearch(query)
 

@@ -1,19 +1,14 @@
 package com.openclassrooms.realestatemanager.views
 
 import android.content.Context
-import android.content.res.Resources
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.list_element_layout.view.*
 import kotlinx.android.synthetic.main.list_photo_layout.view.*
 
 
@@ -27,7 +22,7 @@ class PhotoAdapter(val context: Context, val realEstate: RealEstate) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.list_photo_layout, parent, false)
-        return PhotoViewHolder(v, parent.context)
+        return PhotoViewHolder(v)
     }
 
     // Populate ViewHolder with data depending on the position in the list
@@ -45,7 +40,7 @@ class PhotoAdapter(val context: Context, val realEstate: RealEstate) :
     }
 
 
-    class PhotoViewHolder(v: View, private var context: Context) : RecyclerView.ViewHolder(v) {
+    class PhotoViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
 
         private var view: View = v

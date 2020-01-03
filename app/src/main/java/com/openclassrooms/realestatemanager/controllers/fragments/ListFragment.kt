@@ -1,12 +1,11 @@
 package com.openclassrooms.realestatemanager.controllers.fragments
 
 
-import android.icu.lang.UCharacter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -61,7 +60,6 @@ class ListFragment : Fragment() {
     // Configure RecyclerView and assign the click handler to the Adapter
     private fun configureRecyclerView() {
 
-
         adapter = ElementAdapter(requireContext()) { realEstate: RealEstate -> startDetailsActivityOnClick(realEstate) }
         main_recycler_view.adapter = adapter
         main_recycler_view.layoutManager = LinearLayoutManager(activity)
@@ -95,6 +93,7 @@ class ListFragment : Fragment() {
     }
 
 
+    // Verify if there's a search query stored in bundle, and execute the right database query
     private fun getElements() {
 
         val query = arguments!!.getString("QUERY")
@@ -112,6 +111,7 @@ class ListFragment : Fragment() {
     }
 
 
+    // Send updated data to adapter
     private fun updateList(list: List<RealEstate>) {
 
         this.adapter.updateData(list)

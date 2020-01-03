@@ -1,24 +1,17 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
-    <string name="header_image">Header image</string>
     <string name="search">Search</string>
     <string name="modify">Modify</string>
     <string name="add">Add</string>
-    <string name="map">MAP</string>
-    <string name="settings">SETTINGS</string>
     <string name="real_estate_image">Real estate image</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="list_view">LIST VIEW</string>
     <string name="map_view">MAP VIEW</string>
     <string name="description">Description</string>
-    <string name="address">Address</string>
     <string name="city">City</string>
     <string name="postal_code">Postal code</string>
     <string name="price">Price</string>
     <string name="surface">Surface</string>
-    <string name="add_property">ADD PROPERTY</string>
     <string name="nb_of_rooms">Nb of rooms</string>
     <string name="nb_of_bedrooms">Nb of bedrooms</string>
     <string name="nb_of_bathrooms">Nb of bathrooms</string>
@@ -38,7 +31,6 @@
     <string name="location">Location</string>
     <string name="edit_property">EDIT PROPERTY</string>
     <string name="street">Street</string>
-    <string name="add_photo">ADD PHOTO</string>
 
     <string-array name="types_array">
         <item>House</item>
@@ -47,7 +39,6 @@
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loan">Loan</string>
     <string name="loan_calculator">LOAN CALCULATOR</string>
     <string name="loan_amount">Loan amount</string>
@@ -63,7 +54,7 @@
     <string name="property_photos">Property photos</string>
     <string name="media">Media</string>
     <string name="search_property">SEARCH PROPERTY</string>
-    <string name="keywords">Keywords (school, shops...)</string>
+    <string name="keywords">Keywords (school, shops…)</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="min_number_of_photos">Min. number of photos</string>
@@ -72,9 +63,11 @@
     <string name="min_date">Min. date</string>
     <string name="max_date">Max. date</string>
     <string name="delete">DELETE</string>
-    <string name="save_changes">SAVE CHANGES</string>
     <string name="back">BACK</string>
     <string name="all_types">All types</string>
+    <string name="static_map">static map</string>
+    <string name="gallery_button">gallery button</string>
+    <string name="camera_button">camera button</string>
 
 
 </resources>

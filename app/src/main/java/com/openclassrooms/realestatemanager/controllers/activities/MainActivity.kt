@@ -2,15 +2,14 @@ package com.openclassrooms.realestatemanager.controllers.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment
+import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
 import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment
 import com.openclassrooms.realestatemanager.models.RealEstate
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // Enable back button if fragment isn't home
+    // Enable back button if fragment isn't home screen
     override fun onBackPressed() {
 
         val count = supportFragmentManager.backStackEntryCount
@@ -116,6 +115,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureBottomNavigationView() {
 
+        // Configure bottom buttons
         bottom_nav_view.setOnNavigationItemSelectedListener {
 
             when (it.itemId) {
@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
 
+        // Configure bottom back button
         back_nav_view.setOnNavigationItemSelectedListener {
 
             when (it.itemId) {
@@ -143,6 +144,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayFragment(fragment: Fragment) {
 
+        // Set fragmentId to save it into SavedInstanceState
         when (fragment) {
             is ListFragment -> {
                 fragmentId = 0
@@ -162,6 +164,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    // Display DetailsFragment is device is a tablet
     private fun displaySecondFragment(fragment: Fragment) {
 
         if (isTablet) {

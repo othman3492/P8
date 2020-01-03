@@ -40,4 +40,14 @@ public class UnitTest {
 
         assertEquals("15/01/2018", convertedDate);
     }
+
+    @Test
+    public void formatDateForQuery_isCorrect() {
+
+        String dateToConvert = "15/01/18";
+        String convertedDate = Utils.formatDateForQuery(dateToConvert);
+
+        assertEquals("20180115", convertedDate);
+    }
+
 }

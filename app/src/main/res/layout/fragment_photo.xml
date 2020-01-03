@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/photo_fragment"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
     tools:context=".controllers.fragments.PhotoFragment">
@@ -35,6 +34,7 @@
         android:layout_width="33dp"
         android:layout_height="33dp"
         android:layout_margin="25dp"
+        android:contentDescription="@string/gallery_button"
         android:background="@drawable/baseline_add_photo_alternate_24"
         app:layout_constraintEnd_toStartOf="@id/take_photo_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +45,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="25dp"
+        android:contentDescription="@string/camera_button"
         android:background="@drawable/baseline_add_a_photo_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/add_photo_button"

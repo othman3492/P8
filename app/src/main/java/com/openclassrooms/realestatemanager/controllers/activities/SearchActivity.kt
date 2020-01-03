@@ -4,16 +4,13 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
-import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
@@ -35,7 +32,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var typeSpinnerTextView: TextView? = null
     private var isSpinnerVisible = true
 
-    var calendar: Calendar = Calendar.getInstance()
+    private var calendar: Calendar = Calendar.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +41,6 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         configureUI()
         configureViewModel()
-
 
     }
 
@@ -107,7 +103,6 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         search_property_button.setOnClickListener { executeUserSearch() }
     }
 
-
     private fun configureDatePicker(textView: TextView) {
 
         calendar = Calendar.getInstance()
@@ -137,7 +132,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val myFormat = "dd/MM/yy"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        textView.setText(sdf.format(calendar.time))
+        textView.text = sdf.format(calendar.time)
     }
 
 
@@ -166,6 +161,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             type = type_search_spinner.selectedItemPosition
         }
 
+        // Store data in variables
         val keywords = keywords_text_input.text.toString()
         val street: String? = street_search_text_input.text.toString()
         val postalCode: String? = postal_code_search_text_input.text.toString()
@@ -285,8 +281,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
 
-
-        // Pass query to MainActivity to display results in both ListFragment and MapFragment
+        // Pass query to MainActivity to display results in ListFragment
         val resultsIntent = Intent(this, MainActivity::class.java)
         resultsIntent.putExtra("QUERY", query)
         startActivity(resultsIntent)

@@ -4,21 +4,21 @@ package com.openclassrooms.realestatemanager.controllers.fragments
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.sqlite.db.SimpleSQLiteQuery
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.viewmodels.Injection
@@ -49,6 +49,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,7 +99,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    // Configure ViewModel to retrieve data
     private fun configureViewModel() {
 
         val viewModelFactory = Injection.provideViewModelFactory(requireContext())
@@ -107,7 +107,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    // Retrieve real estate data and pass it to list, then call SetMarkersOnMap
+    // Retrieve all objects from database and call setMarkersOnMap
     private fun getData() {
 
         realEstateViewModel.getAllRealEstates().observe(this,
@@ -115,7 +115,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    // Create markers on map for each retrieved Real Estate
+    // Create markers on map for each object found in database
     private fun setMarkersOnMap(map: GoogleMap, list: List<RealEstate>) {
 
         for (realEstate in list) {
@@ -135,7 +135,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                     if (location1 == it.position) {
 
-                        // Display DetailsFragment when clicked after verifying that device is tablet
+                        // Display DetailsFragment when clicked after verifying if device is a tablet
                         val isTablet = resources.getBoolean(R.bool.isTablet)
                         val fragment = DetailsFragment.newInstance(realEstate1)
 

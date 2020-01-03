@@ -14,9 +14,9 @@ class RealEstateContentProvider : ContentProvider() {
 
     companion object {
 
-        val AUTHORITY = "com.openclassrooms.realestatemanager.provider"
+        const val AUTHORITY = "com.openclassrooms.realestatemanager.provider"
         val TABLE_NAME = RealEstate::class.java.simpleName
-        val URI = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+        val URI = Uri.parse("content://$AUTHORITY/$TABLE_NAME")!!
     }
 
 
