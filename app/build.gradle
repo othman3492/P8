@@ -53,12 +53,12 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.1.0'
 
     // Room database
-    implementation "androidx.room:room-runtime:2.2.3"
-    kapt "androidx.room:room-compiler:2.2.3"
-    implementation "androidx.room:room-ktx:2.2.3"
-    implementation "androidx.room:room-rxjava2:2.2.3"
-    implementation "androidx.room:room-guava:2.2.3"
-    testImplementation "androidx.room:room-testing:2.2.3"
+    implementation "androidx.room:room-runtime:2.2.2"
+    kapt "androidx.room:room-compiler:2.2.2"
+    implementation "androidx.room:room-ktx:2.2.2"
+    implementation "androidx.room:room-rxjava2:2.2.2"
+    implementation "androidx.room:room-guava:2.2.2"
+    testImplementation "androidx.room:room-testing:2.2.2"
 
     // Image managers
     implementation 'com.squareup.picasso:picasso:2.71828'

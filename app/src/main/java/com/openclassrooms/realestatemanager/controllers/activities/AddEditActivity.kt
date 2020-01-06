@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.model.LatLng
@@ -75,12 +76,12 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         street_search_text_input.setText(realEstate.address?.street)
         postal_code_search_text_input.setText(realEstate.address?.postalCode)
         city_search_text_input.setText(realEstate.address?.city)
-        surface_text_input.setText(realEstate.surface.toString())
-        price_text_input.setText(realEstate.price.toString())
-        agent_text_input.setText(realEstate.agent.toString())
-        rooms_text_input.setText(realEstate.nbRooms.toString())
-        bedrooms_text_input.setText(realEstate.nbBedrooms.toString())
-        bathrooms_text_input.setText(realEstate.nbBathrooms.toString())
+        agent_text_input.setText(realEstate.agent)
+        if (realEstate.surface != null) surface_text_input.setText(realEstate.surface.toString())
+        if (realEstate.price != null) price_text_input.setText(realEstate.price.toString())
+        if (realEstate.nbRooms != null) rooms_text_input.setText(realEstate.nbRooms.toString())
+        if (realEstate.nbBedrooms != null) bedrooms_text_input.setText(realEstate.nbBedrooms.toString())
+        if (realEstate.nbBathrooms != null) bathrooms_text_input.setText(realEstate.nbBathrooms.toString())
 
         // Update other views
         if (realEstate.status == true) {
@@ -105,12 +106,23 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         val newRealEstate = RealEstate()
         getDataFromInput(newRealEstate)
 
-        // Save object
-        realEstateViewModel.createRealEstate(newRealEstate)
+        if (newRealEstate.address?.street != "" && newRealEstate.address?.postalCode != "" &&
+                newRealEstate.address?.city != "") {
 
-        // Return to MainActivity
-        startActivity(Intent(this, MainActivity::class.java))
+            newRealEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.latitude
+            newRealEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.longitude
 
+            // Save object
+            realEstateViewModel.createRealEstate(newRealEstate)
+
+            // Return to MainActivity
+            startActivity(Intent(this, MainActivity::class.java))
+
+        } else {
+
+            // Display Toast message if address is null
+            Toast.makeText(this, "Please enter an address", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Update RealEstate object from user data input
@@ -118,11 +130,23 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         getDataFromInput(realEstate)
 
-        // Update object
-        realEstateViewModel.updateRealEstate(realEstate)
+        if (realEstate.address?.street != "" && realEstate.address?.postalCode != "" &&
+                realEstate.address?.city != "") {
 
-        // Return to DetailsFragment
-        finish()
+            realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.latitude
+            realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.longitude
+
+            // Update object
+            realEstateViewModel.updateRealEstate(realEstate)
+
+            // Return to DetailsFragment
+            finish()
+
+        } else {
+
+            // Display Toast message if address is null
+            Toast.makeText(this, "Please enter an address", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -144,10 +168,6 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         realEstate.creationDate = Utils.convertDate(Utils.getTodayDate().toString())
         realEstate.agent = agent_text_input.text.toString()
         realEstate.status = status_switch.isChecked
-
-        realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.latitude
-        realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())!!.longitude
-
 
         // Save today date as sale date if switch is checked and no sale date is already saved
         if (status_switch.isChecked && realEstate.saleDate == null) {

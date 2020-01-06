@@ -97,10 +97,31 @@ class DetailsFragment : Fragment() {
 
         // Load data into views
         if (description_text.text != null) description_text.text = realEstate.description
-        if (surface_value.text != null) surface_value.text = String.format(this.resources.getString(R.string.surface_in_sq), realEstate.surface)
-        if (rooms_value.text != null) rooms_value.text = realEstate.nbRooms.toString()
-        if (bedrooms_value.text != null) bedrooms_value.text = realEstate.nbBedrooms.toString()
-        if (bathrooms_value.text != null) bathrooms_value.text = realEstate.nbBathrooms.toString()
+
+        if (realEstate.surface != null) {
+            surface_value.text = String.format(this.resources.getString(R.string.surface_in_sq), realEstate.surface)
+        } else {
+            surface_value.text = String.format(this.resources.getString(R.string.surface_in_sq), " - ")
+        }
+
+        if (realEstate.nbRooms != null) {
+            rooms_value.text = realEstate.nbRooms.toString()
+        } else {
+            rooms_value.text = " - "
+        }
+
+        if (realEstate.nbBedrooms != null) {
+            bedrooms_value.text = realEstate.nbBedrooms.toString()
+        } else {
+            bedrooms_value.text = " - "
+        }
+
+        if (realEstate.nbBathrooms != null) {
+            bathrooms_value.text = realEstate.nbBathrooms.toString()
+        } else {
+            bathrooms_value.text = " - "
+        }
+
         if (location_value.text != null) location_value.text = String.format(this.resources.getString(R.string.lines_address),
                 realEstate.address?.street,
                 realEstate.address?.postalCode,
@@ -111,7 +132,6 @@ class DetailsFragment : Fragment() {
                 .load(loadMap(realEstate))
                 .placeholder(R.drawable.baseline_map_24)
                 .into(details_map)
-
     }
 
 

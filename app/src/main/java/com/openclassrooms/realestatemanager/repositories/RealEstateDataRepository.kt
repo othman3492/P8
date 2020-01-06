@@ -2,8 +2,8 @@ package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.openclassrooms.realestatemanager.models.RealEstate
 import com.openclassrooms.realestatemanager.database.RealEstateDao
+import com.openclassrooms.realestatemanager.models.RealEstate
 
 
 class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
@@ -19,13 +19,13 @@ class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
     }
 
     // CREATE
-    fun createRealEstate(realEstate: RealEstate) {
-        realEstateDao.createRealEstate(realEstate)
+    fun createRealEstate(realEstate: RealEstate): Long {
+        return this.realEstateDao.createRealEstate(realEstate)
     }
 
     // UPDATE
-    fun updateRealEstate(realEstate: RealEstate) {
-        realEstateDao.updateRealEstate(realEstate)
+    fun updateRealEstate(realEstate: RealEstate): Int {
+        return this.realEstateDao.updateRealEstate(realEstate)
     }
 
     // USER SEARCH QUERY

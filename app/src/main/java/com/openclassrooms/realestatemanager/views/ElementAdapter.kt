@@ -73,9 +73,15 @@ class ElementAdapter(val context: Context, private val clickListener: (RealEstat
 
             view.element_type.text = types[requireNotNull(realEstate.type)]
             view.element_location.text = realEstate.address?.city
-            view.element_price.text = String.format(context.resources.getString(R.string.price_in_dollars),
-                    realEstate.price)
 
+            // Display "-" instead of price if null
+            if (realEstate.price != null) {
+                view.element_price.text = String.format(context.resources.getString(R.string.price_in_dollars), realEstate.price)
+            } else {
+                view.element_price.text = String.format(context.resources.getString(R.string.price_in_dollars), " - ")
+            }
+
+            // Display red SOLD sign if real estate is sold
             if (realEstate.status!!) {
                 view.sold_textview.visibility = View.VISIBLE
             } else {
