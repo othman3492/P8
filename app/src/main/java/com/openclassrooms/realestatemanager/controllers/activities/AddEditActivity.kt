@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.controllers.activities
 
-import android.content.Context
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
@@ -21,7 +20,6 @@ import com.openclassrooms.realestatemanager.viewmodels.Injection
 import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_edit.*
-import java.io.IOException
 
 
 class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, PhotoFragment.OnDismissListener {
@@ -101,19 +99,21 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
 
     // Create RealEstate object from user data input
-    private fun createObjectInDatabase() {
+    private fun createObjectInDatabase(newRealEstate: RealEstate) {
 
-        val newRealEstate = RealEstate()
         getDataFromInput(newRealEstate)
 
         if (newRealEstate.address?.street != "" && newRealEstate.address?.postalCode != "" &&
                 newRealEstate.address?.city != "") {
 
-            newRealEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.latitude
-            newRealEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.longitude
+            newRealEstate.latitude = getLocationFromAddress(realEstate.address.toString())?.latitude
+            newRealEstate.longitude = getLocationFromAddress(realEstate.address.toString())?.longitude
 
             // Save object
             realEstateViewModel.createRealEstate(newRealEstate)
+
+            // Confirm creation
+            Toast.makeText(this, "New real estate created !", Toast.LENGTH_SHORT).show()
 
             // Return to MainActivity
             startActivity(Intent(this, MainActivity::class.java))
@@ -126,15 +126,15 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     }
 
     // Update RealEstate object from user data input
-    private fun updateObjectInDatabase() {
+    private fun updateObjectInDatabase(realEstate: RealEstate) {
 
         getDataFromInput(realEstate)
 
         if (realEstate.address?.street != "" && realEstate.address?.postalCode != "" &&
                 realEstate.address?.city != "") {
 
-            realEstate.latitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.latitude
-            realEstate.longitude = getLocationFromAddress(baseContext, realEstate.address.toString())?.longitude
+            realEstate.latitude = getLocationFromAddress(realEstate.address.toString())?.latitude
+            realEstate.longitude = getLocationFromAddress(realEstate.address.toString())?.longitude
 
             // Update object
             realEstateViewModel.updateRealEstate(realEstate)
@@ -184,26 +184,26 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     }
 
 
-    // Get latitude/longitude from address string
-    private fun getLocationFromAddress(context: Context, strAddress: String?): LatLng? {
+    // Get latitude/longitude from address input
+    private fun getLocationFromAddress(strAddress: String?): LatLng? {
 
-        val coder = Geocoder(context)
+        val coder = Geocoder(this)
         val address: List<android.location.Address>?
-        var latlng: LatLng? = null
+        var latlng: LatLng?
 
-        try {
-            address = coder.getFromLocationName(strAddress, 3)
-            if (address == null) {
-                return null
-            }
+        address = coder.getFromLocationName(strAddress, 3)
+        return if (address.isEmpty()) {
+
+            null
+        } else {
+
             val location = address[0]
             latlng = LatLng(location.latitude, location.longitude)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-        }
 
-        return latlng
+            latlng
+        }
     }
+
 
 
     // SPINNER CONFIGURATION
@@ -227,8 +227,8 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     private fun configureButtons() {
 
         manage_photos_button.setOnClickListener { displayDialogFragment() }
-        add_button.setOnClickListener { createObjectInDatabase() }
-        edit_button.setOnClickListener { updateObjectInDatabase() }
+        add_button.setOnClickListener { createObjectInDatabase(realEstate) }
+        edit_button.setOnClickListener { updateObjectInDatabase(realEstate) }
     }
 
 
@@ -260,6 +260,4 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         this.realEstate.imageList = realEstate.imageList
     }
-
-
 }

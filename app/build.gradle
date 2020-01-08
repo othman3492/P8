@@ -31,6 +31,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -53,12 +59,12 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.1.0'
 
     // Room database
-    implementation "androidx.room:room-runtime:2.2.2"
-    kapt "androidx.room:room-compiler:2.2.2"
-    implementation "androidx.room:room-ktx:2.2.2"
-    implementation "androidx.room:room-rxjava2:2.2.2"
-    implementation "androidx.room:room-guava:2.2.2"
-    testImplementation "androidx.room:room-testing:2.2.2"
+    implementation "androidx.room:room-runtime:2.2.3"
+    kapt "androidx.room:room-compiler:2.2.3"
+    implementation "androidx.room:room-ktx:2.2.3"
+    implementation "androidx.room:room-rxjava2:2.2.3"
+    implementation "androidx.room:room-guava:2.2.3"
+    testImplementation "androidx.room:room-testing:2.2.3"
 
     // Image managers
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -67,6 +73,7 @@ dependencies {
     // Test libraries
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -79,6 +86,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+
+    // Robolectric
+    testImplementation "org.robolectric:robolectric:4.3"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

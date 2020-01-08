@@ -53,8 +53,8 @@ class DetailsFragment : Fragment() {
 
         configureViewModel()
         getRealEstate(realEstate)
-    }
 
+    }
 
     // Implement menu layout
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -127,16 +127,21 @@ class DetailsFragment : Fragment() {
                 realEstate.address?.postalCode,
                 realEstate.address?.city)
 
-        // Load static map
-        Picasso.get()
-                .load(loadMap(realEstate))
-                .placeholder(R.drawable.baseline_map_24)
-                .into(details_map)
+        // Load static map if address is known
+
+        if (realEstate.latitude != null && realEstate.longitude != null) {
+
+            Picasso.get()
+                    .load(loadMap(realEstate))
+                    .placeholder(R.drawable.baseline_map_24)
+                    .into(details_map)
+        }
     }
 
 
     // Display static map with real estate location
     private fun loadMap(realEstate: RealEstate): String {
+
 
         val location = "${realEstate.latitude},${realEstate.longitude}"
 
