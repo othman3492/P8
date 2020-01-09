@@ -92,6 +92,8 @@ class DetailsFragment : Fragment() {
 
     private fun getDataAndUpdateUI(realEstate: RealEstate) {
 
+        this.realEstate = realEstate
+
         // Load photos
         configureRecyclerView()
 

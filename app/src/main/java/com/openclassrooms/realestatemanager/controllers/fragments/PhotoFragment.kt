@@ -41,7 +41,7 @@ class PhotoFragment : DialogFragment() {
 
     private lateinit var photoPath: Uri
     private lateinit var adapter: PhotoAdapter
-    private lateinit var onDismissListener: OnDismissListener
+    private var onDismissListener: OnDismissListener? = null
 
     private var realEstate: RealEstate = RealEstate()
 
@@ -225,6 +225,7 @@ class PhotoFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        onDismissListener.dismissed(realEstate)
+        if (onDismissListener != null)
+            onDismissListener!!.dismissed(realEstate)
     }
 }
