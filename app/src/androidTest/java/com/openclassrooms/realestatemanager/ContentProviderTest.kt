@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
+import android.net.Uri
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -40,8 +41,9 @@ class ContentProviderTest {
     @Test
     fun insertAndGetRealEstate() {
 
+
         // Add object
-        contentResolver!!.insert(URI, generateRealEstate())
+        val uri: Uri? = contentResolver!!.insert(URI, generateRealEstate())
         // Test
         val cursor = contentResolver!!.query(ContentUris.withAppendedId(URI, REAL_ESTATE_ID),
                 null, null, null, null)
@@ -50,16 +52,21 @@ class ContentProviderTest {
         MatcherAssert.assertThat(cursor.getString(cursor.getColumnIndexOrThrow("description")), Matchers.`is`("Jolie maison"))
         MatcherAssert.assertThat(cursor.getString(cursor.getColumnIndexOrThrow("type")), Matchers.`is`("0"))
         MatcherAssert.assertThat(cursor.getString(cursor.getColumnIndexOrThrow("nbRooms")), Matchers.`is`("5"))
+        MatcherAssert.assertThat(cursor.getString(cursor.getColumnIndexOrThrow("nbBathrooms")), Matchers.`is`("2"))
+
+        contentResolver!!.delete(uri!!, null, null)
+
         cursor.close()
 
     }
 
-    // ---
+
     private fun generateRealEstate(): ContentValues {
         val values = ContentValues()
         values.put("description", "Jolie maison")
         values.put("type", "0")
         values.put("nbRooms", "5")
+        values.put("nbBathrooms", "2")
         return values
     }
 

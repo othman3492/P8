@@ -83,6 +83,7 @@ class RealEstateContentProvider : ContentProvider() {
             context!!.contentResolver.notifyChange(uri, null)
             return count
         }
+
         throw IllegalArgumentException("Failed to delete row into $uri")
     }
 }
