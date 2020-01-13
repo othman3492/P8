@@ -189,7 +189,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         val coder = Geocoder(this)
         val address: List<android.location.Address>?
-        var latlng: LatLng?
+        val latlng: LatLng?
 
         address = coder.getFromLocationName(strAddress, 3)
         return if (address.isEmpty()) {

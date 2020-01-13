@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -52,7 +53,7 @@ public class Utils {
             e.printStackTrace();
         }
 
-        return outputFormat.format(date);
+        return outputFormat.format(Objects.requireNonNull(date));
     }
 
     public static String formatDateForQuery(String dateToConvert) {
@@ -67,7 +68,7 @@ public class Utils {
             e.printStackTrace();
         }
 
-        return outputFormat.format(date);
+        return outputFormat.format(Objects.requireNonNull(date));
     }
 
 
@@ -78,14 +79,14 @@ public class Utils {
      * @return
      */
     public static Boolean isWifiAvailable(Context context) {
-        WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        return wifi.isWifiEnabled();
+        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        return Objects.requireNonNull(wifi).isWifiEnabled();
     }
 
     public static Boolean isInternetAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        NetworkInfo activeNetwork = Objects.requireNonNull(cm).getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
         //https://github.com/robolectric/robolectric/blob/master/robolectric/src/test/java/org/robolectric/shadows/ShadowConnectivityManagerTest.java

@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.shadows.ShadowNetworkInfo;
 
+import java.util.Objects;
+
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static com.google.common.truth.Truth.assertThat;
 import static org.robolectric.Shadows.shadowOf;
@@ -26,7 +28,7 @@ public class ConnectionTest {
         connectivityManager =
                 (ConnectivityManager)
                         getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        shadowOfActiveNetworkInfo = shadowOf(connectivityManager.getActiveNetworkInfo());
+        shadowOfActiveNetworkInfo = shadowOf(Objects.requireNonNull(connectivityManager).getActiveNetworkInfo());
     }
 
     @Test
@@ -37,7 +39,7 @@ public class ConnectionTest {
     @Test
     public void getActiveNetworkInfo_shouldReturnTrueCorrectly() {
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
-        assertThat(connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting()).isTrue();
+        assertThat(Objects.requireNonNull(connectivityManager.getActiveNetworkInfo()).isConnectedOrConnecting()).isTrue();
         assertThat(connectivityManager.getActiveNetworkInfo().isConnected()).isTrue();
 
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTING);
