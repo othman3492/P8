@@ -106,8 +106,11 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         if (newRealEstate.address?.street != "" && newRealEstate.address?.postalCode != "" &&
                 newRealEstate.address?.city != "") {
 
-            newRealEstate.latitude = getLocationFromAddress(realEstate.address.toString())?.latitude
-            newRealEstate.longitude = getLocationFromAddress(realEstate.address.toString())?.longitude
+            if (Utils.isInternetAvailable(this)) {
+
+                newRealEstate.latitude = getLocationFromAddress(realEstate.address.toString())?.latitude
+                newRealEstate.longitude = getLocationFromAddress(realEstate.address.toString())?.longitude
+            }
 
             // Save object
             realEstateViewModel.createRealEstate(newRealEstate)
@@ -133,8 +136,11 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         if (realEstate.address?.street != "" && realEstate.address?.postalCode != "" &&
                 realEstate.address?.city != "") {
 
-            realEstate.latitude = getLocationFromAddress(realEstate.address.toString())?.latitude
-            realEstate.longitude = getLocationFromAddress(realEstate.address.toString())?.longitude
+            if (Utils.isInternetAvailable(this)) {
+
+                realEstate.latitude = getLocationFromAddress(realEstate.address.toString())?.latitude
+                realEstate.longitude = getLocationFromAddress(realEstate.address.toString())?.longitude
+            }
 
             // Update object
             realEstateViewModel.updateRealEstate(realEstate)

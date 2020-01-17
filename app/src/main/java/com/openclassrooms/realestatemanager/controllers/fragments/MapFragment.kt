@@ -120,39 +120,43 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         for (realEstate in list) {
 
-            val location = LatLng(realEstate.latitude!!, realEstate.longitude!!)
+            if (realEstate.latitude != null && realEstate.longitude != null) {
 
-            val marker = map.addMarker(MarkerOptions()
-                    .position(location))
 
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                val location = LatLng(realEstate.latitude!!, realEstate.longitude!!)
 
-            map.setOnMarkerClickListener {
+                val marker = map.addMarker(MarkerOptions()
+                        .position(location))
 
-                for (realEstate1 in list) {
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
 
-                    val location1 = LatLng(realEstate1.latitude!!, realEstate1.longitude!!)
+                map.setOnMarkerClickListener {
 
-                    if (location1 == it.position) {
+                    for (realEstate1 in list) {
 
-                        // Display DetailsFragment when clicked after verifying if device is a tablet
-                        val isTablet = resources.getBoolean(R.bool.isTablet)
-                        val fragment = DetailsFragment.newInstance(realEstate1)
+                        val location1 = LatLng(realEstate1.latitude!!, realEstate1.longitude!!)
 
-                        val transaction = activity!!.supportFragmentManager.beginTransaction()
-                        transaction.addToBackStack(null)
+                        if (location1 == it.position) {
 
-                        if (isTablet) {
-                            transaction.replace(R.id.details_fragment_container, fragment).commit()
-                        } else {
-                            transaction.replace(R.id.fragment_container, fragment).commit()
+                            // Display DetailsFragment when clicked after verifying if device is a tablet
+                            val isTablet = resources.getBoolean(R.bool.isTablet)
+                            val fragment = DetailsFragment.newInstance(realEstate1)
+
+                            val transaction = activity!!.supportFragmentManager.beginTransaction()
+                            transaction.addToBackStack(null)
+
+                            if (isTablet) {
+                                transaction.replace(R.id.details_fragment_container, fragment).commit()
+                            } else {
+                                transaction.replace(R.id.fragment_container, fragment).commit()
+                            }
+
                         }
 
                     }
 
+                    return@setOnMarkerClickListener true
                 }
-
-                return@setOnMarkerClickListener true
             }
         }
     }
