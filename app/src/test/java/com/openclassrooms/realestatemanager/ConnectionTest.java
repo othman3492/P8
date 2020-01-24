@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.openclassrooms.realestatemanager.utils.Utils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,15 +41,15 @@ public class ConnectionTest {
     @Test
     public void getActiveNetworkInfo_shouldReturnTrueCorrectly() {
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
-        assertThat(Objects.requireNonNull(connectivityManager.getActiveNetworkInfo()).isConnectedOrConnecting()).isTrue();
-        assertThat(connectivityManager.getActiveNetworkInfo().isConnected()).isTrue();
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isTrue();
+
+        shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isTrue();
 
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTING);
-        assertThat(connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting()).isTrue();
-        assertThat(connectivityManager.getActiveNetworkInfo().isConnected()).isFalse();
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isFalse();
 
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.DISCONNECTED);
-        assertThat(connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting()).isFalse();
-        assertThat(connectivityManager.getActiveNetworkInfo().isConnected()).isFalse();
+        assertThat(Utils.isInternetAvailable(getApplicationContext())).isFalse();
     }
 }
