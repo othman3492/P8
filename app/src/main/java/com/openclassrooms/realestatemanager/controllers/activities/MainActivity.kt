@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // Save current fragment ID to retrieve it after rotation
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 

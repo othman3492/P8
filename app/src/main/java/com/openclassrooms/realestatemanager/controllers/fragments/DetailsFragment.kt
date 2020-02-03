@@ -86,6 +86,21 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 details_photo_recycler_view.context, DividerItemDecoration.HORIZONTAL))
     }
 
+    private fun configureViewModel() {
+
+        val viewModelFactory = Injection.provideViewModelFactory(requireContext())
+        realEstateViewModel = ViewModelProviders.of(this,
+                viewModelFactory).get(RealEstateViewModel::class.java)
+    }
+
+
+    // Get real estate by ID to refresh details after updating
+    private fun getRealEstate(realEstate: RealEstate) {
+
+        realEstateViewModel.getRealEstateById(realEstate.propertyId.toInt()).observe(this,
+                Observer<RealEstate> { getDataAndUpdateUI(it) })
+    }
+
 
     private fun getDataAndUpdateUI(realEstate: RealEstate) {
 
@@ -153,21 +168,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         return mapURLInitial + mapURLProperties + key
     }
 
-
-    private fun configureViewModel() {
-
-        val viewModelFactory = Injection.provideViewModelFactory(requireContext())
-        realEstateViewModel = ViewModelProviders.of(this,
-                viewModelFactory).get(RealEstateViewModel::class.java)
-    }
-
-
-    // Get real estate by ID to refresh details after updating
-    private fun getRealEstate(realEstate: RealEstate) {
-
-        realEstateViewModel.getRealEstateById(realEstate.propertyId.toInt()).observe(this,
-                Observer<RealEstate> { getDataAndUpdateUI(it) })
-    }
 }
 
 

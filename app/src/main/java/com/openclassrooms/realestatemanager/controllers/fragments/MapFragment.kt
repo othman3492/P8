@@ -124,25 +124,28 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
                     for (realEstate1 in list) {
 
-                        val location1 = LatLng(realEstate1.latitude!!, realEstate1.longitude!!)
+                        if (realEstate1.latitude != null && realEstate1.longitude != null) {
 
-                        if (location1 == it.position) {
+                            val location1 = LatLng(realEstate1.latitude!!, realEstate1.longitude!!)
 
-                            // Display DetailsFragment when clicked after verifying if device is a tablet
-                            val isTablet = resources.getBoolean(R.bool.isTablet)
-                            val fragment = DetailsFragment.newInstance(realEstate1)
+                            if (location1 == it.position) {
 
-                            val transaction = activity!!.supportFragmentManager.beginTransaction()
-                            transaction.addToBackStack(null)
+                                // Display DetailsFragment when clicked after verifying if device is a tablet
+                                val isTablet = resources.getBoolean(R.bool.isTablet)
+                                val fragment = DetailsFragment.newInstance(realEstate1)
 
-                            if (isTablet) {
-                                transaction.replace(R.id.details_fragment_container, fragment).commit()
-                            } else {
-                                transaction.replace(R.id.fragment_container, fragment).commit()
+                                val transaction = activity!!.supportFragmentManager.beginTransaction()
+                                transaction.addToBackStack(null)
+
+                                if (isTablet) {
+                                    transaction.replace(R.id.details_fragment_container, fragment).commit()
+                                } else {
+                                    transaction.replace(R.id.fragment_container, fragment).commit()
+                                }
+
                             }
 
                         }
-
                     }
 
                     return@setOnMarkerClickListener true

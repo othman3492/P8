@@ -60,6 +60,13 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     }
 
 
+    private fun configureViewModel() {
+
+        viewModelFactory = Injection.provideViewModelFactory(this)
+        realEstateViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateViewModel::class.java)
+    }
+
+
     // Show/hide views depending on Add/Edit layout
     private fun fillData() {
 
@@ -88,13 +95,6 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         type_spinner.setSelection(realEstate.type!!)
 
-    }
-
-
-    private fun configureViewModel() {
-
-        viewModelFactory = Injection.provideViewModelFactory(this)
-        realEstateViewModel = ViewModelProviders.of(this, viewModelFactory).get(RealEstateViewModel::class.java)
     }
 
 

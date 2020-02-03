@@ -50,30 +50,12 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     // Configure RecyclerView and assign the click handler to the Adapter
     private fun configureRecyclerView() {
 
-        adapter = ElementAdapter(requireContext()) { realEstate: RealEstate -> startDetailsActivityOnClick(realEstate) }
+        adapter = ElementAdapter(requireContext()) { realEstate: RealEstate -> startDetailsOnClick(realEstate) }
         main_recycler_view.adapter = adapter
         main_recycler_view.layoutManager = LinearLayoutManager(activity)
         main_recycler_view.addItemDecoration(DividerItemDecoration(
                 main_recycler_view.context, DividerItemDecoration.VERTICAL))
     }
-
-
-    // Display DetailsFragment when clicked after verifying that device is tablet
-    private fun startDetailsActivityOnClick(realEstate: RealEstate) {
-
-        val isTablet = resources.getBoolean(R.bool.isTablet)
-        val fragment = DetailsFragment.newInstance(realEstate)
-
-        val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.addToBackStack(null)
-
-        if (isTablet) {
-            transaction.replace(R.id.details_fragment_container, fragment).commit()
-        } else {
-            transaction.replace(R.id.fragment_container, fragment).commit()
-        }
-    }
-
 
     private fun configureViewModel() {
 
@@ -107,6 +89,22 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         this.adapter.updateData(list)
     }
 
+
+    // Display DetailsFragment when clicked after verifying that device is tablet
+    private fun startDetailsOnClick(realEstate: RealEstate) {
+
+        val isTablet = resources.getBoolean(R.bool.isTablet)
+        val fragment = DetailsFragment.newInstance(realEstate)
+
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.addToBackStack(null)
+
+        if (isTablet) {
+            transaction.replace(R.id.details_fragment_container, fragment).commit()
+        } else {
+            transaction.replace(R.id.fragment_container, fragment).commit()
+        }
+    }
 
 }
 
