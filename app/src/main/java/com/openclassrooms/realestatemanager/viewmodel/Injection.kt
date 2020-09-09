@@ -1,7 +1,7 @@
-package com.openclassrooms.realestatemanager.viewmodels
+package com.openclassrooms.realestatemanager.viewmodel
 
 import android.content.Context
-import com.openclassrooms.realestatemanager.database.*
+import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.repositories.RealEstateDataRepository
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors

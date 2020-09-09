@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.activities
+package com.openclassrooms.realestatemanager.view.ui.activities
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.viewmodels.Injection
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
+import com.openclassrooms.realestatemanager.viewmodel.Injection
+import com.openclassrooms.realestatemanager.viewmodel.RealEstateViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_search.*
 import java.text.SimpleDateFormat
 import java.util.*

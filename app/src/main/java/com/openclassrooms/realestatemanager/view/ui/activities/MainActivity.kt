@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.activities
+package com.openclassrooms.realestatemanager.view.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment
-import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment
-import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.view.ui.fragments.DetailsFragment
+import com.openclassrooms.realestatemanager.view.ui.fragments.ListFragment
+import com.openclassrooms.realestatemanager.view.ui.fragments.MapFragment
+import com.openclassrooms.realestatemanager.model.RealEstate
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 

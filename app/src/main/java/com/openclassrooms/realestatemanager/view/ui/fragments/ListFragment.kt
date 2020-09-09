@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.fragments
+package com.openclassrooms.realestatemanager.view.ui.fragments
 
 
 import android.os.Bundle
@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.viewmodels.Injection
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import com.openclassrooms.realestatemanager.views.ElementAdapter
+import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.viewmodel.Injection
+import com.openclassrooms.realestatemanager.viewmodel.RealEstateViewModel
+import com.openclassrooms.realestatemanager.view.ui.adapters.ElementAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
@@ -68,16 +68,16 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     // Verify if there's a search query stored in bundle, and execute the right database query
     private fun getElements() {
 
-        val query = arguments!!.getString("QUERY")
+        val query = requireArguments().getString("QUERY")
 
         if (query != null) {
 
-            realEstateViewModel.getRealEstateFromUserSearch(SimpleSQLiteQuery(query)).observe(this,
+            realEstateViewModel.getRealEstateFromUserSearch(SimpleSQLiteQuery(query)).observe(viewLifecycleOwner,
                     Observer<List<RealEstate>> { updateList(it) })
 
         } else {
 
-            realEstateViewModel.getAllRealEstates().observe(this,
+            realEstateViewModel.getAllRealEstates().observe(viewLifecycleOwner,
                     Observer<List<RealEstate>> { updateList(it) })
         }
     }
@@ -96,7 +96,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         val isTablet = resources.getBoolean(R.bool.isTablet)
         val fragment = DetailsFragment.newInstance(realEstate)
 
-        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.addToBackStack(null)
 
         if (isTablet) {

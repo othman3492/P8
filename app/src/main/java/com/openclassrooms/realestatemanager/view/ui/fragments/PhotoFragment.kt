@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.fragments
+package com.openclassrooms.realestatemanager.view.ui.fragments
 
 
 import android.annotation.SuppressLint
@@ -22,8 +22,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.views.PhotoAdapter
+import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.view.ui.adapters.PhotoAdapter
 import kotlinx.android.synthetic.main.fragment_photo.*
 import java.io.File
 import java.io.IOException

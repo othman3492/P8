@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.fragments
+package com.openclassrooms.realestatemanager.view.ui.fragments
 
 
 import android.content.pm.PackageManager
@@ -18,9 +18,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.viewmodels.Injection
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
+import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.viewmodel.Injection
+import com.openclassrooms.realestatemanager.viewmodel.RealEstateViewModel
 import kotlinx.android.synthetic.main.fragment_map.*
 
 

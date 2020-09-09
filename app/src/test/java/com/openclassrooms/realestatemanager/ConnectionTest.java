@@ -26,7 +26,7 @@ public class ConnectionTest {
     private ShadowNetworkInfo shadowOfActiveNetworkInfo;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         connectivityManager =
                 (ConnectivityManager)
                         getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -40,9 +40,6 @@ public class ConnectionTest {
 
     @Test
     public void getActiveNetworkInfo_shouldReturnTrueCorrectly() {
-        shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
-        assertThat(Utils.isInternetAvailable(getApplicationContext())).isTrue();
-
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);
         assertThat(Utils.isInternetAvailable(getApplicationContext())).isTrue();
 

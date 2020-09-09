@@ -1,18 +1,19 @@
-package com.openclassrooms.realestatemanager.viewmodels
+package com.openclassrooms.realestatemanager.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.repositories.RealEstateDataRepository
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 
 class RealEstateViewModel(private val realEstateDataSource: RealEstateDataRepository,
                           private val executor: Executor) : ViewModel() {
 
 
-    // REAL ESTATE
-
+    // GET
     fun getAllRealEstates(): LiveData<List<RealEstate>> {
         return realEstateDataSource.getAllRealEstates()
     }
@@ -21,16 +22,28 @@ class RealEstateViewModel(private val realEstateDataSource: RealEstateDataReposi
         return realEstateDataSource.getRealEstateById(id)
     }
 
-    fun createRealEstate(realEstate: RealEstate) {
-        executor.execute { realEstateDataSource.createRealEstate(realEstate) }
-    }
-
-    fun updateRealEstate(realEstate: RealEstate) {
-        executor.execute { realEstateDataSource.updateRealEstate(realEstate) }
-    }
-
     fun getRealEstateFromUserSearch(query: SupportSQLiteQuery): LiveData<List<RealEstate>> {
         return realEstateDataSource.getRealEstateFromUserSearch(query)
 
     }
+
+    // CREATE
+    fun createRealEstate(realEstate: RealEstate) {
+        executor.execute {
+            viewModelScope.launch {
+                realEstateDataSource.createRealEstate(realEstate)
+            }
+        }
+    }
+
+    // UPDATE
+    fun updateRealEstate(realEstate: RealEstate) {
+        executor.execute {
+            viewModelScope.launch {
+                realEstateDataSource.updateRealEstate(realEstate)
+            }
+        }
+    }
+
+
 }

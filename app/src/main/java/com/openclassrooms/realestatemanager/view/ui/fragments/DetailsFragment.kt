@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.fragments
+package com.openclassrooms.realestatemanager.view.ui.fragments
 
 
 import android.content.Intent
@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.activities.AddEditActivity
-import com.openclassrooms.realestatemanager.models.RealEstate
-import com.openclassrooms.realestatemanager.viewmodels.Injection
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import com.openclassrooms.realestatemanager.views.DetailsPhotoAdapter
+import com.openclassrooms.realestatemanager.view.ui.activities.AddEditActivity
+import com.openclassrooms.realestatemanager.model.RealEstate
+import com.openclassrooms.realestatemanager.viewmodel.Injection
+import com.openclassrooms.realestatemanager.viewmodel.RealEstateViewModel
+import com.openclassrooms.realestatemanager.view.ui.adapters.DetailsPhotoAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.*
 

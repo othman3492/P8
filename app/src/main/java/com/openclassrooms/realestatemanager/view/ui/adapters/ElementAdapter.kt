@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.views
+package com.openclassrooms.realestatemanager.view.ui.adapters
 
 import android.content.Context
 import android.net.Uri
@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_element_layout.view.*
 

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.controllers.activities
+package com.openclassrooms.realestatemanager.view.ui.activities
 
 import android.content.Intent
 import android.location.Geocoder
@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.controllers.fragments.PhotoFragment
-import com.openclassrooms.realestatemanager.models.Address
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.view.ui.fragments.PhotoFragment
+import com.openclassrooms.realestatemanager.model.Address
+import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.viewmodels.Injection
-import com.openclassrooms.realestatemanager.viewmodels.RealEstateViewModel
-import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory
+import com.openclassrooms.realestatemanager.viewmodel.Injection
+import com.openclassrooms.realestatemanager.viewmodel.RealEstateViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_edit.*
 
 
@@ -36,7 +36,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     private var realEstate: RealEstate = RealEstate()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {	
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit)
 
@@ -71,7 +71,7 @@ class AddEditActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     private fun fillData() {
 
         // Set views' visibility
-        search_property.visibility = View.GONE
+        add_property.visibility = View.GONE
         add_button.visibility = View.GONE
         edit_property.visibility = View.VISIBLE
         edit_button.visibility = View.VISIBLE

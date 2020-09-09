@@ -43,28 +43,38 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // UI design
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'androidx.navigation:navigation-fragment:2.1.0'
-    implementation 'androidx.navigation:navigation-ui:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    //Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
+    //Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.5'
 
     // Google Maps services
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
-    implementation 'com.google.android.libraries.places:places:2.1.0'
+    implementation 'com.google.android.libraries.places:places:2.3.0'
 
     // Room database
-    implementation "androidx.room:room-runtime:2.2.3"
-    kapt "androidx.room:room-compiler:2.2.3"
-    implementation "androidx.room:room-ktx:2.2.3"
-    implementation "androidx.room:room-rxjava2:2.2.3"
-    implementation "androidx.room:room-guava:2.2.3"
-    testImplementation "androidx.room:room-testing:2.2.3"
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+    implementation "androidx.room:room-ktx:2.2.5"
+    implementation "androidx.room:room-rxjava2:2.2.5"
+    implementation "androidx.room:room-guava:2.2.5"
+    testImplementation "androidx.room:room-testing:2.2.5"
 
     // Image managers
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -73,18 +83,18 @@ dependencies {
     // Test libraries
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'androidx.test:core:1.2.0'
-    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'androidx.test:core:1.3.0'
+    testImplementation 'androidx.test.ext:junit:1.1.2'
     testImplementation "com.google.truth:truth:1.0"
-    testImplementation 'org.mockito:mockito-core:2.19.0'
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.1') {
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.3.0') {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'

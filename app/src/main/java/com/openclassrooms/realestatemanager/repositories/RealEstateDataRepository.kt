@@ -3,10 +3,11 @@ package com.openclassrooms.realestatemanager.repositories
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.database.RealEstateDao
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstate
 
 
 class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
+
 
 
     // GET
@@ -18,20 +19,24 @@ class RealEstateDataRepository(private val realEstateDao: RealEstateDao) {
         return this.realEstateDao.getRealEstateById(id)
     }
 
+    // USER SEARCH QUERY
+    fun getRealEstateFromUserSearch(query: SupportSQLiteQuery): LiveData<List<RealEstate>> {
+        return this.realEstateDao.getRealEstateFromUserSearch(query)
+    }
+
     // CREATE
-    fun createRealEstate(realEstate: RealEstate): Long {
+    suspend fun createRealEstate(realEstate: RealEstate): Long {
         return this.realEstateDao.createRealEstate(realEstate)
     }
 
     // UPDATE
-    fun updateRealEstate(realEstate: RealEstate): Int {
+    suspend fun updateRealEstate(realEstate: RealEstate): Int {
         return this.realEstateDao.updateRealEstate(realEstate)
     }
 
-    // USER SEARCH QUERY
-    fun getRealEstateFromUserSearch(query: SupportSQLiteQuery): LiveData<List<RealEstate>> {
-
-        return this.realEstateDao.getRealEstateFromUserSearch(query)
+    // DELETE
+    suspend fun deleteRealEstate(realEstate: RealEstate): Int {
+        return this.realEstateDao.deleteRealEstate(realEstate)
     }
 
 

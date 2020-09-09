@@ -4,9 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import junit.framework.TestCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -52,9 +55,12 @@ class DaoTest {
     @Throws(InterruptedException::class)
     fun insertAndGetProperties() {
 
-        // Add user & properties
-        database!!.realEstateDao().createRealEstate(REAL_ESTATE_1)
-        database!!.realEstateDao().createRealEstate(REAL_ESTATE_2)
+        CoroutineScope(IO).launch {
+            // Add user & properties
+            database!!.realEstateDao().createRealEstate(REAL_ESTATE_1)
+            database!!.realEstateDao().createRealEstate(REAL_ESTATE_2)
+
+        }
 
         // Test
         val properties = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())
@@ -65,14 +71,16 @@ class DaoTest {
     @Throws(InterruptedException::class)
     fun insertAndUpdateProperty() {
 
-        // Add property
-        database!!.realEstateDao().createRealEstate(REAL_ESTATE_1)
+        CoroutineScope(IO).launch {
+            // Add property
+            database!!.realEstateDao().createRealEstate(REAL_ESTATE_1)
 
-        // Get property and update it
-        val realEstateToUpdate = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
-        realEstateToUpdate.status = true
-        database!!.realEstateDao().updateRealEstate(realEstateToUpdate)
+            // Get property and update it
+            val realEstateToUpdate = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
+            realEstateToUpdate.status = true
+            database!!.realEstateDao().updateRealEstate(realEstateToUpdate)
 
+        }
         // Test
         val properties = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())
         TestCase.assertTrue(properties.size == 1 && properties[0].status!!)
@@ -82,11 +90,14 @@ class DaoTest {
     @Throws(InterruptedException::class)
     fun insertAndDeleteProperty() {
 
-        // Add property
-        database!!.realEstateDao().createRealEstate(REAL_ESTATE_2)
+        CoroutineScope(IO).launch {
 
-        // Get property and delete it
-        val realEstateToDelete = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
-        database!!.realEstateDao().deleteRealEstate(realEstateToDelete.propertyId)
+            // Add property
+            database!!.realEstateDao().createRealEstate(REAL_ESTATE_2)
+
+            // Get property and delete it
+            val realEstateToDelete = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
+            database!!.realEstateDao().deleteRealEstate(realEstateToDelete)
+        }
     }
 }

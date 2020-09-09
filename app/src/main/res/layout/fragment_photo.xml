@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
-    tools:context=".controllers.fragments.PhotoFragment">
+    tools:context=".view.ui.fragments.PhotoFragment">
 
     <TextView
         android:id="@+id/photos_textview"

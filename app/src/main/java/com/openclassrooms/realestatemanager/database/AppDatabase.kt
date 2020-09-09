@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.database
 
 import android.content.Context
 import androidx.room.*
-import com.openclassrooms.realestatemanager.models.RealEstate
+import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.utils.Converters
 
 
@@ -29,7 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
                 synchronized(AppDatabase::class) {
                     if (instance == null) {
                         instance = Room.databaseBuilder(context.applicationContext,
-                                AppDatabase::class.java, "RealEstateDatabase.db")
+                                AppDatabase::class.java, "database.db")
                                 .build()
                     }
                 }
