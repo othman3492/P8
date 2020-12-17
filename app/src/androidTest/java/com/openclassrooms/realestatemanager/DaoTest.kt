@@ -7,6 +7,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.database.RealEstateDao
+import junit.framework.TestCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
@@ -14,6 +16,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class DaoTest {
 
@@ -57,11 +61,10 @@ class DaoTest {
 
         // Add user & properties
         dao.createRealEstate(REAL_ESTATE_1)
-        dao.createRealEstate(REAL_ESTATE_2)
 
         // Test
         val properties = dao.getAllRealEstates().getOrAwaitValue()
-        assert(properties.isNotEmpty())
+        TestCase.assertTrue(properties.contains(REAL_ESTATE_1))
     }
 
 
@@ -79,7 +82,7 @@ class DaoTest {
 
         // Test
         val properties = dao.getAllRealEstates().getOrAwaitValue()
-        assert(properties[0].status != null)
+        TestCase.assertTrue(properties[0].status != null)
     }
 
 
@@ -96,7 +99,7 @@ class DaoTest {
 
         // Test
         val properties = dao.getAllRealEstates().getOrAwaitValue()
-        assert(properties.isEmpty())
+        TestCase.assertTrue(properties.isEmpty())
     }
 
 }
