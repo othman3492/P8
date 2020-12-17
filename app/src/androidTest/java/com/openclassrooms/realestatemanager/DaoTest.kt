@@ -2,14 +2,12 @@ package com.openclassrooms.realestatemanager
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
 import com.openclassrooms.realestatemanager.model.RealEstate
 import com.openclassrooms.realestatemanager.database.AppDatabase
-import junit.framework.TestCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
+import com.openclassrooms.realestatemanager.database.RealEstateDao
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -33,71 +31,72 @@ class DaoTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
-    private var database: AppDatabase? = null
+    private lateinit var database: AppDatabase
+    private lateinit var dao: RealEstateDao
 
     @Before
     @Throws(Exception::class)
-    fun initDatabase() {
+    fun setUp() {
 
         database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().context,
                 AppDatabase::class.java)
                 .allowMainThreadQueries().build()
+        dao = database.realEstateDao()
     }
 
     @After
     @Throws(Exception::class)
-    fun closeDatabase() {
+    fun tearDown() {
 
-        database!!.close()
+        database.close()
     }
 
     @Test
     @Throws(InterruptedException::class)
-    fun insertAndGetProperties() {
+    fun insertAndGetProperties() = runBlockingTest {
 
-        CoroutineScope(IO).launch {
-            // Add user & properties
-            database!!.realEstateDao().createRealEstate(REAL_ESTATE_1)
-            database!!.realEstateDao().createRealEstate(REAL_ESTATE_2)
-
-        }
+        // Add user & properties
+        dao.createRealEstate(REAL_ESTATE_1)
+        dao.createRealEstate(REAL_ESTATE_2)
 
         // Test
-        val properties = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())
-        TestCase.assertEquals(2, properties.size)
+        val properties = dao.getAllRealEstates().getOrAwaitValue()
+        assert(properties.isNotEmpty())
     }
+
 
     @Test
     @Throws(InterruptedException::class)
-    fun insertAndUpdateProperty() {
+    fun insertAndUpdateProperty() = runBlockingTest {
 
-        CoroutineScope(IO).launch {
-            // Add property
-            database!!.realEstateDao().createRealEstate(REAL_ESTATE_1)
+        // Add property
+        dao.createRealEstate(REAL_ESTATE_1)
 
-            // Get property and update it
-            val realEstateToUpdate = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
-            realEstateToUpdate.status = true
-            database!!.realEstateDao().updateRealEstate(realEstateToUpdate)
+        // Get property and update it
+        val propertyToUpdate = dao.getRealEstateById(REAL_ESTATE_1.propertyId.toInt()).getOrAwaitValue()
+        propertyToUpdate.status = true
+        dao.updateRealEstate(propertyToUpdate)
 
-        }
         // Test
-        val properties = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())
-        TestCase.assertTrue(properties.size == 1 && properties[0].status!!)
+        val properties = dao.getAllRealEstates().getOrAwaitValue()
+        assert(properties[0].status != null)
     }
+
 
     @Test
     @Throws(InterruptedException::class)
-    fun insertAndDeleteProperty() {
+    fun insertAndDeleteProperty() = runBlockingTest {
 
-        CoroutineScope(IO).launch {
+        // Add property
+        dao.createRealEstate(REAL_ESTATE_2)
 
-            // Add property
-            database!!.realEstateDao().createRealEstate(REAL_ESTATE_2)
+        // Get property and delete it
+        val propertyToDelete = dao.getRealEstateById(REAL_ESTATE_2.propertyId.toInt()).getOrAwaitValue()
+        dao.deleteRealEstate(propertyToDelete)
 
-            // Get property and delete it
-            val realEstateToDelete = LiveDataTestUtil.getValue(database!!.realEstateDao().getAllRealEstates())[0]
-            database!!.realEstateDao().deleteRealEstate(realEstateToDelete)
-        }
+        // Test
+        val properties = dao.getAllRealEstates().getOrAwaitValue()
+        assert(properties.isEmpty())
     }
+
 }
